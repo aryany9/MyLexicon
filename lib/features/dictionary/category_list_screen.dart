@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_lexicon/core/constants/size_constants.dart';
 import '../../core/services/database_service.dart';
-import '../../models/lexicon_entry.dart';
 import '../../models/lexicon_type.dart';
+import '../../widgets/words_card.dart';
 
 class CategoryListScreen extends ConsumerWidget {
   final LexiconType type;
@@ -28,12 +29,11 @@ class CategoryListScreen extends ConsumerWidget {
     final db = ref.watch(databaseServiceProvider);
     final entriesAsync = ref.watch(entriesProvider);
     final title = _getCategoryTitle();
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: entriesAsync.when(
-        data: (allEntries) {
+        data: (_) {
           // Use searchAndFilter from DatabaseService which does the filtering and sorting (most recent first)
           final entries = db.searchAndFilter(type: type);
 
@@ -42,11 +42,12 @@ class CategoryListScreen extends ConsumerWidget {
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.all(16.0),
+            // padding: const EdgeInsets.all(16.0),
             itemCount: entries.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            separatorBuilder: (context, index) =>
+                const SizedBox(height: SizeConstants.space10),
             itemBuilder: (context, index) {
-              return _buildEntryCard(context, ref, entries[index]);
+              return WordsCard(ref: ref, entry: entries[index]);
             },
           );
         },
@@ -97,116 +98,6 @@ class CategoryListScreen extends ConsumerWidget {
               label: Text('Add First $categoryTitle'),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEntryCard(
-    BuildContext context,
-    WidgetRef ref,
-    LexiconEntry entry,
-  ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Card(
-      child: InkWell(
-        onTap: () => context.push('/entry/${entry.id}'),
-        borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    entry.term,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  IconButton(
-                    constraints: const BoxConstraints(),
-                    padding: EdgeInsets.zero,
-                    icon: Icon(
-                      entry.isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color: entry.isFavorite
-                          ? Colors.redAccent
-                          : Colors.grey.shade400,
-                      size: 20,
-                    ),
-                    onPressed: () async {
-                      final db = ref.read(databaseServiceProvider);
-                      entry.isFavorite = !entry.isFavorite;
-                      await db.saveEntry(entry);
-                      ref.invalidate(statsProvider);
-                      ref.invalidate(entriesProvider);
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                entry.definition,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
-                  fontSize: 14,
-                  height: 1.4,
-                ),
-              ),
-              if (entry.example != null) ...[
-                const SizedBox(height: 10),
-                Text(
-                  entry.type == LexiconType.quote
-                      ? entry.example!
-                      : '"${entry.example!}"',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: isDark ? Colors.grey.shade500 : Colors.grey.shade500,
-                    fontSize: 13,
-                    fontStyle: entry.type == LexiconType.quote
-                        ? FontStyle.normal
-                        : FontStyle.italic,
-                  ),
-                ),
-              ],
-              if (entry.tags.isNotEmpty) ...[
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 6,
-                  children: entry.tags.map((tag) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isDark
-                            ? Colors.grey.shade800
-                            : Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Text(
-                        '#$tag',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: isDark
-                              ? Colors.grey.shade300
-                              : Colors.grey.shade700,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ],
-          ),
         ),
       ),
     );
