@@ -2,8 +2,10 @@ name: Android Release
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - workflow
+    # tags:
+    #   - 'v*'
 
 jobs:
   build-and-release:
@@ -25,7 +27,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: stable
+          flutter-version: '3.44.6'
           cache: true
 
       - name: Decode Android keystore
@@ -39,7 +41,7 @@ jobs:
           storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
           keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
-          storeFile=upload-keystore.jks
+          storeFile=app/upload-keystore.jks
           EOF
 
       - name: Install dependencies
