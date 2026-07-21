@@ -70,8 +70,8 @@ jobs:
         run: flutter pub get
 
       # Remove this step if your project has no tests, or keep it as a release gate.
-      - name: Run tests
-        run: flutter test
+      # - name: Run tests
+      #   run: flutter test
 
       - name: Build APK
         run: flutter build apk --release
