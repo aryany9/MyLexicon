@@ -5,6 +5,11 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release tag to create (e.g. v1.2.3)'
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -31,13 +36,14 @@ jobs:
         with:
           flutter-version: '3.44.6'
           cache: true
-      
+
       - name: Cache pub packages
         uses: actions/cache@v4
         with:
           path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          key: ${{ runner.os }}-pub-3.44.6-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: |
+            ${{ runner.os }}-pub-3.44.6-
             ${{ runner.os }}-pub-
 
       - name: Decode Android keystore
@@ -76,6 +82,7 @@ jobs:
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version || github.ref_name }}
           generate_release_notes: true
           files: |
             build/app/outputs/flutter-apk/app-release.apk
