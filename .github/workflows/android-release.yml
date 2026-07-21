@@ -8,11 +8,11 @@ on:
     #   - 'v*'
 
 jobs:
-  build-and-release:
+  build-apk:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
+    outputs:
+      apk-artifact-name: ${{ steps.apk-name.outputs.name }}
 
     steps:
       - name: Checkout repository
@@ -50,13 +50,87 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
+      - name: Set APK artifact name
+        id: apk-name
+        run: echo "name=app-release-apk" >> "$GITHUB_OUTPUT"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.apk-name.outputs.name }}
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+  build-aab:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.6'
+          cache: true
+
+      - name: Decode Android keystore
+        run: |
+          mkdir -p android/app
+          echo '${{ secrets.ANDROID_KEYSTORE_BASE64 }}' | base64 --decode > android/app/upload-keystore.jks
+
+      - name: Create key properties
+        run: |
+          cat > android/key.properties <<EOF
+          storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          storeFile=app/upload-keystore.jks
+          EOF
+
+      - name: Install dependencies
+        run: flutter pub get
+
       - name: Build AAB
         run: flutter build appbundle --release
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: build/app/outputs/bundle/release/app-release.aab
+
+  publish-release:
+    runs-on: ubuntu-latest
+    needs:
+      - build-apk
+      - build-aab
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download APK artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-release-apk
+          path: release-assets
+
+      - name: Download AAB artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-release-aab
+          path: release-assets
 
       - name: Publish GitHub Release assets
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/bundle/release/app-release.aab
+            release-assets/app-release.apk
+            release-assets/app-release.aab
           generate_release_notes: true
