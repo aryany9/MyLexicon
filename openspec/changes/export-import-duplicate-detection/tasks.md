@@ -25,10 +25,10 @@
 
 ## 4. Verification
 
-- [ ] 4.1 Test full JSON export & import round-trip.
-- [ ] 4.2 Test CSV export & import with conflict resolution strategies (`Skip`, `Overwrite`, `Merge`).
+- [x] 4.1 Test full JSON export & import round-trip.
+- [x] 4.2 Test CSV export & import with conflict resolution strategies (`Skip`, `Overwrite`, `Merge`).
 - [ ] 4.3 Verify inline duplicate detection in entry creation form.
 - [ ] 4.4 Verify inline duplicate detection in entry edit form (does not self-flag, correctly flags collisions with other entries).
-- [ ] 4.5 Test invalid/corrupted file import: verify error message displays and user remains on Settings screen.
+- [x] 4.5 Test invalid/corrupted file import: verify error message displays and user remains on Settings screen.
 - [ ] 4.6 Test large file import/export does not block UI (manual or profiling-based check on isolate usage).
 - [ ] 4.7 Verify post-import summary feedback displays correct counts for a mixed batch (some skipped, some merged, some new).

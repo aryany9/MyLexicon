@@ -229,7 +229,6 @@ class SettingsScreen extends ConsumerWidget {
     final selection = await FilePicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: const ['json', 'csv'],
-      withData: false,
     );
     if (selection == null || selection.files.isEmpty) {
       return;

@@ -254,26 +254,45 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: SegmentedButton<LexiconType>(
+                    style: ButtonStyle(
+                      minimumSize: WidgetStatePropertyAll(Size(0, 56)),
+                      padding: const WidgetStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 3, vertical: 0),
+                      ),
+                    ),
+                    showSelectedIcon: true,
                     segments: const [
                       ButtonSegment(
                         value: LexiconType.word,
-                        label: Text('Word'),
-                        icon: Icon(Icons.abc, size: 18),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text('Word'),
+                        ),
+                        // icon: Icon(Icons.abc, size: 14),
                       ),
                       ButtonSegment(
                         value: LexiconType.quote,
-                        label: Text('Quote'),
-                        icon: Icon(Icons.format_quote, size: 18),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text('Quote'),
+                        ),
+                        // icon: Icon(Icons.format_quote, size: 14),
                       ),
                       ButtonSegment(
                         value: LexiconType.phrase,
-                        label: Text('Phrase'),
-                        icon: Icon(Icons.chat_bubble_outline, size: 18),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text('Phrase'),
+                        ),
+                        // icon: Icon(Icons.chat_bubble_outline, size: 14),
                       ),
                       ButtonSegment(
                         value: LexiconType.idiom,
-                        label: Text('Idiom'),
-                        icon: Icon(Icons.auto_awesome, size: 18),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text('Idiom'),
+                        ),
+                        // icon: Icon(Icons.auto_awesome, size: 14),
                       ),
                     ],
                     selected: {_selectedType},
@@ -522,6 +541,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
+                    key: const Key('saveEntryButton'),
                     onPressed: _save,
                     child: Text(_isEditMode ? 'Update Entry' : 'Save Entry'),
                   ),
