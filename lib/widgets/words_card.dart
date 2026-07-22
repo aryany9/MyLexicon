@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_lexicon/core/services/database_service.dart';
 import 'package:my_lexicon/models/lexicon_entry.dart';
 import 'package:my_lexicon/models/lexicon_type.dart';
 
@@ -14,22 +13,6 @@ class WordsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    Color typeColor = Colors.grey;
-
-    switch (entry.type) {
-      case LexiconType.word:
-        typeColor = Colors.blue;
-        break;
-      case LexiconType.quote:
-        typeColor = Colors.purple;
-        break;
-      case LexiconType.phrase:
-        typeColor = Colors.teal;
-        break;
-      case LexiconType.idiom:
-        typeColor = Colors.orange;
-        break;
-    }
 
     return ListTile(
       onTap: () => context.push('/entry/${entry.id}'),

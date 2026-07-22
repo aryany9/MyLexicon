@@ -29,6 +29,9 @@ class LexiconEntry extends HiveObject {
   @HiveField(7)
   String? collectionId;
 
+  @HiveField(10)
+  List<String> collectionIds;
+
   @HiveField(8)
   bool isFavorite;
 
@@ -44,7 +47,14 @@ class LexiconEntry extends HiveObject {
     this.notes,
     required this.tags,
     this.collectionId,
+    List<String>? collectionIds,
     required this.isFavorite,
     required this.createdAt,
-  });
+  }) : collectionIds =
+           collectionIds ??
+           (collectionId == null ? <String>[] : <String>[collectionId]) {
+    if (this.collectionId == null && this.collectionIds.isNotEmpty) {
+      this.collectionId = this.collectionIds.first;
+    }
+  }
 }

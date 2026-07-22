@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 import '../../core/services/database_service.dart';
 import '../../models/lexicon_collection.dart';
-import '../../models/lexicon_entry.dart';
 
 final List<int> _collectionColors = [
   0xFF6366F1, // Indigo
@@ -243,7 +242,6 @@ class CollectionsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final collectionsAsync = ref.watch(collectionsProvider);
     final entriesAsync = ref.watch(entriesProvider);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Collections')),
@@ -264,7 +262,11 @@ class CollectionsScreen extends ConsumerWidget {
                   final col = collections[index];
                   // Calculate count of entries in this collection
                   final count = entries
-                      .where((e) => e.collectionId == col.id)
+                      .where(
+                        (e) =>
+                            e.collectionId == col.id ||
+                            e.collectionIds.contains(col.id),
+                      )
                       .length;
 
                   return _buildCollectionCard(context, ref, col, count);

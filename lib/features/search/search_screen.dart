@@ -147,7 +147,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Widget build(BuildContext context) {
     final db = ref.watch(databaseServiceProvider);
     final entriesAsync = ref.watch(entriesProvider);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     // Determine if any filters are active
     final hasActiveFilters =
