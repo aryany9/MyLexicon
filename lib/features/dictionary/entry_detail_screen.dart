@@ -110,7 +110,9 @@ class EntryDetailScreen extends ConsumerWidget {
         // Fetch collection details
         final collection = collectionsAsync.maybeWhen(
           data: (cols) => cols.firstWhere(
-            (c) => c.id == entry.collectionId,
+            (c) =>
+                c.id == entry.collectionId ||
+                entry.collectionIds.contains(c.id),
             orElse: () => LexiconCollection(
               id: '',
               name: 'Uncategorized',
