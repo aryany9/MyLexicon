@@ -9,6 +9,7 @@ import '../../models/lexicon_entry.dart';
 import '../../models/lexicon_type.dart';
 import '../../widgets/gap.dart';
 import '../../widgets/stat_card.dart';
+import '../../widgets/fan_out_fab.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -27,11 +28,6 @@ class HomeScreen extends ConsumerWidget {
             icon: const Icon(Icons.search),
             onPressed: () => context.push(PathConstants.search),
             tooltip: TextConstants.search,
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () => context.push(PathConstants.settings),
-            tooltip: TextConstants.settings,
           ),
         ],
       ),
@@ -136,11 +132,7 @@ class HomeScreen extends ConsumerWidget {
         error: (err, stack) =>
             Scaffold(body: Center(child: Text('${TextConstants.error} $err'))),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push(PathConstants.entryForm),
-        icon: const Icon(Icons.add),
-        label: const Text(TextConstants.addEntry),
-      ),
+      floatingActionButton: const FanOutFab(),
     );
   }
 

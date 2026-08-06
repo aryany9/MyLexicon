@@ -362,7 +362,7 @@ class ExportImportService {
       'term': entry.term,
       'definition': entry.definition,
       'type': entry.type.name,
-      'example': entry.example,
+      'examples': entry.examples,
       'notes': entry.notes,
       'tags': entry.tags,
       'collectionId': entry.collectionId,
@@ -392,9 +392,7 @@ class ExportImportService {
       entry.definition,
       entry.type.name,
       entry.tags.join('|'),
-      entry.example == null || entry.example!.trim().isEmpty
-          ? ''
-          : entry.example!.trim(),
+      entry.examples.isEmpty ? '' : entry.examples.join('|'),
       _collectionNamesForEntry(entry, collections).join('|'),
       entry.isFavorite,
     ];
@@ -420,7 +418,7 @@ class ExportImportService {
       term: json['term']?.toString() ?? '',
       definition: json['definition']?.toString() ?? '',
       type: _typeFromString(json['type']?.toString()),
-      example: _optionalString(json['example']),
+      examples: _parseDelimitedValues(json['examples'] ?? json['example']),
       notes: _optionalString(json['notes']),
       tags: _parseDelimitedValues(json['tags']),
       collectionId: _optionalString(json['collectionId']),
@@ -455,7 +453,7 @@ class ExportImportService {
       term: row['term']?.trim() ?? '',
       definition: row['definition']?.trim() ?? '',
       type: _typeFromString(row['type']),
-      example: _optionalString(row['examples']),
+      examples: _parseDelimitedString(row['examples'] ?? row['example']),
       notes: null,
       tags: _parseDelimitedString(row['tags']),
       collectionId: collectionIds.isNotEmpty ? collectionIds.first : null,

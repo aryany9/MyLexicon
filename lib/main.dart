@@ -8,6 +8,8 @@ import 'models/lexicon_entry.dart';
 import 'models/lexicon_collection.dart';
 import 'models/lexicon_type.dart';
 import 'routes/app_router.dart';
+import 'core/providers/tab_provider.dart';
+import 'package:go_router/go_router.dart';
 
 // Provider to manage app theme mode
 final themeModeProvider = StateNotifierProvider<ThemeModeNotifier, ThemeMode>((ref) {
@@ -75,7 +77,9 @@ class MyLexiconApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final router = appRouter;
+    final defaultTab = ref.watch(defaultTabProvider);
+    final initialPath = tabIndexToPath(defaultTab);
+    final router = useMemoizedRouter(initialPath);
     final themeMode = ref.watch(themeModeProvider);
 
     return MaterialApp.router(
@@ -88,3 +92,15 @@ class MyLexiconApp extends ConsumerWidget {
     );
   }
 }
+
+GoRouter? _cachedRouter;
+String? _cachedInitialPath;
+
+GoRouter useMemoizedRouter(String initialPath) {
+  if (_cachedRouter == null || _cachedInitialPath != initialPath) {
+    _cachedInitialPath = initialPath;
+    _cachedRouter = createAppRouter(initialLocation: initialPath);
+  }
+  return _cachedRouter!;
+}
+

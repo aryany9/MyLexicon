@@ -286,48 +286,70 @@ class EntryDetailScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 24),
 
-                  // Example Sentence Section
-                  if (entry.example != null) ...[
+                  // Example Sentences Section
+                  if (entry.examples.isNotEmpty) ...[
                     Text(
                       entry.type == LexiconType.quote
                           ? 'Source Context'
-                          : 'Example Usage',
+                          : entry.examples.length > 1
+                              ? 'Examples'
+                              : 'Example Usage',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: isDark
-                            ? const Color(0xFF1F2937)
-                            : Colors.grey.shade50,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
+                    ...List.generate(entry.examples.length, (index) {
+                      final ex = entry.examples[index];
+                      return Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
                           color: isDark
-                              ? Colors.grey.shade800
-                              : Colors.grey.shade100,
-                        ),
-                      ),
-                      child: SelectionArea(
-                        child: Text(
-                          entry.type == LexiconType.quote
-                              ? entry.example!
-                              : '"${entry.example!}"',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontStyle: entry.type == LexiconType.quote
-                                ? FontStyle.normal
-                                : FontStyle.italic,
-                            height: 1.4,
+                              ? const Color(0xFF1F2937)
+                              : Colors.grey.shade50,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: isDark
+                                ? Colors.grey.shade800
+                                : Colors.grey.shade100,
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
+                        child: SelectionArea(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (entry.examples.length > 1)
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Text(
+                                    '${index + 1}.',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
+                                ),
+                              Expanded(
+                                child: Text(
+                                  entry.type == LexiconType.quote ? ex : '"$ex"',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontStyle: entry.type == LexiconType.quote
+                                        ? FontStyle.normal
+                                        : FontStyle.italic,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+                    const SizedBox(height: 16),
                   ],
 
                   // Notes Section
