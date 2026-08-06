@@ -6,11 +6,15 @@ TBD - created by archiving change create-mylexicon. Update Purpose after archive
 ## Requirements
 
 ### Requirement: Create Lexicon Entry
-The system SHALL allow users to create a lexicon entry with a selected type (word, quote, phrase, idiom), term/text, definition/meaning, up to 5 optional example sentences, personal notes, tags, and collections. The entry type picker SHALL only be shown in the entry form when no type is pre-selected via the launch context.
+The system SHALL allow users to create a lexicon entry with a selected type (word, quote, phrase, idiom), term/text, definition/meaning, up to 5 optional example sentences, personal notes, tags, and collections. The entry type picker SHALL only be shown in the entry form when no type is pre-selected via the launch context. The system SHALL provide real-time duplicate term detection warnings when the entered term matches an existing entry.
 
 #### Scenario: Create Valid Entry
 - **WHEN** the user selects the type "word", enters term "Serendipity" and definition "The occurrence of events by chance in a happy or beneficial way", and saves the entry
 - **THEN** the system SHALL save the entry to local storage and display it in the list
+
+#### Scenario: Real-time Inline Duplicate Warning Triggered
+- **WHEN** the user types a term that already exists in the database
+- **THEN** the system SHALL immediately display a warning indicating the term is a duplicate, without preventing the user from continuing or saving
 
 #### Scenario: Create Entry Without Required Term
 - **WHEN** the user tries to save an entry without entering the term/text
