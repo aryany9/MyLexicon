@@ -140,7 +140,7 @@ class DatabaseService {
             term: incoming.term,
             definition: incoming.definition,
             type: incoming.type,
-            example: incoming.example,
+            examples: List<String>.from(incoming.examples),
             notes: incoming.notes,
             tags: List<String>.from(incoming.tags),
             collectionId: incoming.collectionId,
@@ -181,7 +181,7 @@ class DatabaseService {
       term: existing.term,
       definition: existing.definition,
       type: existing.type,
-      example: _mergeText(existing.example, incoming.example),
+      examples: <String>{...existing.examples, ...incoming.examples}.toList(),
       notes: existing.notes ?? incoming.notes,
       tags: mergedTags,
       collectionId: mergedCollectionIds.isEmpty

@@ -11,8 +11,9 @@ import 'widgets/duplicate_warning_card.dart';
 
 class EntryFormScreen extends ConsumerStatefulWidget {
   final String? entryId;
+  final LexiconType? initialType;
 
-  const EntryFormScreen({super.key, this.entryId});
+  const EntryFormScreen({super.key, this.entryId, this.initialType});
 
   @override
   ConsumerState<EntryFormScreen> createState() => _EntryFormScreenState();
@@ -22,9 +23,10 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
   final _formKey = GlobalKey<FormState>();
 
   late LexiconType _selectedType;
+  bool _hideTypePicker = false;
   final _termController = TextEditingController();
   final _definitionController = TextEditingController();
-  final _exampleController = TextEditingController();
+  final List<TextEditingController> _exampleControllers = [];
   final _notesController = TextEditingController();
   final _tagInputController = TextEditingController();
   final _tagFocusNode = FocusNode();
@@ -41,14 +43,26 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
   @override
   void initState() {
     super.initState();
-    _selectedType = LexiconType.word;
     _isEditMode = widget.entryId != null;
+    if (_isEditMode || widget.initialType != null) {
+      _hideTypePicker = true;
+      if (widget.initialType != null) {
+        _selectedType = widget.initialType!;
+      } else {
+        _selectedType = LexiconType.word;
+      }
+    } else {
+      _selectedType = LexiconType.word;
+      _hideTypePicker = false;
+    }
     _termController.addListener(_scheduleDuplicateCheck);
 
     if (_isEditMode) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _loadEntry();
       });
+    } else {
+      _exampleControllers.add(TextEditingController());
     }
   }
 
@@ -58,9 +72,20 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
 
     setState(() {
       _selectedType = entry.type;
+      _hideTypePicker = true;
       _termController.text = entry.term;
       _definitionController.text = entry.definition;
-      _exampleController.text = entry.example ?? '';
+      for (final c in _exampleControllers) {
+        c.dispose();
+      }
+      _exampleControllers.clear();
+      if (entry.examples.isNotEmpty) {
+        for (final ex in entry.examples) {
+          _exampleControllers.add(TextEditingController(text: ex));
+        }
+      } else {
+        _exampleControllers.add(TextEditingController());
+      }
       _notesController.text = entry.notes ?? '';
       _selectedCollectionId =
           entry.collectionId ??
@@ -78,7 +103,9 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
     _termController.removeListener(_scheduleDuplicateCheck);
     _termController.dispose();
     _definitionController.dispose();
-    _exampleController.dispose();
+    for (final c in _exampleControllers) {
+      c.dispose();
+    }
     _notesController.dispose();
     _tagInputController.dispose();
     _tagFocusNode.dispose();
@@ -138,6 +165,27 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
     });
   }
 
+  void _addExampleField() {
+    if (_exampleControllers.length < 5) {
+      setState(() {
+        _exampleControllers.add(TextEditingController());
+      });
+    }
+  }
+
+  void _removeExampleField(int index) {
+    if (_exampleControllers.length > 1) {
+      setState(() {
+        _exampleControllers[index].dispose();
+        _exampleControllers.removeAt(index);
+      });
+    } else {
+      setState(() {
+        _exampleControllers[0].clear();
+      });
+    }
+  }
+
   void _save() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -150,9 +198,10 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
       term: _termController.text.trim(),
       definition: _definitionController.text.trim(),
       type: _selectedType,
-      example: _exampleController.text.trim().isEmpty
-          ? null
-          : _exampleController.text.trim(),
+      examples: _exampleControllers
+          .map((c) => c.text.trim())
+          .where((s) => s.isNotEmpty)
+          .toList(),
       notes: _notesController.text.trim().isEmpty
           ? null
           : _notesController.text.trim(),
@@ -243,68 +292,66 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Type Selector (SegmentedButton)
-                Text(
-                  'Select Entry Type',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  width: double.infinity,
-                  child: SegmentedButton<LexiconType>(
-                    style: ButtonStyle(
-                      minimumSize: WidgetStatePropertyAll(Size(0, 56)),
-                      padding: const WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 3, vertical: 0),
-                      ),
+                // Type Selector (SegmentedButton) - only shown when not pre-selected
+                if (!_hideTypePicker) ...[
+                  Text(
+                    'Select Entry Type',
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
-                    showSelectedIcon: true,
-                    segments: const [
-                      ButtonSegment(
-                        value: LexiconType.word,
-                        label: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text('Word'),
-                        ),
-                        // icon: Icon(Icons.abc, size: 14),
-                      ),
-                      ButtonSegment(
-                        value: LexiconType.quote,
-                        label: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text('Quote'),
-                        ),
-                        // icon: Icon(Icons.format_quote, size: 14),
-                      ),
-                      ButtonSegment(
-                        value: LexiconType.phrase,
-                        label: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text('Phrase'),
-                        ),
-                        // icon: Icon(Icons.chat_bubble_outline, size: 14),
-                      ),
-                      ButtonSegment(
-                        value: LexiconType.idiom,
-                        label: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text('Idiom'),
-                        ),
-                        // icon: Icon(Icons.auto_awesome, size: 14),
-                      ),
-                    ],
-                    selected: {_selectedType},
-                    onSelectionChanged: (Set<LexiconType> newSelection) {
-                      setState(() {
-                        _selectedType = newSelection.first;
-                      });
-                      _scheduleDuplicateCheck();
-                    },
                   ),
-                ),
-                const SizedBox(height: 20),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: SegmentedButton<LexiconType>(
+                      style: const ButtonStyle(
+                        minimumSize: WidgetStatePropertyAll(Size(0, 56)),
+                        padding: WidgetStatePropertyAll(
+                          EdgeInsets.symmetric(horizontal: 3, vertical: 0),
+                        ),
+                      ),
+                      showSelectedIcon: true,
+                      segments: const [
+                        ButtonSegment(
+                          value: LexiconType.word,
+                          label: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text('Word'),
+                          ),
+                        ),
+                        ButtonSegment(
+                          value: LexiconType.quote,
+                          label: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text('Quote'),
+                          ),
+                        ),
+                        ButtonSegment(
+                          value: LexiconType.phrase,
+                          label: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text('Phrase'),
+                          ),
+                        ),
+                        ButtonSegment(
+                          value: LexiconType.idiom,
+                          label: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text('Idiom'),
+                          ),
+                        ),
+                      ],
+                      selected: {_selectedType},
+                      onSelectionChanged: (Set<LexiconType> newSelection) {
+                        setState(() {
+                          _selectedType = newSelection.first;
+                        });
+                        _scheduleDuplicateCheck();
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
 
                 // Term Field
                 Text(
@@ -360,26 +407,58 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // Example Sentence Field
-                Text(
-                  _selectedType == LexiconType.quote
-                      ? 'Source Context'
-                      : 'Example Sentence (Optional)',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                // Multiple Examples Section
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      _selectedType == LexiconType.quote
+                          ? 'Source Context'
+                          : 'Example Sentences',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    if (_exampleControllers.length < 5)
+                      TextButton.icon(
+                        onPressed: _addExampleField,
+                        icon: const Icon(Icons.add, size: 18),
+                        label: const Text('Add Example'),
+                      ),
+                  ],
                 ),
                 const SizedBox(height: 8),
-                TextFormField(
-                  controller: _exampleController,
-                  maxLines: 2,
-                  textCapitalization: TextCapitalization.sentences,
-                  decoration: InputDecoration(
-                    hintText: _selectedType == LexiconType.quote
-                        ? 'e.g. Shakespeare - Hamlet, Act III'
-                        : 'e.g. She read the book with serendipity...',
-                  ),
-                ),
+                ...List.generate(_exampleControllers.length, (index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: _exampleControllers[index],
+                            maxLines: 2,
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: InputDecoration(
+                              hintText: _selectedType == LexiconType.quote
+                                  ? 'e.g. Shakespeare - Hamlet, Act III'
+                                  : 'Example ${index + 1}...',
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.remove_circle_outline,
+                            color: Colors.redAccent,
+                          ),
+                          onPressed: () => _removeExampleField(index),
+                          tooltip: 'Remove example',
+                        ),
+                      ],
+                    ),
+                  );
+                }),
                 const SizedBox(height: 20),
 
                 // Notes Field

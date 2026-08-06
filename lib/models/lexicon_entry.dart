@@ -18,7 +18,7 @@ class LexiconEntry extends HiveObject {
   LexiconType type;
 
   @HiveField(4)
-  String? example;
+  List<String> examples;
 
   @HiveField(5)
   String? notes;
@@ -43,18 +43,19 @@ class LexiconEntry extends HiveObject {
     required this.term,
     required this.definition,
     required this.type,
-    this.example,
+    List<String>? examples,
     this.notes,
     required this.tags,
     this.collectionId,
     List<String>? collectionIds,
     required this.isFavorite,
     required this.createdAt,
-  }) : collectionIds =
+  })  : examples = examples ?? [],
+        collectionIds =
            collectionIds ??
            (collectionId == null ? <String>[] : <String>[collectionId]) {
-    if (this.collectionId == null && this.collectionIds.isNotEmpty) {
-      this.collectionId = this.collectionIds.first;
+    if (collectionId == null && this.collectionIds.isNotEmpty) {
+      collectionId = this.collectionIds.first;
     }
   }
 }

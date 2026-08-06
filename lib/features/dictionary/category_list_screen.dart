@@ -24,6 +24,19 @@ class CategoryListScreen extends ConsumerWidget {
     }
   }
 
+  String _getSingleTypeName() {
+    switch (type) {
+      case LexiconType.word:
+        return 'Word';
+      case LexiconType.quote:
+        return 'Quote';
+      case LexiconType.phrase:
+        return 'Phrase';
+      case LexiconType.idiom:
+        return 'Idiom';
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final db = ref.watch(databaseServiceProvider);
@@ -55,9 +68,10 @@ class CategoryListScreen extends ConsumerWidget {
         error: (err, stack) =>
             Center(child: Text('Error loading entries: $err')),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push('/entry-form'),
-        child: const Icon(Icons.add),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => context.push('/entry-form?type=${type.name}'),
+        icon: const Icon(Icons.add),
+        label: Text('Add ${_getSingleTypeName()}'),
       ),
     );
   }
@@ -93,7 +107,7 @@ class CategoryListScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
-              onPressed: () => context.push('/entry-form'),
+              onPressed: () => context.push('/entry-form?type=${type.name}'),
               icon: const Icon(Icons.add),
               label: Text('Add First $categoryTitle'),
             ),

@@ -21,13 +21,13 @@ class LexiconEntryAdapter extends TypeAdapter<LexiconEntry> {
       term: fields[1] as String,
       definition: fields[2] as String,
       type: fields[3] as LexiconType,
-      example: fields[4] as String?,
+      examples: (fields[4] as List?)?.cast<String>(),
       notes: fields[5] as String?,
       tags: (fields[6] as List).cast<String>(),
       collectionId: fields[7] as String?,
+      collectionIds: (fields[10] as List?)?.cast<String>(),
       isFavorite: fields[8] as bool,
       createdAt: fields[9] as DateTime,
-      collectionIds: (fields[10] as List?)?.cast<String>(),
     );
   }
 
@@ -44,19 +44,19 @@ class LexiconEntryAdapter extends TypeAdapter<LexiconEntry> {
       ..writeByte(3)
       ..write(obj.type)
       ..writeByte(4)
-      ..write(obj.example)
+      ..write(obj.examples)
       ..writeByte(5)
       ..write(obj.notes)
       ..writeByte(6)
       ..write(obj.tags)
       ..writeByte(7)
       ..write(obj.collectionId)
+      ..writeByte(10)
+      ..write(obj.collectionIds)
       ..writeByte(8)
       ..write(obj.isFavorite)
       ..writeByte(9)
-      ..write(obj.createdAt)
-      ..writeByte(10)
-      ..write(obj.collectionIds);
+      ..write(obj.createdAt);
   }
 
   @override

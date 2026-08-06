@@ -5,8 +5,25 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/services/database_service.dart';
 import '../../core/services/export_import_service.dart';
+import '../../core/providers/tab_provider.dart';
 import 'import_preview_screen.dart';
 import '../../main.dart';
+
+String _getTabName(int index) {
+  switch (index) {
+    case 1:
+      return 'Words';
+    case 2:
+      return 'Phrases';
+    case 3:
+      return 'Idioms';
+    case 4:
+      return 'Quotes';
+    case 0:
+    default:
+      return 'Dashboard';
+  }
+}
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -382,6 +399,29 @@ class SettingsScreen extends ConsumerWidget {
                   value: ThemeMode.dark,
                   child: Text('Dark Mode'),
                 ),
+              ],
+            ),
+          ),
+          const Divider(),
+
+          // Launch Preferences Section
+          _buildSectionHeader(context, 'Launch Preferences'),
+          ListTile(
+            title: const Text('Default Launch Tab'),
+            subtitle: Text(_getTabName(ref.watch(defaultTabProvider))),
+            trailing: DropdownButton<int>(
+              value: ref.watch(defaultTabProvider),
+              onChanged: (index) {
+                if (index != null) {
+                  ref.read(defaultTabProvider.notifier).setDefaultTab(index);
+                }
+              },
+              items: const [
+                DropdownMenuItem(value: 0, child: Text('Dashboard')),
+                DropdownMenuItem(value: 1, child: Text('Words')),
+                DropdownMenuItem(value: 2, child: Text('Phrases')),
+                DropdownMenuItem(value: 3, child: Text('Idioms')),
+                DropdownMenuItem(value: 4, child: Text('Quotes')),
               ],
             ),
           ),

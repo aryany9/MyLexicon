@@ -54,12 +54,12 @@ class WordsCard extends StatelessWidget {
               height: 1.4,
             ),
           ),
-          if (entry.example != null) ...[
+          if (entry.examples.isNotEmpty) ...[
             const SizedBox(height: 10),
             Text(
               entry.type == LexiconType.quote
-                  ? entry.example!
-                  : '"${entry.example!}"',
+                  ? entry.examples.first
+                  : '"${entry.examples.first}"',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -117,7 +117,7 @@ class WordsCard extends StatelessWidget {
       //     ref.invalidate(entriesProvider);
       //   },
       // ),
-      isThreeLine: entry.example != null || entry.tags.isNotEmpty,
+      isThreeLine: entry.examples.isNotEmpty || entry.tags.isNotEmpty,
     );
   }
 }
