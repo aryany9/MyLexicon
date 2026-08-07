@@ -18,8 +18,10 @@ The app follows a feature-first architecture and keeps data locally on the devic
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Tech Stack](#tech-stack)
+- [Getting Started & Building](#getting-started--building)
 - [Contributing](#contributing)
 - [License](#license)
+
 
 ## Features
 
@@ -76,14 +78,53 @@ lib/
 ├── widgets/
 └── main.dart
 ```
+## Getting Started & Building
 
-### Generate Local Adapters
+### Prerequisites
 
-If you make changes to Hive models, regenerate the adapters:
+Ensure you have the following tools installed:
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) (Stable channel)
+- For Android builds: Android Studio, Android SDK, and JDK
+- For iOS/macOS builds: Xcode and CocoaPods
 
-```bash
-flutter pub run build_runner build --delete-conflicting-outputs
-```
+### Steps to Setup and Build
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/aryany9/MyLexicon.git
+   cd MyLexicon
+   ```
+
+2. **Get dependencies:**
+   ```bash
+   flutter pub get
+   ```
+
+3. **Generate Hive database adapters:**
+   This project uses code generation for local database models. Run the build runner to generate the necessary files:
+   ```bash
+   flutter pub run build_runner build --delete-conflicting-outputs
+   ```
+
+4. **Run the application:**
+   ```bash
+   flutter run
+   ```
+
+5. **Build production binaries:**
+   - **Android APK:**
+     ```bash
+     flutter build apk --release
+     ```
+   - **Android App Bundle:**
+     ```bash
+     flutter build appbundle --release
+     ```
+   - **iOS IPA:**
+     ```bash
+     flutter build ipa --release
+     ```
+
 
 ## Contributing
 
