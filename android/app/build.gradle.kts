@@ -8,26 +8,31 @@ plugins {
 
 val keystorePropertiesFile = rootProject.file("key.properties")
 val keystoreProperties = Properties()
-check(keystorePropertiesFile.exists()) {
-    "Missing android/key.properties. Release builds require a configured keystore."
-}
 
-keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
+// check(keystorePropertiesFile.exists()) {
+//     "Missing android/key.properties. Release builds require a configured keystore."
+// }
+
+val hasReleaseKeystore = keystorePropertiesFile.exists()
+
+if (hasReleaseKeystore) {
+    keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
+}
 
 val releaseKeyAlias = keystoreProperties["keyAlias"] as String?
 val releaseKeyPassword = keystoreProperties["keyPassword"] as String?
 val releaseStoreFile = keystoreProperties["storeFile"] as String?
 val releaseStorePassword = keystoreProperties["storePassword"] as String?
 
-check(!releaseKeyAlias.isNullOrBlank()) { "Missing keyAlias in android/key.properties" }
-check(!releaseKeyPassword.isNullOrBlank()) { "Missing keyPassword in android/key.properties" }
-check(!releaseStoreFile.isNullOrBlank()) { "Missing storeFile in android/key.properties" }
-check(!releaseStorePassword.isNullOrBlank()) { "Missing storePassword in android/key.properties" }
+// check(!releaseKeyAlias.isNullOrBlank()) { "Missing keyAlias in android/key.properties" }
+// check(!releaseKeyPassword.isNullOrBlank()) { "Missing keyPassword in android/key.properties" }
+// check(!releaseStoreFile.isNullOrBlank()) { "Missing storeFile in android/key.properties" }
+// check(!releaseStorePassword.isNullOrBlank()) { "Missing storePassword in android/key.properties" }
 
-val resolvedReleaseKeyAlias = requireNotNull(releaseKeyAlias)
-val resolvedReleaseKeyPassword = requireNotNull(releaseKeyPassword)
-val resolvedReleaseStoreFile = requireNotNull(releaseStoreFile)
-val resolvedReleaseStorePassword = requireNotNull(releaseStorePassword)
+// val resolvedReleaseKeyAlias = requireNotNull(releaseKeyAlias)
+// val resolvedReleaseKeyPassword = requireNotNull(releaseKeyPassword)
+// val resolvedReleaseStoreFile = requireNotNull(releaseStoreFile)
+// val resolvedReleaseStorePassword = requireNotNull(releaseStorePassword)
 
 android {
     namespace = "com.aryanyadav.my_lexicon"
@@ -50,18 +55,22 @@ android {
         versionName = flutter.versionName
     }
 
-    signingConfigs {
-        create("release") {
-            keyAlias = resolvedReleaseKeyAlias
-            keyPassword = resolvedReleaseKeyPassword
-            storeFile = file(resolvedReleaseStoreFile)
-            storePassword = resolvedReleaseStorePassword
+    if (hasReleaseKeystore) {
+        signingConfigs {
+            create("release") {
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+                storeFile = releaseStoreFile?.let { file(it) }
+                storePassword = releaseStorePassword
+            }
         }
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
+            if (hasReleaseKeystore) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 }
