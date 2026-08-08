@@ -67,17 +67,24 @@ jobs:
           EOF
 
       - name: Install dependencies
-        run: flutter pub get
+        run: flutter pub get --enforce-lockfile
 
       # Remove this step if your project has no tests, or keep it as a release gate.
       # - name: Run tests
       #   run: flutter test
 
+      # Reproducibility: the jni package bakes a unique build-id into libdartjni.so.
+      # Force --build-id=none so the native lib is deterministic. F-Droid applies
+      # this exact same patch in its recipe, so this must match or the reference
+      # binary comparison will fail.
+      - name: Patch jni build-id
+        run: sed -i -e 's/-Wl,/-Wl,--build-id=none,/' "$HOME"/.pub-cache/hosted/pub.dev/jni-*/src/CMakeLists.txt
+
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --release --split-debug-info=build/symbols
 
       - name: Build AAB
-        run: flutter build appbundle --release
+        run: flutter build appbundle --release --split-debug-info=build/symbols
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
