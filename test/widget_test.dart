@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
-import 'package:my_lexicon/core/services/database_service.dart';
-import 'package:my_lexicon/models/lexicon_entry.dart';
-import 'package:my_lexicon/models/lexicon_collection.dart';
-import 'package:my_lexicon/models/lexicon_type.dart';
-import 'package:my_lexicon/features/home/home_screen.dart';
-import 'package:my_lexicon/features/dictionary/entry_form_screen.dart';
+import 'package:mylexicon/core/services/database_service.dart';
+import 'package:mylexicon/models/lexicon_entry.dart';
+import 'package:mylexicon/models/lexicon_collection.dart';
+import 'package:mylexicon/models/lexicon_type.dart';
+import 'package:mylexicon/features/home/home_screen.dart';
+import 'package:mylexicon/features/dictionary/entry_form_screen.dart';
 
 /// Unique counter for box names — prevents Hive from reusing cached box
 /// references across tests when running in the same process.
@@ -28,7 +28,7 @@ void main() {
 
   setUp(() async {
     _boxCounter++;
-    tempDir = await Directory.systemTemp.createTemp('my_lexicon_widget_test');
+    tempDir = await Directory.systemTemp.createTemp('mylexicon_widget_test');
     Hive.init(tempDir.path);
     entriesBox = await Hive.openBox<LexiconEntry>(
       'widget_entries_$_boxCounter',

@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "my_lexicon",
+            "name": "mylexicon",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "my_lexicon (profile mode)",
+            "name": "mylexicon (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "my_lexicon (release mode)",
+            "name": "mylexicon (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

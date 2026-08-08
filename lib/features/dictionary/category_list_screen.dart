@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_lexicon/core/constants/size_constants.dart';
+import 'package:mylexicon/core/constants/size_constants.dart';
 import '../../core/services/database_service.dart';
 import '../../models/lexicon_type.dart';
 import '../../widgets/words_card.dart';

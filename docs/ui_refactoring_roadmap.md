@@ -1,6 +1,6 @@
 # UI Component Refactoring Roadmap (Pillar 3)
 
-> **Note**: This document captures the planned UI component refactoring and consolidation strategy for `my_lexicon`. This work is deferred for a subsequent update after Export/Import and Duplicate Detection are implemented.
+> **Note**: This document captures the planned UI component refactoring and consolidation strategy for `mylexicon`. This work is deferred for a subsequent update after Export/Import and Duplicate Detection are implemented.
 
 ---
 

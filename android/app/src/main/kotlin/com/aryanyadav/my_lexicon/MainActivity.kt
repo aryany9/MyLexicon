@@ -1,4 +1,4 @@
-package com.aryanyadav.my_lexicon
+package com.aryanyadav.mylexicon
 
 import io.flutter.embedding.android.FlutterActivity
 

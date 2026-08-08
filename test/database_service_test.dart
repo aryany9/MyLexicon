@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
-import 'package:my_lexicon/core/services/database_service.dart';
-import 'package:my_lexicon/models/lexicon_entry.dart';
-import 'package:my_lexicon/models/lexicon_collection.dart';
-import 'package:my_lexicon/models/lexicon_type.dart';
+import 'package:mylexicon/core/services/database_service.dart';
+import 'package:mylexicon/models/lexicon_entry.dart';
+import 'package:mylexicon/models/lexicon_collection.dart';
+import 'package:mylexicon/models/lexicon_type.dart';
 
 void main() {
   late Directory tempDir;
@@ -19,11 +19,14 @@ void main() {
   });
 
   setUp(() async {
-    tempDir = await Directory.systemTemp.createTemp('my_lexicon_test');
+    tempDir = await Directory.systemTemp.createTemp('mylexicon_test');
     Hive.init(tempDir.path);
     entriesBox = await Hive.openBox<LexiconEntry>('test_entries');
     collectionsBox = await Hive.openBox<LexiconCollection>('test_collections');
-    dbService = DatabaseService(entriesBox: entriesBox, collectionsBox: collectionsBox);
+    dbService = DatabaseService(
+      entriesBox: entriesBox,
+      collectionsBox: collectionsBox,
+    );
   });
 
   tearDown(() async {
@@ -108,33 +111,36 @@ void main() {
     expect(favResults.first.id, 'entry1');
   });
 
-  test('Collection deletion orphans entries rather than deleting them', () async {
-    final col = LexiconCollection(
-      id: 'col1',
-      name: 'GRE Words',
-      colorValue: 0xFFFFFFFF,
-      createdAt: DateTime.now(),
-    );
-    final entry = LexiconEntry(
-      id: 'entry1',
-      term: 'Serendipity',
-      definition: 'Happy accident',
-      type: LexiconType.word,
-      tags: [],
-      collectionId: 'col1',
-      isFavorite: false,
-      createdAt: DateTime.now(),
-    );
+  test(
+    'Collection deletion orphans entries rather than deleting them',
+    () async {
+      final col = LexiconCollection(
+        id: 'col1',
+        name: 'GRE Words',
+        colorValue: 0xFFFFFFFF,
+        createdAt: DateTime.now(),
+      );
+      final entry = LexiconEntry(
+        id: 'entry1',
+        term: 'Serendipity',
+        definition: 'Happy accident',
+        type: LexiconType.word,
+        tags: [],
+        collectionId: 'col1',
+        isFavorite: false,
+        createdAt: DateTime.now(),
+      );
 
-    await dbService.saveCollection(col);
-    await dbService.saveEntry(entry);
+      await dbService.saveCollection(col);
+      await dbService.saveEntry(entry);
 
-    expect(dbService.getEntries().first.collectionId, 'col1');
+      expect(dbService.getEntries().first.collectionId, 'col1');
 
-    await dbService.deleteCollection('col1');
+      await dbService.deleteCollection('col1');
 
-    expect(dbService.getCollections().length, 0);
-    expect(dbService.getEntries().length, 1);
-    expect(dbService.getEntries().first.collectionId, isNull);
-  });
+      expect(dbService.getCollections().length, 0);
+      expect(dbService.getEntries().length, 1);
+      expect(dbService.getEntries().first.collectionId, isNull);
+    },
+  );
 }

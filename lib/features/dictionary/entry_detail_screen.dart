@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:my_lexicon/models/lexicon_collection.dart';
+import 'package:mylexicon/models/lexicon_collection.dart';
 import '../../core/services/database_service.dart';
 import '../../models/lexicon_entry.dart';
 import '../../models/lexicon_type.dart';
@@ -292,8 +292,8 @@ class EntryDetailScreen extends ConsumerWidget {
                       entry.type == LexiconType.quote
                           ? 'Source Context'
                           : entry.examples.length > 1
-                              ? 'Examples'
-                              : 'Example Usage',
+                          ? 'Examples'
+                          : 'Example Usage',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.primary,
@@ -328,13 +328,17 @@ class EntryDetailScreen extends ConsumerWidget {
                                     '${index + 1}.',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).colorScheme.primary,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
                                     ),
                                   ),
                                 ),
                               Expanded(
                                 child: Text(
-                                  entry.type == LexiconType.quote ? ex : '"$ex"',
+                                  entry.type == LexiconType.quote
+                                      ? ex
+                                      : '"$ex"',
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontStyle: entry.type == LexiconType.quote

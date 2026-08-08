@@ -123,7 +123,7 @@ class ExportImportService {
         return ExportPackage(
           format: format,
           fileName:
-              'my_lexicon_export_${DateTime.now().millisecondsSinceEpoch}.json',
+              'mylexicon_export_${DateTime.now().millisecondsSinceEpoch}.json',
           mimeType: 'application/json',
           content: content,
         );
@@ -145,7 +145,7 @@ class ExportImportService {
         return ExportPackage(
           format: format,
           fileName:
-              'my_lexicon_export_${DateTime.now().millisecondsSinceEpoch}.csv',
+              'mylexicon_export_${DateTime.now().millisecondsSinceEpoch}.csv',
           mimeType: 'text/csv',
           content: content,
         );

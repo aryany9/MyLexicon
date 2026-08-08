@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_lexicon/models/lexicon_entry.dart';
-import 'package:my_lexicon/models/lexicon_type.dart';
+import 'package:mylexicon/models/lexicon_entry.dart';
+import 'package:mylexicon/models/lexicon_type.dart';
 
 class WordsCard extends StatelessWidget {
   const WordsCard({super.key, required this.ref, required this.entry});

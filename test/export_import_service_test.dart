@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
-import 'package:my_lexicon/core/services/database_service.dart';
-import 'package:my_lexicon/core/services/export_import_service.dart';
-import 'package:my_lexicon/models/lexicon_collection.dart';
-import 'package:my_lexicon/models/lexicon_entry.dart';
-import 'package:my_lexicon/models/lexicon_type.dart';
+import 'package:mylexicon/core/services/database_service.dart';
+import 'package:mylexicon/core/services/export_import_service.dart';
+import 'package:mylexicon/models/lexicon_collection.dart';
+import 'package:mylexicon/models/lexicon_entry.dart';
+import 'package:mylexicon/models/lexicon_type.dart';
 
 Future<DatabaseService> _openDatabaseService(Directory directory) async {
   Hive.init(directory.path);
@@ -34,10 +34,10 @@ void main() {
 
   setUp(() async {
     sourceDir = await Directory.systemTemp.createTemp(
-      'my_lexicon_export_source',
+      'mylexicon_export_source',
     );
     targetDir = await Directory.systemTemp.createTemp(
-      'my_lexicon_export_target',
+      'mylexicon_export_target',
     );
   });
 
@@ -143,7 +143,7 @@ void main() {
       required bool expectMerge,
     }) async {
       final strategyDir = await Directory.systemTemp.createTemp(
-        'my_lexicon_strategy',
+        'mylexicon_strategy',
       );
       final strategyDb = await _openDatabaseService(strategyDir);
       final strategyService = ExportImportService(databaseService: strategyDb);

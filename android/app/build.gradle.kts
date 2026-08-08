@@ -35,7 +35,7 @@ val releaseStorePassword = keystoreProperties["storePassword"] as String?
 // val resolvedReleaseStorePassword = requireNotNull(releaseStorePassword)
 
 android {
-    namespace = "com.aryanyadav.my_lexicon"
+    namespace = "com.aryanyadav.mylexicon"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -46,7 +46,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.aryanyadav.my_lexicon"
+        applicationId = "com.aryanyadav.mylexicon"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

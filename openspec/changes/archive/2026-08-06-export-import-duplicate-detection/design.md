@@ -1,6 +1,6 @@
 ## Context
 
-`my_lexicon` uses Hive local database storage (`Box<LexiconEntry>` and `Box<LexiconCollection>`). While `DatabaseService` provides basic single-entry duplicate checking, it lacks bulk export/import capabilities, pre-import preview mechanics, resolution strategies for incoming duplicate entries, and real-time inline warnings during single entry creation.
+`mylexicon` uses Hive local database storage (`Box<LexiconEntry>` and `Box<LexiconCollection>`). While `DatabaseService` provides basic single-entry duplicate checking, it lacks bulk export/import capabilities, pre-import preview mechanics, resolution strategies for incoming duplicate entries, and real-time inline warnings during single entry creation.
 
 ## Goals / Non-Goals
 
