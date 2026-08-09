@@ -301,7 +301,7 @@ class HomeScreen extends ConsumerWidget {
             Icon(
               Icons.auto_stories_outlined,
               size: 64,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
             ),
             const Gap.vertical(SizeConstants.lg),
             Text(
@@ -371,7 +371,7 @@ class HomeScreen extends ConsumerWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: typeColor.withOpacity(isDark ? 0.2 : 0.1),
+                      color: typeColor.withValues(alpha: isDark ? 0.2 : 0.1),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(

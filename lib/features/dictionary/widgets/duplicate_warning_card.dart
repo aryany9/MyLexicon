@@ -15,7 +15,7 @@ class DuplicateWarningCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.amber.withOpacity(0.12),
+      color: Colors.amber.withValues(alpha: 0.12),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(

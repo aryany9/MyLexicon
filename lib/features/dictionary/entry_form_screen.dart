@@ -491,7 +491,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                 collectionsAsync.when(
                   data: (collections) {
                     return DropdownButtonFormField<String>(
-                      value: _selectedCollectionId,
+                      initialValue: _selectedCollectionId,
                       decoration: const InputDecoration(),
                       hint: const Text('Select a collection...'),
                       items: [

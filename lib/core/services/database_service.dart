@@ -26,10 +26,9 @@ class DatabaseService {
   final Box<LexiconCollection> _collectionsBox;
 
   DatabaseService({
-    required Box<LexiconEntry> entriesBox,
-    required Box<LexiconCollection> collectionsBox,
-  }) : _entriesBox = entriesBox,
-       _collectionsBox = collectionsBox;
+    required this._entriesBox,
+    required this._collectionsBox,
+  });
 
   // Expose boxes for stream notifications
   Box<LexiconEntry> get entriesBox => _entriesBox;
@@ -193,17 +192,7 @@ class DatabaseService {
     );
   }
 
-  String? _mergeText(String? existing, String? incoming) {
-    if (existing == null || existing.trim().isEmpty) {
-      return incoming;
-    }
-    if (incoming == null ||
-        incoming.trim().isEmpty ||
-        existing.trim() == incoming.trim()) {
-      return existing;
-    }
-    return <String>{existing.trim(), incoming.trim()}.join('\n');
-  }
+
 
   Future<void> deleteEntry(String entryId) async {
     await _entriesBox.delete(entryId);

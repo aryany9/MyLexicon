@@ -116,7 +116,7 @@ class EntryDetailScreen extends ConsumerWidget {
             orElse: () => LexiconCollection(
               id: '',
               name: 'Uncategorized',
-              colorValue: Colors.grey.value,
+              colorValue: Colors.grey.toARGB32(),
               createdAt: DateTime.now(),
             ),
           ),
@@ -178,7 +178,7 @@ class EntryDetailScreen extends ConsumerWidget {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: typeColor.withOpacity(isDark ? 0.2 : 0.1),
+                          color: typeColor.withValues(alpha: isDark ? 0.2 : 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -200,7 +200,7 @@ class EntryDetailScreen extends ConsumerWidget {
                           decoration: BoxDecoration(
                             color: Color(
                               collection.colorValue,
-                            ).withOpacity(isDark ? 0.2 : 0.1),
+                            ).withValues(alpha: isDark ? 0.2 : 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
@@ -370,10 +370,10 @@ class EntryDetailScreen extends ConsumerWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.amber.withOpacity(isDark ? 0.05 : 0.08),
+                        color: Colors.amber.withValues(alpha: isDark ? 0.05 : 0.08),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: Colors.amber.withOpacity(0.2),
+                          color: Colors.amber.withValues(alpha: 0.2),
                         ),
                       ),
                       child: SelectionArea(

@@ -205,7 +205,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       _isFavoriteOnly = selected;
                     });
                   },
-                  selectedColor: Colors.redAccent.withOpacity(0.2),
+                  selectedColor: Colors.redAccent.withValues(alpha: 0.2),
                   checkmarkColor: Colors.redAccent,
                 ),
                 const SizedBox(width: 8),
@@ -218,7 +218,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   onPressed: _showTagPicker,
                   avatar: const Icon(Icons.sell_outlined, size: 16),
                   backgroundColor: _selectedTag != null
-                      ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                      ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
                       : null,
                 ),
                 const SizedBox(width: 8),
@@ -251,7 +251,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           _selectedType = selected ? type : null;
                         });
                       },
-                      selectedColor: chipColor.withOpacity(0.2),
+                      selectedColor: chipColor.withValues(alpha: 0.2),
                       checkmarkColor: chipColor,
                     ),
                   );
@@ -382,7 +382,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: typeColor.withOpacity(isDark ? 0.2 : 0.1),
+                      color: typeColor.withValues(alpha: isDark ? 0.2 : 0.1),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
@@ -445,9 +445,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       ),
                       decoration: BoxDecoration(
                         color: isCurrentTag
-                            ? Theme.of(context).colorScheme.primary.withOpacity(
-                                isDark ? 0.3 : 0.1,
-                              )
+                            ? Theme.of(context).colorScheme.primary.withValues(
+                                  alpha: isDark ? 0.3 : 0.1,
+                                )
                             : (isDark
                                   ? Colors.grey.shade800
                                   : Colors.grey.shade100),

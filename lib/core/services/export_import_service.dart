@@ -102,8 +102,7 @@ Future<List<List<dynamic>>> _parseImportCsv(String content) async {
 }
 
 class ExportImportService {
-  ExportImportService({required DatabaseService databaseService})
-    : _databaseService = databaseService;
+  ExportImportService({required this._databaseService});
 
   final DatabaseService _databaseService;
 
