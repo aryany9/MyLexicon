@@ -10,10 +10,6 @@ plugins {
 val keystorePropertiesFile = rootProject.file("key.properties")
 val keystoreProperties = Properties()
 
-// check(keystorePropertiesFile.exists()) {
-//     "Missing android/key.properties. Release builds require a configured keystore."
-// }
-
 val hasReleaseKeystore = keystorePropertiesFile.exists()
 
 if (hasReleaseKeystore) {
@@ -24,16 +20,6 @@ val releaseKeyAlias = keystoreProperties["keyAlias"] as String?
 val releaseKeyPassword = keystoreProperties["keyPassword"] as String?
 val releaseStoreFile = keystoreProperties["storeFile"] as String?
 val releaseStorePassword = keystoreProperties["storePassword"] as String?
-
-// check(!releaseKeyAlias.isNullOrBlank()) { "Missing keyAlias in android/key.properties" }
-// check(!releaseKeyPassword.isNullOrBlank()) { "Missing keyPassword in android/key.properties" }
-// check(!releaseStoreFile.isNullOrBlank()) { "Missing storeFile in android/key.properties" }
-// check(!releaseStorePassword.isNullOrBlank()) { "Missing storePassword in android/key.properties" }
-
-// val resolvedReleaseKeyAlias = requireNotNull(releaseKeyAlias)
-// val resolvedReleaseKeyPassword = requireNotNull(releaseKeyPassword)
-// val resolvedReleaseStoreFile = requireNotNull(releaseStoreFile)
-// val resolvedReleaseStorePassword = requireNotNull(releaseStorePassword)
 
 android {
     namespace = "com.aryanyadav.mylexicon"
@@ -46,7 +32,6 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.aryanyadav.mylexicon"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
