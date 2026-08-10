@@ -5,7 +5,7 @@ import '../../../models/lexicon_entry.dart';
 class DuplicateWarningCard extends StatelessWidget {
   final LexiconEntry duplicateEntry;
   final VoidCallback onViewEntry;
-  /// When provided, shows "Already exists in "<collectionName>"".
+  /// When provided, shows "Already exists in `<collectionName>`".
   /// When null, shows "Already exists as an unassigned entry".
   final String? collectionName;
 

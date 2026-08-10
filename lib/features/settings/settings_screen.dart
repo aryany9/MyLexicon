@@ -407,38 +407,32 @@ class SettingsScreen extends ConsumerWidget {
 
           // Display Section
           _buildSectionHeader(context, 'Display'),
-          RadioListTile<ListDensity>(
-            title: const Text('Compact'),
-            subtitle: const Text('Show term only with minimal vertical padding'),
-            value: ListDensity.compact,
+          RadioGroup<ListDensity>(
             groupValue: ref.watch(listDensityProvider),
             onChanged: (val) {
               if (val != null) {
                 ref.read(listDensityProvider.notifier).setDensity(val);
               }
             },
-          ),
-          RadioListTile<ListDensity>(
-            title: const Text('Comfortable'),
-            subtitle: const Text('Show term and a short one-line definition'),
-            value: ListDensity.comfortable,
-            groupValue: ref.watch(listDensityProvider),
-            onChanged: (val) {
-              if (val != null) {
-                ref.read(listDensityProvider.notifier).setDensity(val);
-              }
-            },
-          ),
-          RadioListTile<ListDensity>(
-            title: const Text('Detailed'),
-            subtitle: const Text('Show full details including examples and tags'),
-            value: ListDensity.detailed,
-            groupValue: ref.watch(listDensityProvider),
-            onChanged: (val) {
-              if (val != null) {
-                ref.read(listDensityProvider.notifier).setDensity(val);
-              }
-            },
+            child: Column(
+              children: const [
+                RadioListTile<ListDensity>(
+                  title: Text('Compact'),
+                  subtitle: Text('Show term only with minimal vertical padding'),
+                  value: ListDensity.compact,
+                ),
+                RadioListTile<ListDensity>(
+                  title: Text('Comfortable'),
+                  subtitle: Text('Show term and a short one-line definition'),
+                  value: ListDensity.comfortable,
+                ),
+                RadioListTile<ListDensity>(
+                  title: Text('Detailed'),
+                  subtitle: Text('Show full details including examples and tags'),
+                  value: ListDensity.detailed,
+                ),
+              ],
+            ),
           ),
           const Divider(),
 
