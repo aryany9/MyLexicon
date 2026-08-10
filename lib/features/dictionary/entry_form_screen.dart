@@ -19,6 +19,9 @@ class EntryFormScreen extends ConsumerStatefulWidget {
 
 class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _scrollController = ScrollController();
+  final _termFieldKey = GlobalKey<FormFieldState>();
+  final _definitionFieldKey = GlobalKey<FormFieldState>();
 
   late LexiconType _selectedType;
   bool _hideTypePicker = false;
@@ -102,6 +105,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
     _notesController.dispose();
     _tagInputController.dispose();
     _tagFocusNode.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -143,7 +147,27 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
   }
 
   void _save() async {
-    if (!_formKey.currentState!.validate()) return;
+    final isValid = _formKey.currentState!.validate();
+    if (!isValid) {
+      // Scroll to the first field that failed validation so the error is visible
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        for (final key in [_termFieldKey, _definitionFieldKey]) {
+          if (key.currentState?.hasError == true) {
+            final ctx = key.currentContext;
+            if (ctx != null) {
+              Scrollable.ensureVisible(
+                ctx,
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeOut,
+                alignment: 0.15,
+              );
+            }
+            break;
+          }
+        }
+      });
+      return;
+    }
 
     final db = ref.read(databaseServiceProvider);
     final id = _isEditMode ? widget.entryId! : const Uuid().v4();
@@ -163,6 +187,14 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
     if (duplicate != null) {
       setState(() {
         _duplicateEntry = duplicate;
+      });
+      // Scroll to top so the warning banner is immediately visible
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeOut,
+        );
       });
       return;
     }
@@ -257,6 +289,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
         ],
       ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
@@ -264,6 +297,28 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Duplicate warning banner — shown at the very top when save is blocked
+                if (_duplicateEntry != null) ...[
+                  collectionsAsync.when(
+                    data: (collections) {
+                      final duplicateCollectionName = _duplicateEntry!.collectionIds.isNotEmpty
+                          ? collections
+                              .where((c) => _duplicateEntry!.collectionIds.contains(c.id))
+                              .map((c) => c.name)
+                              .firstOrNull
+                          : null;
+                      return DuplicateWarningCard(
+                        duplicateEntry: _duplicateEntry!,
+                        collectionName: duplicateCollectionName,
+                        onViewEntry: () => context.push('/entry/${_duplicateEntry!.id}'),
+                      );
+                    },
+                    loading: () => const SizedBox.shrink(),
+                    error: (_, _) => const SizedBox.shrink(),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+
                 // Type Selector (SegmentedButton) - only shown when not pre-selected
                 if (!_hideTypePicker) ...[
                   Text(
@@ -333,6 +388,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
+                  key: _termFieldKey,
                   controller: _termController,
                   maxLines: _selectedType == LexiconType.quote ? 3 : 1,
                   textCapitalization: TextCapitalization.sentences,
@@ -355,6 +411,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
+                  key: _definitionFieldKey,
                   controller: _definitionController,
                   maxLines: 3,
                   textCapitalization: TextCapitalization.sentences,
@@ -453,25 +510,6 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                 const SizedBox(height: 8),
                 collectionsAsync.when(
                   data: (collections) {
-                    // Resolve collection name for duplicate warning
-                    String? duplicateCollectionName;
-                    if (_duplicateEntry != null) {
-                      final dupCollId =
-                          _duplicateEntry!.collectionId ??
-                          (_duplicateEntry!.collectionIds.isNotEmpty
-                              ? _duplicateEntry!.collectionIds.first
-                              : null);
-                      if (dupCollId != null) {
-                        try {
-                          duplicateCollectionName = collections
-                              .firstWhere((c) => c.id == dupCollId)
-                              .name;
-                        } catch (_) {
-                          duplicateCollectionName = null;
-                        }
-                      }
-                    }
-
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -509,16 +547,6 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                             });
                           },
                         ),
-                        // Duplicate warning shown below collection picker
-                        if (_duplicateEntry != null) ...[
-                          const SizedBox(height: 12),
-                          DuplicateWarningCard(
-                            duplicateEntry: _duplicateEntry!,
-                            collectionName: duplicateCollectionName,
-                            onViewEntry: () =>
-                                context.push('/entry/${_duplicateEntry!.id}'),
-                          ),
-                        ],
                       ],
                     );
                   },
