@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 import '../../core/services/database_service.dart';
+import '../../core/providers/display_preferences_provider.dart';
 import '../../models/lexicon_collection.dart';
 
 final List<int> _collectionColors = [
@@ -433,6 +434,7 @@ class _CollectionDetailSubpage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final entriesAsync = ref.watch(entriesProvider);
     final db = ref.watch(databaseServiceProvider);
+    final density = ref.watch(listDensityProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final color = Color(collection.colorValue);
 
@@ -506,53 +508,122 @@ class _CollectionDetailSubpage extends ConsumerWidget {
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.all(16.0),
+            padding: density == ListDensity.compact
+                ? EdgeInsets.zero
+                : const EdgeInsets.all(16.0),
             itemCount: entries.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            separatorBuilder: (context, index) => density == ListDensity.compact
+                ? const Divider(height: 1)
+                : const SizedBox(height: 12),
             itemBuilder: (context, index) {
               final entry = entries[index];
-              return Card(
-                child: InkWell(
-                  onTap: () => context.push('/entry/${entry.id}'),
-                  borderRadius: BorderRadius.circular(16),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              switch (density) {
+                case ListDensity.compact:
+                  // Term only, minimal padding
+                  return InkWell(
+                    onTap: () => context.push('/entry/${entry.id}'),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      child: Text(
+                        entry.term,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                case ListDensity.comfortable:
+                  // Term + one-line definition
+                  return Card(
+                    child: InkWell(
+                      onTap: () => context.push('/entry/${entry.id}'),
+                      borderRadius: BorderRadius.circular(16),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               entry.term,
-                              style: Theme.of(context).textTheme.titleMedium
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
-                            if (entry.isFavorite)
-                              const Icon(
-                                Icons.favorite,
-                                color: Colors.redAccent,
-                                size: 18,
+                            const SizedBox(height: 4),
+                            Text(
+                              entry.definition,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: isDark
+                                    ? Colors.grey.shade400
+                                    : Colors.grey.shade600,
+                                fontSize: 14,
                               ),
+                            ),
                           ],
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          entry.definition,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: isDark
-                                ? Colors.grey.shade400
-                                : Colors.grey.shade600,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              );
+                  );
+                case ListDensity.detailed:
+                  // Current full implementation
+                  return Card(
+                    child: InkWell(
+                      onTap: () => context.push('/entry/${entry.id}'),
+                      borderRadius: BorderRadius.circular(16),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    entry.term,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                ),
+                                if (entry.isFavorite)
+                                  const Icon(
+                                    Icons.favorite,
+                                    color: Colors.redAccent,
+                                    size: 18,
+                                  ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              entry.definition,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: isDark
+                                    ? Colors.grey.shade400
+                                    : Colors.grey.shade600,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+              }
             },
           );
         },

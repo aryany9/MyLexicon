@@ -5,15 +5,23 @@ import '../../../models/lexicon_entry.dart';
 class DuplicateWarningCard extends StatelessWidget {
   final LexiconEntry duplicateEntry;
   final VoidCallback onViewEntry;
+  /// When provided, shows "Already exists in "<collectionName>"".
+  /// When null, shows "Already exists as an unassigned entry".
+  final String? collectionName;
 
   const DuplicateWarningCard({
     super.key,
     required this.duplicateEntry,
     required this.onViewEntry,
+    this.collectionName,
   });
 
   @override
   Widget build(BuildContext context) {
+    final subtitle = collectionName != null
+        ? 'Already exists in "$collectionName"'
+        : 'Already exists as an unassigned entry';
+
     return Card(
       color: Colors.amber.withValues(alpha: 0.12),
       child: Padding(
@@ -34,6 +42,11 @@ class DuplicateWarningCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     '${duplicateEntry.term} • ${duplicateEntry.type.name}',
+                    style: const TextStyle(fontSize: 13),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
                     style: const TextStyle(fontSize: 13),
                   ),
                   const SizedBox(height: 12),

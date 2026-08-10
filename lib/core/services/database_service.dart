@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import '../../models/lexicon_entry.dart';
 import '../../models/lexicon_collection.dart';
 import '../../models/lexicon_type.dart';
+import '../providers/sort_order_provider.dart';
 
 enum ImportConflictStrategy { skip, overwrite, merge }
 
@@ -75,14 +76,19 @@ class DatabaseService {
       throw ArgumentError('Definition cannot be empty');
     }
 
-    // Check duplicate term for the same type (case-insensitive)
-    final isDuplicate = _entriesBox.values.any(
-      (e) =>
-          e.id != entry.id &&
-          e.type == entry.type &&
-          e.term.trim().toLowerCase() == entry.term.trim().toLowerCase(),
+    // Collection-aware duplicate check
+    final effectiveCollectionIds = <String>{
+      ...entry.collectionIds,
+      if (entry.collectionId != null) entry.collectionId!,
+    }.toList();
+
+    final duplicate = findDuplicateEntry(
+      entry.term,
+      entry.type,
+      excludeEntryId: entry.id,
+      incomingCollectionIds: effectiveCollectionIds,
     );
-    if (isDuplicate) {
+    if (duplicate != null) {
       throw ArgumentError(
         'A ${entry.type.name} with this term already exists.',
       );
@@ -95,6 +101,7 @@ class DatabaseService {
     String term,
     LexiconType type, {
     String? excludeEntryId,
+    List<String> incomingCollectionIds = const [],
   }) {
     final normalized = term.trim().toLowerCase();
     if (normalized.isEmpty) {
@@ -105,12 +112,33 @@ class DatabaseService {
       if (excludeEntryId != null && entry.id == excludeEntryId) {
         continue;
       }
-      if (entry.type == type && entry.term.trim().toLowerCase() == normalized) {
+      if (entry.type != type || entry.term.trim().toLowerCase() != normalized) {
+        continue;
+      }
+
+      // Resolve existing entry's effective collection IDs
+      final existingIds = <String>{
+        ...entry.collectionIds,
+        if (entry.collectionId != null) entry.collectionId!,
+      };
+
+      final incomingIds = incomingCollectionIds.toSet();
+
+      // Both unassigned → duplicate
+      if (existingIds.isEmpty && incomingIds.isEmpty) {
         return entry;
       }
+
+      // Overlap → duplicate
+      if (existingIds.intersection(incomingIds).isNotEmpty) {
+        return entry;
+      }
+
+      // One has collections, other does not → NOT a duplicate
     }
     return null;
   }
+
 
   Future<ImportResult> importEntries(
     List<LexiconEntry> incomingEntries, {
@@ -122,7 +150,15 @@ class DatabaseService {
     var merged = 0;
 
     for (final incoming in incomingEntries) {
-      final existing = findDuplicateEntry(incoming.term, incoming.type);
+      final effectiveCollectionIds = <String>{
+        ...incoming.collectionIds,
+        if (incoming.collectionId != null) incoming.collectionId!,
+      }.toList();
+      final existing = findDuplicateEntry(
+        incoming.term,
+        incoming.type,
+        incomingCollectionIds: effectiveCollectionIds,
+      );
       if (existing == null) {
         await _entriesBox.put(incoming.id, incoming);
         added += 1;
@@ -206,6 +242,7 @@ class DatabaseService {
     String? tag,
     String? collectionId,
     bool? isFavorite,
+    SortOrder? sortOrder,
   }) {
     Iterable<LexiconEntry> results = _entriesBox.values;
 
@@ -238,8 +275,27 @@ class DatabaseService {
       results = results.where((e) => e.isFavorite == isFavorite);
     }
 
-    // Default sort: most recently added first
-    return results.toList()..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    final list = results.toList();
+    final effectiveOrder = sortOrder ?? SortOrder.newestFirst;
+    switch (effectiveOrder) {
+      case SortOrder.newestFirst:
+        list.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        break;
+      case SortOrder.oldestFirst:
+        list.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+        break;
+      case SortOrder.aToZ:
+        list.sort(
+          (a, b) => a.term.toLowerCase().compareTo(b.term.toLowerCase()),
+        );
+        break;
+      case SortOrder.zToA:
+        list.sort(
+          (a, b) => b.term.toLowerCase().compareTo(a.term.toLowerCase()),
+        );
+        break;
+    }
+    return list;
   }
 
   // --- Stats ---

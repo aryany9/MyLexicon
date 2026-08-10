@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTheme {
+  static const _lightSystemUiOverlayStyle = SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.light,
+    systemNavigationBarColor: Color(0xFFF9FAFB),
+    systemNavigationBarIconBrightness: Brightness.dark,
+  );
+
+  static const _darkSystemUiOverlayStyle = SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.light,
+    statusBarBrightness: Brightness.dark,
+    systemNavigationBarColor: Color(0xFF111827),
+    systemNavigationBarIconBrightness: Brightness.light,
+  );
+
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
@@ -10,10 +27,11 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: const Color(0xFFF9FAFB),
       appBarTheme: const AppBarTheme(
-        centerTitle: true,
+        centerTitle: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
+        systemOverlayStyle: _lightSystemUiOverlayStyle,
         titleTextStyle: TextStyle(
           color: Color(0xFF111827),
           fontWeight: FontWeight.bold,
@@ -81,10 +99,11 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: const Color(0xFF111827),
       appBarTheme: const AppBarTheme(
-        centerTitle: true,
+        centerTitle: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
+        systemOverlayStyle: _darkSystemUiOverlayStyle,
         titleTextStyle: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,

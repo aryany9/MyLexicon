@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/services/database_service.dart';
 import '../../core/services/export_import_service.dart';
 import '../../core/providers/tab_provider.dart';
+import '../../core/providers/display_preferences_provider.dart';
 import 'import_preview_screen.dart';
 import '../../main.dart';
 
@@ -401,6 +402,43 @@ class SettingsScreen extends ConsumerWidget {
                 ),
               ],
             ),
+          ),
+          const Divider(),
+
+          // Display Section
+          _buildSectionHeader(context, 'Display'),
+          RadioListTile<ListDensity>(
+            title: const Text('Compact'),
+            subtitle: const Text('Show term only with minimal vertical padding'),
+            value: ListDensity.compact,
+            groupValue: ref.watch(listDensityProvider),
+            onChanged: (val) {
+              if (val != null) {
+                ref.read(listDensityProvider.notifier).setDensity(val);
+              }
+            },
+          ),
+          RadioListTile<ListDensity>(
+            title: const Text('Comfortable'),
+            subtitle: const Text('Show term and a short one-line definition'),
+            value: ListDensity.comfortable,
+            groupValue: ref.watch(listDensityProvider),
+            onChanged: (val) {
+              if (val != null) {
+                ref.read(listDensityProvider.notifier).setDensity(val);
+              }
+            },
+          ),
+          RadioListTile<ListDensity>(
+            title: const Text('Detailed'),
+            subtitle: const Text('Show full details including examples and tags'),
+            value: ListDensity.detailed,
+            groupValue: ref.watch(listDensityProvider),
+            onChanged: (val) {
+              if (val != null) {
+                ref.read(listDensityProvider.notifier).setDensity(val);
+              }
+            },
           ),
           const Divider(),
 

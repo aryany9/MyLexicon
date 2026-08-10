@@ -30,7 +30,6 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
   final _notesController = TextEditingController();
   final _tagInputController = TextEditingController();
   final _tagFocusNode = FocusNode();
-  Timer? _duplicateCheckDebounce;
 
   String? _selectedCollectionId;
   List<String> _tags = [];
@@ -55,7 +54,6 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
       _selectedType = LexiconType.word;
       _hideTypePicker = false;
     }
-    _termController.addListener(_scheduleDuplicateCheck);
 
     if (_isEditMode) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -94,13 +92,10 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
       _isFavorite = entry.isFavorite;
       _createdAt = entry.createdAt;
     });
-    _scheduleDuplicateCheck();
   }
 
   @override
   void dispose() {
-    _duplicateCheckDebounce?.cancel();
-    _termController.removeListener(_scheduleDuplicateCheck);
     _termController.dispose();
     _definitionController.dispose();
     for (final c in _exampleControllers) {
@@ -110,43 +105,6 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
     _tagInputController.dispose();
     _tagFocusNode.dispose();
     super.dispose();
-  }
-
-  void _scheduleDuplicateCheck() {
-    _duplicateCheckDebounce?.cancel();
-    _duplicateCheckDebounce = Timer(
-      const Duration(milliseconds: 300),
-      _checkForDuplicate,
-    );
-  }
-
-  void _checkForDuplicate() {
-    if (!mounted) {
-      return;
-    }
-
-    final term = _termController.text.trim();
-    if (term.isEmpty) {
-      setState(() {
-        _duplicateEntry = null;
-      });
-      return;
-    }
-
-    final db = ref.read(databaseServiceProvider);
-    final duplicate = db.findDuplicateEntry(
-      term,
-      _selectedType,
-      excludeEntryId: widget.entryId,
-    );
-
-    if (!mounted) {
-      return;
-    }
-
-    setState(() {
-      _duplicateEntry = duplicate;
-    });
   }
 
   void _addTag(String tag) {
@@ -193,6 +151,24 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
     final id = _isEditMode ? widget.entryId! : const Uuid().v4();
     final createdAt = _createdAt ?? DateTime.now();
 
+    final effectiveCollectionIds = _selectedCollectionId == null
+        ? const <String>[]
+        : [_selectedCollectionId!];
+
+    // Save-time collection-aware duplicate check
+    final duplicate = db.findDuplicateEntry(
+      _termController.text.trim(),
+      _selectedType,
+      excludeEntryId: widget.entryId,
+      incomingCollectionIds: effectiveCollectionIds,
+    );
+    if (duplicate != null) {
+      setState(() {
+        _duplicateEntry = duplicate;
+      });
+      return;
+    }
+
     final entry = LexiconEntry(
       id: id,
       term: _termController.text.trim(),
@@ -207,9 +183,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
           : _notesController.text.trim(),
       tags: _tags,
       collectionId: _selectedCollectionId,
-      collectionIds: _selectedCollectionId == null
-          ? const []
-          : [_selectedCollectionId!],
+      collectionIds: effectiveCollectionIds,
       isFavorite: _isFavorite,
       createdAt: createdAt,
     );
@@ -346,7 +320,6 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                         setState(() {
                           _selectedType = newSelection.first;
                         });
-                        _scheduleDuplicateCheck();
                       },
                     ),
                   ),
@@ -373,14 +346,6 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     return null;
                   },
                 ),
-                if (_duplicateEntry != null) ...[
-                  const SizedBox(height: 12),
-                  DuplicateWarningCard(
-                    duplicateEntry: _duplicateEntry!,
-                    onViewEntry: () =>
-                        context.push('/entry/${_duplicateEntry!.id}'),
-                  ),
-                ],
                 const SizedBox(height: 20),
 
                 // Definition Field
@@ -490,37 +455,73 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                 const SizedBox(height: 8),
                 collectionsAsync.when(
                   data: (collections) {
-                    return DropdownButtonFormField<String>(
-                      initialValue: _selectedCollectionId,
-                      decoration: const InputDecoration(),
-                      hint: const Text('Select a collection...'),
-                      items: [
-                        const DropdownMenuItem<String>(
-                          value: null,
-                          child: Text('None'),
-                        ),
-                        ...collections.map((c) {
-                          return DropdownMenuItem<String>(
-                            value: c.id,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.folder,
-                                  color: Color(c.colorValue),
-                                  size: 18,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(c.name),
-                              ],
+                    // Resolve collection name for duplicate warning
+                    String? duplicateCollectionName;
+                    if (_duplicateEntry != null) {
+                      final dupCollId =
+                          _duplicateEntry!.collectionId ??
+                          (_duplicateEntry!.collectionIds.isNotEmpty
+                              ? _duplicateEntry!.collectionIds.first
+                              : null);
+                      if (dupCollId != null) {
+                        try {
+                          duplicateCollectionName = collections
+                              .firstWhere((c) => c.id == dupCollId)
+                              .name;
+                        } catch (_) {
+                          duplicateCollectionName = null;
+                        }
+                      }
+                    }
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        DropdownButtonFormField<String>(
+                          initialValue: _selectedCollectionId,
+                          decoration: const InputDecoration(),
+                          hint: const Text('Select a collection...'),
+                          items: [
+                            const DropdownMenuItem<String>(
+                              value: null,
+                              child: Text('None'),
                             ),
-                          );
-                        }),
+                            ...collections.map((c) {
+                              return DropdownMenuItem<String>(
+                                value: c.id,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.folder,
+                                      color: Color(c.colorValue),
+                                      size: 18,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(c.name),
+                                  ],
+                                ),
+                              );
+                            }),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              _selectedCollectionId = val;
+                              // Clear duplicate warning when collection changes
+                              _duplicateEntry = null;
+                            });
+                          },
+                        ),
+                        // Duplicate warning shown below collection picker
+                        if (_duplicateEntry != null) ...[
+                          const SizedBox(height: 12),
+                          DuplicateWarningCard(
+                            duplicateEntry: _duplicateEntry!,
+                            collectionName: duplicateCollectionName,
+                            onViewEntry: () =>
+                                context.push('/entry/${_duplicateEntry!.id}'),
+                          ),
+                        ],
                       ],
-                      onChanged: (val) {
-                        setState(() {
-                          _selectedCollectionId = val;
-                        });
-                      },
                     );
                   },
                   loading: () => const LinearProgressIndicator(),
