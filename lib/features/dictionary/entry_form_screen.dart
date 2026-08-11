@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +19,9 @@ class EntryFormScreen extends ConsumerStatefulWidget {
 
 class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _scrollController = ScrollController();
+  final _termFieldKey = GlobalKey<FormFieldState>();
+  final _definitionFieldKey = GlobalKey<FormFieldState>();
 
   late LexiconType _selectedType;
   bool _hideTypePicker = false;
@@ -30,7 +31,6 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
   final _notesController = TextEditingController();
   final _tagInputController = TextEditingController();
   final _tagFocusNode = FocusNode();
-  Timer? _duplicateCheckDebounce;
 
   String? _selectedCollectionId;
   List<String> _tags = [];
@@ -55,7 +55,6 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
       _selectedType = LexiconType.word;
       _hideTypePicker = false;
     }
-    _termController.addListener(_scheduleDuplicateCheck);
 
     if (_isEditMode) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -94,13 +93,10 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
       _isFavorite = entry.isFavorite;
       _createdAt = entry.createdAt;
     });
-    _scheduleDuplicateCheck();
   }
 
   @override
   void dispose() {
-    _duplicateCheckDebounce?.cancel();
-    _termController.removeListener(_scheduleDuplicateCheck);
     _termController.dispose();
     _definitionController.dispose();
     for (final c in _exampleControllers) {
@@ -109,44 +105,8 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
     _notesController.dispose();
     _tagInputController.dispose();
     _tagFocusNode.dispose();
+    _scrollController.dispose();
     super.dispose();
-  }
-
-  void _scheduleDuplicateCheck() {
-    _duplicateCheckDebounce?.cancel();
-    _duplicateCheckDebounce = Timer(
-      const Duration(milliseconds: 300),
-      _checkForDuplicate,
-    );
-  }
-
-  void _checkForDuplicate() {
-    if (!mounted) {
-      return;
-    }
-
-    final term = _termController.text.trim();
-    if (term.isEmpty) {
-      setState(() {
-        _duplicateEntry = null;
-      });
-      return;
-    }
-
-    final db = ref.read(databaseServiceProvider);
-    final duplicate = db.findDuplicateEntry(
-      term,
-      _selectedType,
-      excludeEntryId: widget.entryId,
-    );
-
-    if (!mounted) {
-      return;
-    }
-
-    setState(() {
-      _duplicateEntry = duplicate;
-    });
   }
 
   void _addTag(String tag) {
@@ -187,11 +147,57 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
   }
 
   void _save() async {
-    if (!_formKey.currentState!.validate()) return;
+    final isValid = _formKey.currentState!.validate();
+    if (!isValid) {
+      // Scroll to the first field that failed validation so the error is visible
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        for (final key in [_termFieldKey, _definitionFieldKey]) {
+          if (key.currentState?.hasError == true) {
+            final ctx = key.currentContext;
+            if (ctx != null) {
+              Scrollable.ensureVisible(
+                ctx,
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeOut,
+                alignment: 0.15,
+              );
+            }
+            break;
+          }
+        }
+      });
+      return;
+    }
 
     final db = ref.read(databaseServiceProvider);
     final id = _isEditMode ? widget.entryId! : const Uuid().v4();
     final createdAt = _createdAt ?? DateTime.now();
+
+    final effectiveCollectionIds = _selectedCollectionId == null
+        ? const <String>[]
+        : [_selectedCollectionId!];
+
+    // Save-time collection-aware duplicate check
+    final duplicate = db.findDuplicateEntry(
+      _termController.text.trim(),
+      _selectedType,
+      excludeEntryId: widget.entryId,
+      incomingCollectionIds: effectiveCollectionIds,
+    );
+    if (duplicate != null) {
+      setState(() {
+        _duplicateEntry = duplicate;
+      });
+      // Scroll to top so the warning banner is immediately visible
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeOut,
+        );
+      });
+      return;
+    }
 
     final entry = LexiconEntry(
       id: id,
@@ -207,9 +213,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
           : _notesController.text.trim(),
       tags: _tags,
       collectionId: _selectedCollectionId,
-      collectionIds: _selectedCollectionId == null
-          ? const []
-          : [_selectedCollectionId!],
+      collectionIds: effectiveCollectionIds,
       isFavorite: _isFavorite,
       createdAt: createdAt,
     );
@@ -285,6 +289,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
         ],
       ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
@@ -292,6 +297,28 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Duplicate warning banner — shown at the very top when save is blocked
+                if (_duplicateEntry != null) ...[
+                  collectionsAsync.when(
+                    data: (collections) {
+                      final duplicateCollectionName = _duplicateEntry!.collectionIds.isNotEmpty
+                          ? collections
+                              .where((c) => _duplicateEntry!.collectionIds.contains(c.id))
+                              .map((c) => c.name)
+                              .firstOrNull
+                          : null;
+                      return DuplicateWarningCard(
+                        duplicateEntry: _duplicateEntry!,
+                        collectionName: duplicateCollectionName,
+                        onViewEntry: () => context.push('/entry/${_duplicateEntry!.id}'),
+                      );
+                    },
+                    loading: () => const SizedBox.shrink(),
+                    error: (_, _) => const SizedBox.shrink(),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+
                 // Type Selector (SegmentedButton) - only shown when not pre-selected
                 if (!_hideTypePicker) ...[
                   Text(
@@ -346,7 +373,6 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                         setState(() {
                           _selectedType = newSelection.first;
                         });
-                        _scheduleDuplicateCheck();
                       },
                     ),
                   ),
@@ -362,6 +388,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
+                  key: _termFieldKey,
                   controller: _termController,
                   maxLines: _selectedType == LexiconType.quote ? 3 : 1,
                   textCapitalization: TextCapitalization.sentences,
@@ -373,14 +400,6 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     return null;
                   },
                 ),
-                if (_duplicateEntry != null) ...[
-                  const SizedBox(height: 12),
-                  DuplicateWarningCard(
-                    duplicateEntry: _duplicateEntry!,
-                    onViewEntry: () =>
-                        context.push('/entry/${_duplicateEntry!.id}'),
-                  ),
-                ],
                 const SizedBox(height: 20),
 
                 // Definition Field
@@ -392,6 +411,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
+                  key: _definitionFieldKey,
                   controller: _definitionController,
                   maxLines: 3,
                   textCapitalization: TextCapitalization.sentences,
@@ -490,37 +510,44 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                 const SizedBox(height: 8),
                 collectionsAsync.when(
                   data: (collections) {
-                    return DropdownButtonFormField<String>(
-                      initialValue: _selectedCollectionId,
-                      decoration: const InputDecoration(),
-                      hint: const Text('Select a collection...'),
-                      items: [
-                        const DropdownMenuItem<String>(
-                          value: null,
-                          child: Text('None'),
-                        ),
-                        ...collections.map((c) {
-                          return DropdownMenuItem<String>(
-                            value: c.id,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.folder,
-                                  color: Color(c.colorValue),
-                                  size: 18,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(c.name),
-                              ],
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        DropdownButtonFormField<String>(
+                          initialValue: _selectedCollectionId,
+                          decoration: const InputDecoration(),
+                          hint: const Text('Select a collection...'),
+                          items: [
+                            const DropdownMenuItem<String>(
+                              value: null,
+                              child: Text('None'),
                             ),
-                          );
-                        }),
+                            ...collections.map((c) {
+                              return DropdownMenuItem<String>(
+                                value: c.id,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.folder,
+                                      color: Color(c.colorValue),
+                                      size: 18,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(c.name),
+                                  ],
+                                ),
+                              );
+                            }),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              _selectedCollectionId = val;
+                              // Clear duplicate warning when collection changes
+                              _duplicateEntry = null;
+                            });
+                          },
+                        ),
                       ],
-                      onChanged: (val) {
-                        setState(() {
-                          _selectedCollectionId = val;
-                        });
-                      },
                     );
                   },
                   loading: () => const LinearProgressIndicator(),

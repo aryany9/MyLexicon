@@ -102,6 +102,93 @@ void main() {
     expect(targetDb.getEntries().single.collectionIds, contains(collection.id));
   });
 
+  test('CSV export + import into clean DB preserves collection membership and reuses existing collections', () async {
+    final sourceDb = await _openDatabaseService(sourceDir);
+    final sourceService = ExportImportService(databaseService: sourceDb);
+
+    final collection = LexiconCollection(
+      id: 'collection-source',
+      name: 'GRE Words',
+      colorValue: 0xFF3366FF,
+      createdAt: DateTime.parse('2026-07-22T12:00:00Z'),
+    );
+    final entry = LexiconEntry(
+      id: 'entry-source',
+      term: 'Serendipity',
+      definition: 'A fortunate accident',
+      type: LexiconType.word,
+      examples: ['Finding the book was pure serendipity.'],
+      notes: null,
+      tags: ['vocab'],
+      collectionId: collection.id,
+      collectionIds: [collection.id],
+      isFavorite: true,
+      createdAt: DateTime.parse('2026-07-22T12:01:00Z'),
+    );
+
+    await sourceDb.saveCollection(collection);
+    await sourceDb.saveEntry(entry);
+
+    final exportPackage = await sourceService.exportAll(ExportFormat.csv);
+    final exportFile = await sourceService.writeExportToTempFile(exportPackage);
+
+    await Hive.close();
+
+    // 1. Import into completely clean DB: missing collection is created
+    final targetDb = await _openDatabaseService(targetDir);
+    final targetService = ExportImportService(databaseService: targetDb);
+    final preview = await targetService.analyzeImportFile(exportFile);
+
+    expect(preview.totalEntries, 1);
+    expect(preview.totalCollections, 1);
+    expect(preview.collections.single.name, 'GRE Words');
+
+    final result = await targetService.importPreview(
+      preview,
+      ImportConflictStrategy.skip,
+    );
+
+    expect(result.result.added, 1);
+    expect(targetDb.getCollections(), hasLength(1));
+    expect(targetDb.getCollections().single.name, 'GRE Words');
+    expect(
+      targetDb.getEntries().single.collectionIds,
+      contains(targetDb.getCollections().single.id),
+    );
+
+    // 2. Import same CSV into DB that already has matching collection name: existing collection is reused
+    await Hive.close();
+
+    final secondDir = await Directory.systemTemp.createTemp('mylexicon_reuse_test');
+    final secondDb = await _openDatabaseService(secondDir);
+    final secondService = ExportImportService(databaseService: secondDb);
+
+    final existingCol = LexiconCollection(
+      id: 'existing-col-id',
+      name: 'GRE Words',
+      colorValue: 0xFF123456,
+      createdAt: DateTime.parse('2026-01-01T00:00:00Z'),
+    );
+    await secondDb.saveCollection(existingCol);
+
+    final secondPreview = await secondService.analyzeImportFile(exportFile);
+    expect(secondPreview.collections.single.id, 'existing-col-id');
+
+    await secondService.importPreview(
+      secondPreview,
+      ImportConflictStrategy.skip,
+    );
+    expect(secondDb.getCollections(), hasLength(1));
+    expect(secondDb.getCollections().single.id, 'existing-col-id');
+    expect(
+      secondDb.getEntries().single.collectionIds,
+      contains('existing-col-id'),
+    );
+
+    await Hive.close();
+    await secondDir.delete(recursive: true);
+  });
+
   test('CSV import supports skip, overwrite, and merge strategies', () async {
     final sourceDb = await _openDatabaseService(sourceDir);
     final sourceService = ExportImportService(databaseService: sourceDb);
@@ -165,6 +252,7 @@ void main() {
         ),
       );
 
+      // Give existingEntry collection-target so it overlaps with incoming CSV entry
       final existingEntry = LexiconEntry(
         id: 'entry-existing',
         term: 'Serendipity',
@@ -173,8 +261,8 @@ void main() {
         examples: ['Existing example'],
         notes: 'Existing notes',
         tags: ['existing'],
-        collectionId: 'collection-existing',
-        collectionIds: ['collection-existing'],
+        collectionId: 'collection-target',
+        collectionIds: ['collection-target'],
         isFavorite: false,
         createdAt: DateTime.parse('2026-07-20T12:00:00Z'),
       );
@@ -183,7 +271,7 @@ void main() {
       final preview = await strategyService.analyzeImportFile(exportFile);
       final result = await strategyService.importPreview(preview, strategy);
 
-      expect(result.result.added, expectSkip ? 0 : 0);
+      expect(result.result.added, 0);
       if (expectSkip) {
         expect(result.result.skipped, 1);
         expect(
@@ -210,7 +298,7 @@ void main() {
         expect(updated.tags, containsAll(['existing', 'incoming', 'shared']));
         expect(
           updated.collectionIds,
-          containsAll(['collection-existing', 'collection-target']),
+          contains('collection-target'),
         );
         expect(updated.isFavorite, isFalse);
       }
@@ -244,6 +332,7 @@ void main() {
       expectMerge: true,
     );
   });
+
 
   test('Invalid import files are rejected before preview', () async {
     final db = await _openDatabaseService(sourceDir);

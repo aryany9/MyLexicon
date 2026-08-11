@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/services/database_service.dart';
 import '../../core/services/export_import_service.dart';
 import '../../core/providers/tab_provider.dart';
+import '../../core/providers/display_preferences_provider.dart';
 import 'import_preview_screen.dart';
 import '../../main.dart';
 
@@ -398,6 +399,37 @@ class SettingsScreen extends ConsumerWidget {
                 DropdownMenuItem(
                   value: ThemeMode.dark,
                   child: Text('Dark Mode'),
+                ),
+              ],
+            ),
+          ),
+          const Divider(),
+
+          // Display Section
+          _buildSectionHeader(context, 'Display'),
+          RadioGroup<ListDensity>(
+            groupValue: ref.watch(listDensityProvider),
+            onChanged: (val) {
+              if (val != null) {
+                ref.read(listDensityProvider.notifier).setDensity(val);
+              }
+            },
+            child: Column(
+              children: const [
+                RadioListTile<ListDensity>(
+                  title: Text('Compact'),
+                  subtitle: Text('Show term only with minimal vertical padding'),
+                  value: ListDensity.compact,
+                ),
+                RadioListTile<ListDensity>(
+                  title: Text('Comfortable'),
+                  subtitle: Text('Show term and a short one-line definition'),
+                  value: ListDensity.comfortable,
+                ),
+                RadioListTile<ListDensity>(
+                  title: Text('Detailed'),
+                  subtitle: Text('Show full details including examples and tags'),
+                  value: ListDensity.detailed,
                 ),
               ],
             ),

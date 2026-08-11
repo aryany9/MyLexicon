@@ -3,35 +3,78 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mylexicon/models/lexicon_entry.dart';
 import 'package:mylexicon/models/lexicon_type.dart';
+import 'package:mylexicon/core/providers/display_preferences_provider.dart';
 
-class WordsCard extends StatelessWidget {
+class WordsCard extends ConsumerWidget {
   const WordsCard({super.key, required this.ref, required this.entry});
 
   final WidgetRef ref;
   final LexiconEntry entry;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef widgetRef) {
+    final density = widgetRef.watch(listDensityProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
+    switch (density) {
+      case ListDensity.compact:
+        return _buildCompact(context);
+      case ListDensity.comfortable:
+        return _buildComfortable(context, isDark);
+      case ListDensity.detailed:
+        return _buildDetailed(context, isDark);
+    }
+  }
+
+  /// Compact: term-only, minimal padding — uses a plain Padding+Text row
+  /// (no ListTile) to genuinely reduce vertical space.
+  Widget _buildCompact(BuildContext context) {
+    return InkWell(
+      onTap: () => context.push('/entry/${entry.id}'),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: Text(
+          entry.term,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+
+  /// Comfortable: term + one-line definition. No examples, no tags.
+  Widget _buildComfortable(BuildContext context, bool isDark) {
     return ListTile(
       onTap: () => context.push('/entry/${entry.id}'),
-      // contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      // leading: Container(
-      //   // padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      //   decoration: BoxDecoration(
-      //     color: typeColor.withOpacity(isDark ? 0.2 : 0.1),
-      //     borderRadius: BorderRadius.circular(6),
-      //   ),
-      //   child: Text(
-      //     entry.type.name.toUpperCase(),
-      //     style: TextStyle(
-      //       color: typeColor,
-      //       fontSize: 10,
-      //       fontWeight: FontWeight.bold,
-      //     ),
-      //   ),
-      // ),
+      title: Text(
+        entry.term,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: Theme.of(context)
+            .textTheme
+            .titleMedium
+            ?.copyWith(fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text(
+        entry.definition,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+          fontSize: 14,
+        ),
+      ),
+    );
+  }
+
+  /// Detailed: current full implementation (term + definition + examples + tags).
+  Widget _buildDetailed(BuildContext context, bool isDark) {
+    return ListTile(
+      onTap: () => context.push('/entry/${entry.id}'),
       title: Text(
         entry.term,
         maxLines: 2,
@@ -101,22 +144,6 @@ class WordsCard extends StatelessWidget {
           ],
         ],
       ),
-      // trailing: IconButton(
-      //   constraints: const BoxConstraints(),
-      //   padding: EdgeInsets.zero,
-      //   icon: Icon(
-      //     entry.isFavorite ? Icons.favorite : Icons.favorite_border,
-      //     color: entry.isFavorite ? Colors.redAccent : Colors.grey.shade400,
-      //     size: 20,
-      //   ),
-      //   onPressed: () async {
-      //     final db = ref.read(databaseServiceProvider);
-      //     entry.isFavorite = !entry.isFavorite;
-      //     await db.saveEntry(entry);
-      //     ref.invalidate(statsProvider);
-      //     ref.invalidate(entriesProvider);
-      //   },
-      // ),
       isThreeLine: entry.examples.isNotEmpty || entry.tags.isNotEmpty,
     );
   }

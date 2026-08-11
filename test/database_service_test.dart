@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
+import 'package:mylexicon/core/providers/sort_order_provider.dart';
 import 'package:mylexicon/core/services/database_service.dart';
 import 'package:mylexicon/models/lexicon_entry.dart';
 import 'package:mylexicon/models/lexicon_collection.dart';
@@ -143,4 +144,144 @@ void main() {
       expect(dbService.getEntries().first.collectionId, isNull);
     },
   );
+
+  test('Sort order cases: A-Z, Z-A, oldestFirst, newestFirst', () async {
+    final now = DateTime.now();
+    final entry1 = LexiconEntry(
+      id: 'e1',
+      term: 'Banana',
+      definition: 'Fruit',
+      type: LexiconType.word,
+      tags: const [],
+      isFavorite: false,
+      createdAt: now.subtract(const Duration(hours: 2)),
+    );
+    final entry2 = LexiconEntry(
+      id: 'e2',
+      term: 'Apple',
+      definition: 'Fruit',
+      type: LexiconType.word,
+      tags: const [],
+      isFavorite: false,
+      createdAt: now.subtract(const Duration(hours: 1)),
+    );
+    final entry3 = LexiconEntry(
+      id: 'e3',
+      term: 'Cherry',
+      definition: 'Fruit',
+      type: LexiconType.word,
+      tags: const [],
+      isFavorite: false,
+      createdAt: now,
+    );
+
+    // Save directly to box to bypass saveEntry validation/timing
+    await entriesBox.put(entry1.id, entry1);
+    await entriesBox.put(entry2.id, entry2);
+    await entriesBox.put(entry3.id, entry3);
+
+    // Newest first (default): Cherry, Apple, Banana
+    final newest = dbService.searchAndFilter(sortOrder: SortOrder.newestFirst);
+    expect(newest.map((e) => e.term).toList(), ['Cherry', 'Apple', 'Banana']);
+
+    // Oldest first: Banana, Apple, Cherry
+    final oldest = dbService.searchAndFilter(sortOrder: SortOrder.oldestFirst);
+    expect(oldest.map((e) => e.term).toList(), ['Banana', 'Apple', 'Cherry']);
+
+    // A to Z: Apple, Banana, Cherry
+    final aToZ = dbService.searchAndFilter(sortOrder: SortOrder.aToZ);
+    expect(aToZ.map((e) => e.term).toList(), ['Apple', 'Banana', 'Cherry']);
+
+    // Z to A: Cherry, Banana, Apple
+    final zToA = dbService.searchAndFilter(sortOrder: SortOrder.zToA);
+    expect(zToA.map((e) => e.term).toList(), ['Cherry', 'Banana', 'Apple']);
+  });
+
+  test('Collection-aware duplicate detection rules', () async {
+    // 1. Both unassigned entries with same term + type → duplicate (findDuplicateEntry returns non-null)
+    final unassigned = LexiconEntry(
+      id: 'e1',
+      term: 'Ephemeral',
+      definition: 'Transient',
+      type: LexiconType.word,
+      tags: const [],
+      isFavorite: false,
+      createdAt: DateTime.now(),
+    );
+    await dbService.saveEntry(unassigned);
+
+    expect(
+      dbService.findDuplicateEntry(
+        'Ephemeral',
+        LexiconType.word,
+        incomingCollectionIds: [],
+      ),
+      isNotNull,
+    );
+
+    // 2. One assigned, one unassigned → allowed (returns null)
+    expect(
+      dbService.findDuplicateEntry(
+        'Ephemeral',
+        LexiconType.word,
+        incomingCollectionIds: ['col1'],
+      ),
+      isNull,
+    );
+
+    // Add entry in col1
+    final inCol1 = LexiconEntry(
+      id: 'e2',
+      term: 'Ephemeral',
+      definition: 'Transient',
+      type: LexiconType.word,
+      tags: const [],
+      isFavorite: false,
+      collectionId: 'col1',
+      collectionIds: ['col1'],
+      createdAt: DateTime.now(),
+    );
+    await dbService.saveEntry(inCol1);
+
+    // 3. Same term + type + same collection → duplicate (rejected)
+    expect(
+      dbService.findDuplicateEntry(
+        'Ephemeral',
+        LexiconType.word,
+        incomingCollectionIds: ['col1'],
+      ),
+      isNotNull,
+    );
+
+    // 4. Same term + type + different collections → allowed
+    expect(
+      dbService.findDuplicateEntry(
+        'Ephemeral',
+        LexiconType.word,
+        incomingCollectionIds: ['col2'],
+      ),
+      isNull,
+    );
+
+    // 5. Overlapping collections → duplicate (rejected)
+    expect(
+      dbService.findDuplicateEntry(
+        'Ephemeral',
+        LexiconType.word,
+        incomingCollectionIds: ['col1', 'col2'],
+      ),
+      isNotNull,
+    );
+
+    // 6. Different type → allowed even in same collection
+    expect(
+      dbService.findDuplicateEntry(
+        'Ephemeral',
+        LexiconType.quote,
+        incomingCollectionIds: ['col1'],
+      ),
+      isNull,
+    );
+  });
 }
+

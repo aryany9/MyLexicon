@@ -316,6 +316,26 @@ class ExportImportService {
       );
     }
 
+    // Collect all unique non-empty collection names from CSV rows
+    final allCollectionNames = <String>{};
+    for (final row in rows.skip(1)) {
+      if (row.isEmpty || row.every((cell) => cell.toString().trim().isEmpty)) {
+        continue;
+      }
+      final map = <String, String>{};
+      for (var i = 0; i < header.length && i < row.length; i += 1) {
+        map[header[i]] = row[i].toString();
+      }
+      final names = _parseDelimitedString(map['collectionname']);
+      for (final name in names) {
+        final trimmed = name.trim();
+        if (trimmed.isNotEmpty) allCollectionNames.add(trimmed);
+      }
+    }
+
+    // Resolve or create collections
+    final resolvedCollections = _resolveOrCreateCollections(allCollectionNames);
+
     final entries = <LexiconEntry>[];
     for (final row in rows.skip(1)) {
       if (row.isEmpty || row.every((cell) => cell.toString().trim().isEmpty)) {
@@ -325,26 +345,64 @@ class ExportImportService {
       for (var i = 0; i < header.length && i < row.length; i += 1) {
         map[header[i]] = row[i].toString();
       }
-      entries.add(_entryFromCsvRow(map));
+      entries.add(_entryFromCsvRow(map, resolvedCollections));
     }
 
     final duplicates = _findDuplicates(entries);
     return ImportPreviewData(
       fileName: p.basename(filePath),
       format: ExportFormat.csv,
-      collections: const [],
+      collections: resolvedCollections.values.toList(),
       entries: entries,
       duplicates: duplicates,
       rawContent: rawContent,
     );
   }
 
+  /// Resolves unique [collectionNames] against the live DB (case-insensitive).
+  /// Reuses existing collections; creates new ones (UUID, default color
+  /// 0xFF607D8B) for missing ones.
+  /// Returns a map keyed by lowercase name.
+  Map<String, LexiconCollection> _resolveOrCreateCollections(
+    Set<String> collectionNames,
+  ) {
+    final result = <String, LexiconCollection>{};
+    final liveCollections = _databaseService.getCollections();
+
+    for (final name in collectionNames) {
+      final key = name.trim().toLowerCase();
+      if (key.isEmpty) continue;
+
+      final existing = liveCollections
+          .where((c) => c.name.trim().toLowerCase() == key)
+          .toList();
+
+      if (existing.isNotEmpty) {
+        result[key] = existing.first;
+      } else {
+        result[key] = LexiconCollection(
+          id: const Uuid().v4(),
+          name: name.trim(),
+          description: null,
+          colorValue: 0xFF607D8B,
+          createdAt: DateTime.now(),
+        );
+      }
+    }
+    return result;
+  }
+
   List<ImportDuplicateMatch> _findDuplicates(List<LexiconEntry> entries) {
     final matches = <ImportDuplicateMatch>[];
     for (final entry in entries) {
+      final effectiveIds = <String>{
+        ...entry.collectionIds,
+        if (entry.collectionId != null) entry.collectionId!,
+      }.toList();
       final existing = _databaseService.findDuplicateEntry(
         entry.term,
         entry.type,
+        incomingCollectionIds: effectiveIds,
       );
       if (existing != null) {
         matches.add(
@@ -427,21 +485,18 @@ class ExportImportService {
     );
   }
 
-  LexiconEntry _entryFromCsvRow(Map<String, String> row) {
+  LexiconEntry _entryFromCsvRow(
+    Map<String, String> row,
+    Map<String, LexiconCollection> resolvedCollections,
+  ) {
     final collectionNames = _parseDelimitedString(row['collectionname']);
     final collectionIds = <String>[];
 
     for (final collectionName in collectionNames) {
-      final existing = _databaseService
-          .getCollections()
-          .where(
-            (collection) =>
-                collection.name.trim().toLowerCase() ==
-                collectionName.trim().toLowerCase(),
-          )
-          .toList();
-      if (existing.isNotEmpty) {
-        collectionIds.add(existing.first.id);
+      final key = collectionName.trim().toLowerCase();
+      final resolved = resolvedCollections[key];
+      if (resolved != null) {
+        collectionIds.add(resolved.id);
       }
     }
 
