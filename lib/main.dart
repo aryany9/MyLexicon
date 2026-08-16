@@ -77,8 +77,7 @@ class MyLexiconApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final defaultTab = ref.watch(defaultTabProvider);
-    final initialPath = tabIndexToPath(defaultTab);
+    final initialPath = ref.watch(defaultTabProvider);
     final router = useMemoizedRouter(initialPath);
     final themeMode = ref.watch(themeModeProvider);
 

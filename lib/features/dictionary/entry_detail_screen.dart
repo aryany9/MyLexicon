@@ -6,6 +6,8 @@ import 'package:mylexicon/models/lexicon_collection.dart';
 import '../../core/services/database_service.dart';
 import '../../models/lexicon_entry.dart';
 import '../../models/lexicon_type.dart';
+import '../../core/models/app_feature.dart';
+import '../../core/providers/feature_flags_provider.dart';
 
 class EntryDetailScreen extends ConsumerWidget {
   final String entryId;
@@ -190,7 +192,9 @@ class EntryDetailScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      if (collection != null) ...[
+                      if (collection != null &&
+                          (ref.watch(featureFlagsProvider)[AppFeature.collections] ??
+                              true)) ...[
                         const SizedBox(width: 10),
                         Container(
                           padding: const EdgeInsets.symmetric(
