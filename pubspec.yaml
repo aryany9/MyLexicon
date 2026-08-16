@@ -37,6 +37,23 @@ dev_dependencies:
   hive_generator: ^2.0.1
   flutter_launcher_icons: ^0.14.4
 
+flutter_launcher_icons:
+  android: true
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "assets/icon/background.png"
+  # adaptive_icon_foreground_inset: 16
+  adaptive_icon_foreground: "assets/icon/foreground.png"
+  image_path_android: "assets/icon/icon.png"
+  adaptive_icon_monochrome: "assets/icon/monochrome.png"
+  ios: false
+  web:
+    generate: false
+  windows:
+    generate: false
+  macos:
+    generate: false
+
 flutter:
   uses-material-design: true
 
