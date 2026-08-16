@@ -1,7 +1,7 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: Persistent Bottom Navigation Bar
-The system SHALL display a persistent bottom navigation bar with 6 equal-width tabs: Dashboard, Words, Phrases, Idioms, Quotes, and Settings. The bar SHALL remain visible on all tab screens.
+The system SHALL display a persistent bottom navigation bar. `Settings` tab SHALL always be pinned as the final tab in the navigation bar. `Dashboard` tab and enabled feature tabs (`Words`, `Phrases`, `Idioms`, `Quotes`, `Collections`) SHALL be rendered in the custom order configured by the user. Disabled features SHALL be omitted while maintaining active-tab highlighting and tab order.
 
 #### Scenario: Navigate to Words tab
 - **WHEN** the user taps the "Words" tab in the bottom navigation bar
@@ -9,7 +9,7 @@ The system SHALL display a persistent bottom navigation bar with 6 equal-width t
 
 #### Scenario: Navigate to Settings tab
 - **WHEN** the user taps the "Settings" tab in the bottom navigation bar
-- **THEN** the system SHALL display the Settings screen and the Settings icon SHALL no longer appear in the Dashboard AppBar
+- **THEN** the system SHALL display the Settings screen as the last tab item
 
 #### Scenario: Active tab indicator
 - **WHEN** the user is on any tab
@@ -19,10 +19,22 @@ The system SHALL display a persistent bottom navigation bar with 6 equal-width t
 - **WHEN** the user navigates to an entry detail from the Words tab and taps back
 - **THEN** the system SHALL return to the Words tab list, not to the Dashboard
 
-### Requirement: Dashboard AppBar Cleanup
-The system SHALL remove the Settings icon button from the Dashboard AppBar after the Settings tab is added to the bottom navigation bar. The Search icon SHALL remain in the Dashboard AppBar.
+#### Scenario: Custom tab reordering
+- **WHEN** the user reorders tabs in Settings (e.g., moves Quotes before Words)
+- **THEN** the bottom navigation bar SHALL immediately update to reflect the new tab sequence, keeping Settings pinned at the end
 
-#### Scenario: Dashboard AppBar has no settings icon
-- **WHEN** the user opens the Dashboard tab
-- **THEN** the system SHALL display only the Search icon in the AppBar actions, with no Settings icon
+#### Scenario: Dynamic item rendering based on feature toggles and custom order
+- **WHEN** a category feature (e.g. "Phrases") is disabled in Settings
+- **THEN** the bottom navigation bar SHALL dynamically omit the Phrases tab while rendering all remaining enabled tabs in their saved custom order
 
+#### Scenario: Active tab disabled
+- **WHEN** the user is currently on the "Phrases" tab and disables Phrases in Settings
+- **THEN** the system SHALL immediately navigate to the Dashboard tab
+
+#### Scenario: Collections tab hidden when disabled
+- **WHEN** the Collections feature is disabled
+- **THEN** the bottom navigation bar SHALL NOT show the Collections tab
+
+#### Scenario: Collections navigable via shell
+- **WHEN** the Collections feature is enabled
+- **THEN** navigating to the Collections tab SHALL render the Collections screen within the shared scaffold (bottom nav bar visible)

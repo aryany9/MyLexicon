@@ -3,7 +3,7 @@ description: "My Lexicon is an open-source Flutter app for saving and organizing
 
 publish_to: 'none'
 
-version: 1.1.0+2
+version: 1.2.0+3
 
 environment:
   sdk: ^3.12.2
@@ -28,6 +28,7 @@ dependencies:
   uuid: ^4.3.3
   shared_preferences: ^2.2.3
   intl: ^0.20.3
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
@@ -35,6 +36,24 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   build_runner: ^2.4.9
   hive_generator: ^2.0.1
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: true
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "assets/icon/background.png"
+  # adaptive_icon_foreground_inset: 16
+  adaptive_icon_foreground: "assets/icon/foreground.png"
+  image_path_android: "assets/icon/icon.png"
+  adaptive_icon_monochrome: "assets/icon/monochrome.png"
+  ios: false
+  web:
+    generate: false
+  windows:
+    generate: false
+  macos:
+    generate: false
 
 flutter:
   uses-material-design: true

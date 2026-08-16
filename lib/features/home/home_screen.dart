@@ -7,6 +7,8 @@ import '../../core/constants/text_constants.dart';
 import '../../core/services/database_service.dart';
 import '../../models/lexicon_entry.dart';
 import '../../models/lexicon_type.dart';
+import '../../core/models/app_feature.dart';
+import '../../core/providers/feature_flags_provider.dart';
 import '../../widgets/gap.dart';
 import '../../widgets/stat_card.dart';
 import '../../widgets/fan_out_fab.dart';
@@ -59,7 +61,7 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                     const Gap.vertical(SizeConstants.lg),
-                    _buildStatsGrid(context, stats),
+                    _buildStatsGrid(context, ref, stats),
                     const Gap.vertical(SizeConstants.lg),
 
                     // Quick Actions
@@ -70,7 +72,7 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                     const Gap.vertical(SizeConstants.lg),
-                    _buildQuickActions(context),
+                    _buildQuickActions(context, ref),
                     const Gap.vertical(SizeConstants.lg),
 
                     // Tags Index
@@ -169,20 +171,16 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildStatsGrid(BuildContext context, Map<String, int> stats) {
+  Widget _buildStatsGrid(
+      BuildContext context, WidgetRef ref, Map<String, int> stats) {
+    final flags = ref.watch(featureFlagsProvider);
     final wordCount = stats['words'] ?? 0;
     final quoteCount = stats['quotes'] ?? 0;
     final phraseCount = stats['phrases'] ?? 0;
     final idiomCount = stats['idioms'] ?? 0;
 
-    return GridView.count(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: 2,
-      childAspectRatio: 1.6,
-      mainAxisSpacing: 12,
-      crossAxisSpacing: 12,
-      children: [
+    final cards = <Widget>[
+      if (flags[AppFeature.word] ?? true)
         StatCard(
           title: TextConstants.words,
           count: wordCount,
@@ -190,6 +188,7 @@ class HomeScreen extends ConsumerWidget {
           color: Colors.blue,
           onTap: () => context.push(PathConstants.categoryByType('word')),
         ),
+      if (flags[AppFeature.quote] ?? true)
         StatCard(
           title: TextConstants.quotes,
           count: quoteCount,
@@ -197,6 +196,7 @@ class HomeScreen extends ConsumerWidget {
           color: Colors.purple,
           onTap: () => context.push(PathConstants.categoryByType('quote')),
         ),
+      if (flags[AppFeature.phrase] ?? true)
         StatCard(
           title: TextConstants.phrases,
           count: phraseCount,
@@ -204,6 +204,7 @@ class HomeScreen extends ConsumerWidget {
           color: Colors.teal,
           onTap: () => context.push(PathConstants.categoryByType('phrase')),
         ),
+      if (flags[AppFeature.idiom] ?? true)
         StatCard(
           title: TextConstants.idioms,
           count: idiomCount,
@@ -211,11 +212,27 @@ class HomeScreen extends ConsumerWidget {
           color: Colors.orange,
           onTap: () => context.push(PathConstants.categoryByType('idiom')),
         ),
-      ],
+    ];
+
+    if (cards.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return GridView.count(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: cards.length == 1 ? 1 : 2,
+      childAspectRatio: cards.length == 1 ? 3.0 : 1.6,
+      mainAxisSpacing: 12,
+      crossAxisSpacing: 12,
+      children: cards,
     );
   }
 
-  Widget _buildQuickActions(BuildContext context) {
+  Widget _buildQuickActions(BuildContext context, WidgetRef ref) {
+    final flags = ref.watch(featureFlagsProvider);
+    final showCollections = flags[AppFeature.collections] ?? true;
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -227,14 +244,16 @@ class HomeScreen extends ConsumerWidget {
             color: Colors.redAccent,
             onTap: () => context.push(PathConstants.searchFavorites()),
           ),
-          const Gap.horizontal(SizeConstants.md),
-          _buildActionButton(
-            context,
-            label: TextConstants.collections,
-            icon: Icons.folder_special,
-            color: Colors.indigo,
-            onTap: () => context.push(PathConstants.collections),
-          ),
+          if (showCollections) ...[
+            const Gap.horizontal(SizeConstants.md),
+            _buildActionButton(
+              context,
+              label: TextConstants.collections,
+              icon: Icons.folder_special,
+              color: Colors.indigo,
+              onTap: () => context.push(PathConstants.collections),
+            ),
+          ],
           const Gap.horizontal(SizeConstants.md),
           _buildActionButton(
             context,

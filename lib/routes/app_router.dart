@@ -16,9 +16,10 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
       ShellRoute(
         builder: (context, state, child) => AppShell(child: child),
         routes: [
+          GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
           GoRoute(
-            path: '/',
-            builder: (context, state) => const HomeScreen(),
+            path: '/collections',
+            builder: (context, state) => const CollectionsScreen(),
           ),
           GoRoute(
             path: '/category/:type',
@@ -40,10 +41,6 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
       GoRoute(
         path: '/search',
         builder: (context, state) => const SearchScreen(),
-      ),
-      GoRoute(
-        path: '/collections',
-        builder: (context, state) => const CollectionsScreen(),
       ),
       GoRoute(
         path: '/entry/:id',
@@ -73,4 +70,3 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
 }
 
 final appRouter = createAppRouter();
-

@@ -1,1 +1,3 @@
-MyLexicon lets you save words, idioms, phrases, quotes and notes for future reference.
+**My Lexicon** is a powerful **open-source alternative for "Create Dictionary" application**. Designed specifically for Android, it serves as an offline-first personal knowledge companion where you can create, organize, and master words, quotes, phrases, idioms, personal notes, tags, favorites, and custom collections.
+
+The app keeps all your data stored 100% locally on your Android device — offering a privacy-respecting, lightweight solution to building your custom dictionary without relying on any cloud backend.

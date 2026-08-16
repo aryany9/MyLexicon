@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../core/models/app_feature.dart';
+import '../core/providers/feature_flags_provider.dart';
 import '../models/lexicon_type.dart';
 
-class FanOutFab extends StatefulWidget {
+class FanOutFab extends ConsumerStatefulWidget {
   const FanOutFab({super.key});
 
   @override
-  State<FanOutFab> createState() => _FanOutFabState();
+  ConsumerState<FanOutFab> createState() => _FanOutFabState();
 }
 
-class _FanOutFabState extends State<FanOutFab> with SingleTickerProviderStateMixin {
+class _FanOutFabState extends ConsumerState<FanOutFab>
+    with SingleTickerProviderStateMixin {
   bool _isOpen = false;
   late AnimationController _controller;
   late Animation<double> _expandAnimation;
@@ -53,6 +57,51 @@ class _FanOutFabState extends State<FanOutFab> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    final flags = ref.watch(featureFlagsProvider);
+
+    final allOptions = [
+      (
+        feature: AppFeature.quote,
+        label: 'Add Quote',
+        icon: Icons.format_quote,
+        color: Colors.purple,
+        type: LexiconType.quote,
+      ),
+      (
+        feature: AppFeature.idiom,
+        label: 'Add Idiom',
+        icon: Icons.auto_awesome,
+        color: Colors.orange,
+        type: LexiconType.idiom,
+      ),
+      (
+        feature: AppFeature.phrase,
+        label: 'Add Phrase',
+        icon: Icons.chat_bubble_outline,
+        color: Colors.teal,
+        type: LexiconType.phrase,
+      ),
+      (
+        feature: AppFeature.word,
+        label: 'Add Word',
+        icon: Icons.abc,
+        color: Colors.blue,
+        type: LexiconType.word,
+      ),
+    ];
+
+    final visibleOptions =
+        allOptions.where((opt) => flags[opt.feature] ?? true).toList();
+
+    // Fallback: If no category features are enabled, render simple FAB to entry form.
+    if (visibleOptions.isEmpty) {
+      return FloatingActionButton(
+        onPressed: () => context.push('/entry-form'),
+        elevation: 4,
+        child: const Icon(Icons.add),
+      );
+    }
+
     return Stack(
       alignment: Alignment.bottomRight,
       clipBehavior: Clip.none,
@@ -69,33 +118,14 @@ class _FanOutFabState extends State<FanOutFab> with SingleTickerProviderStateMix
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            _buildOption(
-              context: context,
-              label: 'Add Quote',
-              icon: Icons.format_quote,
-              color: Colors.purple,
-              type: LexiconType.quote,
-            ),
-            _buildOption(
-              context: context,
-              label: 'Add Idiom',
-              icon: Icons.auto_awesome,
-              color: Colors.orange,
-              type: LexiconType.idiom,
-            ),
-            _buildOption(
-              context: context,
-              label: 'Add Phrase',
-              icon: Icons.chat_bubble_outline,
-              color: Colors.teal,
-              type: LexiconType.phrase,
-            ),
-            _buildOption(
-              context: context,
-              label: 'Add Word',
-              icon: Icons.abc,
-              color: Colors.blue,
-              type: LexiconType.word,
+            ...visibleOptions.map(
+              (opt) => _buildOption(
+                context: context,
+                label: opt.label,
+                icon: opt.icon,
+                color: opt.color,
+                type: opt.type,
+              ),
             ),
             const SizedBox(height: 8),
             FloatingActionButton(
@@ -134,10 +164,16 @@ class _FanOutFabState extends State<FanOutFab> with SingleTickerProviderStateMix
                 borderRadius: BorderRadius.circular(8),
                 color: Theme.of(context).cardColor,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12.0,
+                    vertical: 6.0,
+                  ),
                   child: Text(
                     label,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                    ),
                   ),
                 ),
               ),

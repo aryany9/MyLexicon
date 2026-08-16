@@ -5,6 +5,8 @@ import 'package:uuid/uuid.dart';
 import '../../core/services/database_service.dart';
 import '../../models/lexicon_entry.dart';
 import '../../models/lexicon_type.dart';
+import '../../core/models/app_feature.dart';
+import '../../core/providers/feature_flags_provider.dart';
 import 'widgets/duplicate_warning_card.dart';
 
 class EntryFormScreen extends ConsumerStatefulWidget {
@@ -320,64 +322,90 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                 ],
 
                 // Type Selector (SegmentedButton) - only shown when not pre-selected
-                if (!_hideTypePicker) ...[
-                  Text(
-                    'Select Entry Type',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: double.infinity,
-                    child: SegmentedButton<LexiconType>(
-                      style: const ButtonStyle(
-                        minimumSize: WidgetStatePropertyAll(Size(0, 56)),
-                        padding: WidgetStatePropertyAll(
-                          EdgeInsets.symmetric(horizontal: 3, vertical: 0),
-                        ),
-                      ),
-                      showSelectedIcon: true,
-                      segments: const [
-                        ButtonSegment(
+                if (!_hideTypePicker) Builder(
+                  builder: (context) {
+                    final flags = ref.watch(featureFlagsProvider);
+                    final availableSegments = <ButtonSegment<LexiconType>>[
+                      if (flags[AppFeature.word] ?? true)
+                        const ButtonSegment(
                           value: LexiconType.word,
                           label: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text('Word'),
                           ),
                         ),
-                        ButtonSegment(
+                      if (flags[AppFeature.quote] ?? true)
+                        const ButtonSegment(
                           value: LexiconType.quote,
                           label: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text('Quote'),
                           ),
                         ),
-                        ButtonSegment(
+                      if (flags[AppFeature.phrase] ?? true)
+                        const ButtonSegment(
                           value: LexiconType.phrase,
                           label: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text('Phrase'),
                           ),
                         ),
-                        ButtonSegment(
+                      if (flags[AppFeature.idiom] ?? true)
+                        const ButtonSegment(
                           value: LexiconType.idiom,
                           label: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text('Idiom'),
                           ),
                         ),
+                    ];
+
+                    // If currently selected type is disabled, adjust selection to first available segment
+                    if (availableSegments.isNotEmpty &&
+                        !availableSegments.any((s) => s.value == _selectedType)) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (mounted) {
+                          setState(() {
+                            _selectedType = availableSegments.first.value;
+                          });
+                        }
+                      });
+                    }
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Select Entry Type',
+                          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: double.infinity,
+                          child: SegmentedButton<LexiconType>(
+                            style: const ButtonStyle(
+                              minimumSize: WidgetStatePropertyAll(Size(0, 56)),
+                              padding: WidgetStatePropertyAll(
+                                EdgeInsets.symmetric(horizontal: 3, vertical: 0),
+                              ),
+                            ),
+                            showSelectedIcon: true,
+                            segments: availableSegments,
+                            selected: {_selectedType},
+                            onSelectionChanged: (Set<LexiconType> newSelection) {
+                              setState(() {
+                                _selectedType = newSelection.first;
+                              });
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 20),
                       ],
-                      selected: {_selectedType},
-                      onSelectionChanged: (Set<LexiconType> newSelection) {
-                        setState(() {
-                          _selectedType = newSelection.first;
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
+                    );
+                  },
+                ),
 
                 // Term Field
                 Text(

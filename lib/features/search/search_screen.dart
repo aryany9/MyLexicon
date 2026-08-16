@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../core/services/database_service.dart';
 import '../../models/lexicon_entry.dart';
 import '../../models/lexicon_type.dart';
+import '../../core/models/app_feature.dart';
+import '../../core/providers/feature_flags_provider.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -218,13 +220,21 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   onPressed: _showTagPicker,
                   avatar: const Icon(Icons.sell_outlined, size: 16),
                   backgroundColor: _selectedTag != null
-                      ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
+                      ? Theme.of(
+                          context,
+                        ).colorScheme.primary.withValues(alpha: 0.1)
                       : null,
                 ),
                 const SizedBox(width: 8),
 
                 // Type Chips
-                ...LexiconType.values.map((type) {
+                ...LexiconType.values.where((type) {
+                  final flags = ref.watch(featureFlagsProvider);
+                  final feature = AppFeature.categoryFeatures.firstWhere(
+                    (f) => f.lexiconType == type,
+                  );
+                  return flags[feature] ?? true;
+                }).map((type) {
                   final isSelected = _selectedType == type;
                   Color chipColor = Colors.grey;
                   switch (type) {
@@ -299,46 +309,60 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   Widget _buildEmptyState(BuildContext context, bool hasActiveFilters) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              hasActiveFilters ? Icons.search_off : Icons.find_in_page_outlined,
-              size: 72,
-              color: Colors.grey.shade400,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              hasActiveFilters ? 'No results found' : 'Your lexicon is empty',
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              hasActiveFilters
-                  ? 'Try adjusting your search terms or filter constraints.'
-                  : 'Start adding new entries using the add button.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
-                fontSize: 14,
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(32.0),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    hasActiveFilters
+                        ? Icons.search_off
+                        : Icons.find_in_page_outlined,
+                    size: 72,
+                    color: Colors.grey.shade400,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    hasActiveFilters
+                        ? 'No results found'
+                        : 'Your lexicon is empty',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    hasActiveFilters
+                        ? 'Try adjusting your search terms or filter constraints.'
+                        : 'Start adding new entries using the add button.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: isDark
+                          ? Colors.grey.shade400
+                          : Colors.grey.shade600,
+                      fontSize: 14,
+                    ),
+                  ),
+                  if (hasActiveFilters) ...[
+                    const SizedBox(height: 24),
+                    OutlinedButton.icon(
+                      onPressed: _clearFilters,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Clear Filters'),
+                    ),
+                  ],
+                ],
               ),
             ),
-            if (hasActiveFilters) ...[
-              const SizedBox(height: 24),
-              OutlinedButton.icon(
-                onPressed: _clearFilters,
-                icon: const Icon(Icons.refresh),
-                label: const Text('Clear Filters'),
-              ),
-            ],
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -446,8 +470,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       decoration: BoxDecoration(
                         color: isCurrentTag
                             ? Theme.of(context).colorScheme.primary.withValues(
-                                  alpha: isDark ? 0.3 : 0.1,
-                                )
+                                alpha: isDark ? 0.3 : 0.1,
+                              )
                             : (isDark
                                   ? Colors.grey.shade800
                                   : Colors.grey.shade100),
