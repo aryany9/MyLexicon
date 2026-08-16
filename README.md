@@ -15,16 +15,19 @@
 The app follows a feature-first architecture, uses OpenSpec spec-driven design, and keeps all your data stored 100% locally on your Android device — offering a privacy-respecting, lightweight solution to building your custom dictionary without relying on any cloud backend.
 
 # Table of Contents
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Tech Stack](#tech-stack)
-- [Project Architecture \& OpenSpec Specs](#project-architecture--openspec-specs)
-  - [OpenSpec Specifications Directory (`openspec/specs/`)](#openspec-specifications-directory-openspecspecs)
-- [Getting Started \& Building for Android](#getting-started--building-for-android)
-  - [Prerequisites](#prerequisites)
-  - [Steps to Setup and Build](#steps-to-setup-and-build)
-- [Contributing](#contributing)
-- [License](#license)
+- [My Lexicon](#my-lexicon)
+    - [A modern, beautiful, offline first and open-source Android dictionary \& vocabulary builder app!](#a-modern-beautiful-offline-first-and-open-source-android-dictionary--vocabulary-builder-app)
+- [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Screenshots](#screenshots)
+  - [Tech Stack](#tech-stack)
+  - [Project Architecture \& OpenSpec Specs](#project-architecture--openspec-specs)
+    - [OpenSpec Specifications Directory (`openspec/specs/`)](#openspec-specifications-directory-openspecspecs)
+  - [Getting Started \& Building for Android](#getting-started--building-for-android)
+    - [Prerequisites](#prerequisites)
+    - [Steps to Setup and Build](#steps-to-setup-and-build)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## Features
 
@@ -46,11 +49,14 @@ The app follows a feature-first architecture, uses OpenSpec spec-driven design, 
 
 <div align="center">
   <p float="left">
-    <img src="assets/screenshots/dashboard.png" height="400" alt="Dashboard Screen"/>
-    <img src="assets/screenshots/word.png" height="400" alt="Word Category Screen"/>
-    <img src="assets/screenshots/details.png" height="400" alt="Entry Details Screen"/>
-    <img src="assets/screenshots/entry.png" height="400" alt="Add/Edit Entry Form Screen"/>
-    <img src="assets/screenshots/settings.png" height="400" alt="Settings Screen"/>
+    <img src="assets/screenshots/Dashboard.png" height="400" alt="Dashboard Screen"/>
+    <img src="assets/screenshots/Words.png" height="400" alt="Word Category Screen"/>
+    <img src="assets/screenshots/Search.png" height="400" alt="Search Screen"/>
+    <img src="assets/screenshots/Collections.png" height="400" alt="Collections Screen"/>
+    <img src="assets/screenshots/Idioms.png" height="400" alt="Idioms Screen"/>
+    <img src="assets/screenshots/Settings.png" height="400" alt="Settings Screen"/>
+    <img src="assets/screenshots/Settings-Appearance.png" height="400" alt="Settings Screen"/>
+    <img src="assets/screenshots/Settings-Navigation.png" height="400" alt="Settings Screen"/>
   </p>
 </div>
 

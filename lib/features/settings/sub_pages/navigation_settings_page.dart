@@ -95,9 +95,9 @@ class NavigationSettingsPage extends ConsumerWidget {
           const Divider(),
 
           // ── Bottom Navigation Tab Order ───────────────────────────────────
-          _buildSectionHeader(context, 'Bottom Navigation Tab Order'),
+          _buildSectionHeader(context, 'Navigation Tab Order'),
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
               'Drag handles to reorder tabs.',
               style: TextStyle(fontSize: 12, color: Colors.grey),
@@ -128,6 +128,7 @@ class NavigationSettingsPage extends ConsumerWidget {
 
               return ListTile(
                 key: ValueKey(path),
+                dense: true,
                 leading: const Icon(Icons.drag_handle),
                 title: Text(_getTabName(path)),
                 subtitle: isEnabled
@@ -147,11 +148,11 @@ class NavigationSettingsPage extends ConsumerWidget {
             final isEnabled = featureFlags[feature] ?? true;
             return SwitchListTile(
               title: Text(feature.label),
-              subtitle: Text(
-                feature == AppFeature.collections
-                    ? 'Hides Collections tab and related UI'
-                    : 'Hides from nav bar, dashboard, and entry form',
-              ),
+              // subtitle: Text(
+              //   feature == AppFeature.collections
+              //       ? 'Hides Collections tab and related UI'
+              //       : 'Hides from nav bar, dashboard, and entry form',
+              // ),
               value: isEnabled,
               onChanged: (val) async {
                 final success = await ref
