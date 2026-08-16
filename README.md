@@ -49,14 +49,14 @@ The app follows a feature-first architecture, uses OpenSpec spec-driven design, 
 
 <div align="center">
   <p float="left">
-    <img src="assets/screenshots/Dashboard.png" height="400" alt="Dashboard Screen"/>
-    <img src="assets/screenshots/Words.png" height="400" alt="Word Category Screen"/>
-    <img src="assets/screenshots/Search.png" height="400" alt="Search Screen"/>
-    <img src="assets/screenshots/Collections.png" height="400" alt="Collections Screen"/>
-    <img src="assets/screenshots/Idioms.png" height="400" alt="Idioms Screen"/>
-    <img src="assets/screenshots/Settings.png" height="400" alt="Settings Screen"/>
-    <img src="assets/screenshots/Settings-Appearance.png" height="400" alt="Settings Screen"/>
-    <img src="assets/screenshots/Settings-Navigation.png" height="400" alt="Settings Screen"/>
+    <img src="assets/screenshots/dashboard.png" height="400" alt="Dashboard Screen"/>
+    <img src="assets/screenshots/words.png" height="400" alt="Word Category Screen"/>
+    <img src="assets/screenshots/search.png" height="400" alt="Search Screen"/>
+    <img src="assets/screenshots/collections.png" height="400" alt="Collections Screen"/>
+    <img src="assets/screenshots/idioms.png" height="400" alt="Idioms Screen"/>
+    <img src="assets/screenshots/settings.png" height="400" alt="Settings Screen"/>
+    <img src="assets/screenshots/settings-appearance.png" height="400" alt="Settings Screen"/>
+    <img src="assets/screenshots/settings-navigation.png" height="400" alt="Settings Screen"/>
   </p>
 </div>
 
