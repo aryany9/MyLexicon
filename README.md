@@ -1,94 +1,115 @@
 <div align="center">
 
-<img src="assets/icon.png" height="100"/>
+<img src="assets/icon.png" height="96" alt="My Lexicon Logo"/>
 
 # My Lexicon
 
-### A modern, beautiful, offline first and open-source Android dictionary & vocabulary builder app!
+> **Your personal offline dictionary & vocabulary companion — built for privacy.**
 
-[![Get it on Github](https://img.shields.io/badge/Get%20it%20on-GitHub-blue?style=for-the-badge&logo=github)](https://github.com/aryany9/MyLexicon/releases/latest)
+[![License](https://img.shields.io/github/license/aryany9/MyLexicon?style=flat-square&logo=apache&logoColor=white&color=D22128)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/aryany9/MyLexicon?style=flat-square&logo=github&logoColor=white&color=181717)](https://github.com/aryany9/MyLexicon/releases/latest)
+[![Stars](https://img.shields.io/github/stars/aryany9/MyLexicon?style=flat-square&logo=github&logoColor=white&color=F9D71C)](https://github.com/aryany9/MyLexicon/stargazers)
+[![Issues](https://img.shields.io/github/issues/aryany9/MyLexicon?style=flat-square&logo=github&logoColor=white)](https://github.com/aryany9/MyLexicon/issues)
+[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=flat-square&logo=flutter&logoColor=white)](https://flutter.dev)
+[![Platform](https://img.shields.io/badge/Platform-Android-3DDC84?style=flat-square&logo=android&logoColor=white)](https://github.com/aryany9/MyLexicon/releases)
+
+<br/>
+
+**My Lexicon** is a privacy-first, open-source personal dictionary built with Flutter.
+Capture words, phrases, idioms, quotes, and notes — stored **100% locally** on your device.
+No account. No internet. No compromise.
+
+<br/>
+
+[![GitHub Release](https://img.shields.io/badge/Download%20APK-GitHub%20Releases-181717?style=for-the-badge&logo=github)](https://github.com/aryany9/MyLexicon/releases/latest)
+&nbsp;
+[![Obtainium](https://img.shields.io/badge/Get%20it%20on-Obtainium-7B2FBE?style=for-the-badge&logo=obtainium)](https://apps.obtainium.imranr.dev/redirect.html?r=obtainium://add/https://github.com/aryany9/MyLexicon)
+&nbsp;
+[![F-Droid](https://img.shields.io/badge/Coming%20Soon-F--Droid-1976D2?style=for-the-badge&logo=fdroid)](https://f-droid.org)
 
 </div>
 
-**My Lexicon** is a powerful **open-source alternative for "Create Dictionary" application**. Designed specifically for Android, it serves as an offline-first personal knowledge companion where you can create, organize, and master words, quotes, phrases, idioms, personal notes, tags, favorites, and custom collections.
-
-The app follows a feature-first architecture, uses OpenSpec spec-driven design, and keeps all your data stored 100% locally on your Android device — offering a privacy-respecting, lightweight solution to building your custom dictionary without relying on any cloud backend.
-
-# Table of Contents
-- [My Lexicon](#my-lexicon)
-    - [A modern, beautiful, offline first and open-source Android dictionary \& vocabulary builder app!](#a-modern-beautiful-offline-first-and-open-source-android-dictionary--vocabulary-builder-app)
-- [Table of Contents](#table-of-contents)
-  - [Features](#features)
-  - [Screenshots](#screenshots)
-  - [Tech Stack](#tech-stack)
-  - [Project Architecture \& OpenSpec Specs](#project-architecture--openspec-specs)
-    - [OpenSpec Specifications Directory (`openspec/specs/`)](#openspec-specifications-directory-openspecspecs)
-  - [Getting Started \& Building for Android](#getting-started--building-for-android)
-    - [Prerequisites](#prerequisites)
-    - [Steps to Setup and Build](#steps-to-setup-and-build)
-  - [Contributing](#contributing)
-  - [License](#license)
-
-## Features
-
-- 📚 **Create Your Own Dictionary**: Build a custom offline dictionary with words, quotes, phrases, and idioms.
-- 🎛️ **Modular Feature Toggles**: Enable or disable any category (`Words`, `Phrases`, `Idioms`, `Quotes`) or `Collections` system-wide. Disabled features cleanly disappear from navigation, dashboard, entry forms, and search filters.
-- 🔀 **Custom Navigation Bar Reordering**: Drag and reorder bottom navigation tabs (`Dashboard`, `Words`, `Phrases`, `Idioms`, `Quotes`, `Collections`) directly in Settings, with `Settings` pinned as the final tab.
-- 📱 **Reorganized Nested Settings**: Clean navigation sub-pages (Appearance, Navigation & Features, Tags, Data) for an intuitive, clutter-free settings experience.
-- ↕️ **Per-Tab Independent Entry Sorting**: Sort each category tab independently by *Newest First*, *Oldest First*, *A–Z*, or *Z–A*.
-- 📐 **Global List Density Control**: Customize entry card density across all lists with *Compact*, *Comfortable*, or *Detailed* display options.
-- 🛡️ **Smart Duplicate Prevention**: Collection-aware duplicate term detection at save time with inline warnings and direct navigation to existing entries.
-- 📦 **Data Import & Export**: One-tap full JSON backup & restore plus CSV spreadsheet export/import with collection membership preservation.
-- ⚡ **Contextual Actions**: Dynamic fan-out floating action button on Dashboard and contextual type-specific add actions.
-- ⭐ **Favorites & Quick Access**: Mark entries as favorites and configure your default app-launch tab.
-- 🔍 **Powerful Search**: Search and filter entries dynamically by text, type, tags, collections, and favorites.
-- 🔒 **Offline-First & Local**: Secure, lightweight local storage powered by Hive (no login required).
-- 🎨 **Modern Themes**: Clean UI with support for light, dark, and system default themes.
-
-## Screenshots
+## 📸 Screenshots
 
 <div align="center">
-  <p float="left">
-    <img src="assets/screenshots/dark-dashboard.png" height="400" alt="Dashboard Screen"/>
-    <img src="assets/screenshots/dark-words.png" height="400" alt="Word Category Screen"/>
-    <img src="assets/screenshots/dark-search.png" height="400" alt="Search Screen"/>
-    <img src="assets/screenshots/dark-collections.png" height="400" alt="Collections Screen"/>
-    <img src="assets/screenshots/dark-idioms.png" height="400" alt="Idioms Screen"/>
-    <img src="assets/screenshots/dark-settings.png" height="400" alt="Settings Screen"/>
-    <img src="assets/screenshots/dark-settings-appearance.png" height="400" alt="Settings Screen"/>
-    <img src="assets/screenshots/dark-settings-navigation.png" height="400" alt="Settings Screen"/>
-  </p>
+  <img src="assets/screenshots/dark-dashboard.png" height="360" alt="Dashboard"/>
+  <img src="assets/screenshots/dark-words.png" height="360" alt="Words"/>
+  <img src="assets/screenshots/dark-search.png" height="360" alt="Search"/>
+  <img src="assets/screenshots/dark-collections.png" height="360" alt="Collections"/>
+  <img src="assets/screenshots/dark-idioms.png" height="360" alt="Idioms"/>
+  <img src="assets/screenshots/dark-settings.png" height="360" alt="Settings"/>
+  <img src="assets/screenshots/dark-settings-appearance.png" height="360" alt="Appearance"/>
+  <img src="assets/screenshots/dark-settings-navigation.png" height="360" alt="Navigation"/>
+  <img src="assets/screenshots/dark-settings-data.png" height="360" alt="Data"/>
 </div>
 
-## Tech Stack
 
-- **Target Platform**: Android (solely targeted)
-- **Framework**: Flutter
-- **State Management**: Riverpod
-- **Routing & Navigation**: GoRouter
-- **Local Storage**: Hive
-- **Settings Persistence**: Shared Preferences
-- **App Launcher Icons**: Flutter Launcher Icons
+## ✨ Features
 
-## Project Architecture & OpenSpec Specs
+### 📚 Vocabulary Building
 
-My Lexicon uses a **feature-first architecture** and follows **OpenSpec spec-driven development** for change management and capability specifications.
+| Feature | Description |
+|---|---|
+| **Custom Dictionary** | Save words, phrases, idioms, quotes, and personal notes with examples and tags |
+| **Collections** | Group entries into named collections with membership tracking |
+| **Favorites** | Star entries for quick access and filter by favorites across all tabs |
+| **Contextual FAB** | Fan-out floating action button adapts to your enabled categories |
 
-```text
+### ⚙️ Customization
+
+| Feature | Description |
+|---|---|
+| **Category Toggles** | Enable/disable Words, Phrases, Idioms, Quotes, or Collections system-wide |
+| **Tab Reordering** | Drag-and-drop navigation tab ordering in Settings |
+| **Default Launch Tab** | Choose which screen opens when you start the app |
+| **Nested Settings** | Clean sub-pages: Appearance · Navigation & Features · Tags · Data |
+
+### 🎨 Display Preferences
+
+| Feature | Description |
+|---|---|
+| **Per-Tab Sorting** | Sort each category independently: Newest, Oldest, A–Z, Z–A |
+| **List Density** | Choose Compact, Comfortable, or Detailed card layouts globally |
+| **Material 3 Themes** | Light, dark, and system-default themes with modern Material You design |
+
+### 💾 Data & Privacy
+
+| Feature | Description |
+|---|---|
+| **Smart Duplicate Detection** | Collection-aware duplicate checks at save-time with inline warnings |
+| **JSON Backup & Restore** | One-tap full database export/import with conflict resolution (Skip / Overwrite / Merge) |
+| **CSV Exchange** | Export and import entries via CSV, preserving collection structure |
+| **Offline-First** | 100% local storage via Hive — no account, no network, no cloud |
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Framework** | Flutter · Dart SDK `^3.12.2` |
+| **State Management** | Riverpod (`flutter_riverpod ^2.5.1`) |
+| **Navigation** | GoRouter (`go_router ^17.3.0`) |
+| **Local Database** | Hive + Hive Flutter |
+| **Preferences** | Shared Preferences |
+| **File I/O** | `file_picker` · `share_plus` · `path_provider` · `csv` |
+| **Internationalization** | `intl` |
+| **Target Platform** | Android (Min SDK 21) |
+
+---
+
+## 🗂️ Project Architecture
+
+My Lexicon follows a **feature-first architecture** with **OpenSpec spec-driven development** for structured change management.
+
+```
 lib/
 ├── core/
 │   ├── constants/
-│   ├── models/
-│   │   └── app_feature.dart
-│   ├── providers/
-│   │   ├── display_preferences_provider.dart
-│   │   ├── feature_flags_provider.dart
-│   │   ├── sort_order_provider.dart
-│   │   ├── tab_order_provider.dart
-│   │   └── tab_provider.dart
+│   ├── models/           # app_feature.dart, etc.
+│   ├── providers/        # feature_flags, sort_order, tab_order, display_prefs
 │   ├── services/
-│   ├── shell/
-│   │   └── app_shell.dart
+│   ├── shell/            # app_shell.dart (ShellRoute host)
 │   └── theme/
 ├── features/
 │   ├── collections/
@@ -108,73 +129,95 @@ lib/
 │           └── tags_settings_page.dart
 ├── models/
 ├── routes/
-├── widgets/
-└── main.dart
+└── widgets/
 ```
 
-### OpenSpec Specifications Directory (`openspec/specs/`)
+### OpenSpec Specs (`openspec/specs/`)
 
-System capabilities and behavioral constraints are documented in spec-driven markdown under `openspec/specs/`:
+Behavioral constraints and system capabilities are formally documented as OpenSpec specs:
 
-- 🧭 **`bottom-navigation`**: Persistent bottom navigation bar with dynamic item rendering, custom tab reordering, and route shell integration.
-- ⚙️ **`category-feature-toggles`**: Modular feature flag toggling and system-wide visibility hiding for Words, Phrases, Idioms, Quotes, and Collections.
-- ➕ **`contextual-fab`**: Fan-out floating action button that dynamically filters option choices based on active feature flags.
-- 🚀 **`default-tab-setting`**: Configurable launch tab preference persisted by path string with fallback handling.
-- 🛡️ **`duplicate-detection`**: Save-time collection-aware duplicate term checks and import conflict resolution.
-- 🔀 **`entry-list-sorting`**: Per-tab independent sorting preferences (Newest, Oldest, A–Z, Z–A).
-- 📝 **`entry-management`**: Full CRUD for learning items with example sentences, notes, tags, and collection assignment.
-- 💾 **`export-import`**: JSON backup/restore and CSV spreadsheet data exchange preserving collection structure.
-- 📏 **`list-density`**: Global display density settings (Compact, Comfortable, Detailed).
-- ⭐ **`organization-favorites`**: Marking entries as favorites for quick access and filtering.
+| Spec | Description |
+|---|---|
+| 🧭 `bottom-navigation` | Persistent navigation bar with dynamic items and custom ordering |
+| ⚙️ `category-feature-toggles` | System-wide feature flag toggling for all content categories |
+| ➕ `contextual-fab` | Dynamic fan-out FAB filtered by active feature flags |
+| 🚀 `default-tab-setting` | Configurable launch tab persisted as route path string |
+| 🛡️ `duplicate-detection` | Collection-aware duplicate checks and import conflict resolution |
+| 🔀 `entry-list-sorting` | Per-tab independent sort preferences |
+| 📝 `entry-management` | Full CRUD for entries with notes, tags, and collection assignment |
+| 💾 `export-import` | JSON backup/restore and CSV data exchange |
+| 📏 `list-density` | Global display density settings |
+| ⭐ `organization-favorites` | Favorites marking and filtering |
 
-## Getting Started & Building for Android
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-Ensure you have the following tools installed:
-- [Flutter SDK](https://docs.flutter.dev/get-started/install) (Stable channel)
-- Android Studio, Android SDK, and JDK (Targeting Android API 21+)
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) — Stable channel
+- Android Studio / Android SDK (Min SDK 21)
 
-### Steps to Setup and Build
+### Setup & Build
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/aryany9/MyLexicon.git
-   cd MyLexicon
-   ```
+**1. Clone the repository**
+```bash
+git clone https://github.com/aryany9/MyLexicon.git
+cd MyLexicon
+```
 
-2. **Get dependencies:**
-   ```bash
-   flutter pub get
-   ```
+**2. Install dependencies**
+```bash
+flutter pub get
+```
 
-3. **Generate Hive database adapters & Launcher icons:**
-   ```bash
-   flutter pub run build_runner build --delete-conflicting-outputs
-   dart run flutter_launcher_icons
-   ```
+**3. Generate code & icons**
+```bash
+flutter pub run build_runner build --delete-conflicting-outputs
+dart run flutter_launcher_icons
+```
 
-4. **Run on connected Android device / emulator:**
-   ```bash
-   flutter run
-   ```
+**4. Run on a device or emulator**
+```bash
+flutter run
+```
 
-5. **Build Android production binaries:**
-   - **Android APK:**
-     ```bash
-     flutter build apk --release
-     ```
-   - **Android App Bundle (AAB):**
-     ```bash
-     flutter build appbundle --release
-     ```
+**5. Build release binaries**
 
-## Contributing
+```bash
+# Android APK
+flutter build apk --release
 
-Contributions are welcome! If you want to improve the app, please open an issue or submit a pull request.
+# Android App Bundle (for Play Store)
+flutter build appbundle --release
+```
 
-Please keep changes aligned with the existing feature-first structure, Android target focus, OpenSpec specs, and local-first design.
 
-## License
+## 🤝 Contributing
 
-This project is licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.
+Contributions are welcome! To get started:
+
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feat/your-feature`
+3. **Commit** your changes following [Conventional Commits](https://www.conventionalcommits.org/)
+4. **Open** a pull request against `main`
+
+Please ensure your changes:
+- Follow the **feature-first** directory layout
+- Respect **offline-first** design principles
+- Align with existing **OpenSpec** specifications
+
+Found a bug or have a feature idea? [Open an issue](https://github.com/aryany9/MyLexicon/issues) — all feedback is appreciated.
+
+
+## 📄 License
+
+Licensed under the **Apache License, Version 2.0**.
+See [LICENSE](LICENSE) for full details.
+
+---
+
+<div align="center">
+
+Made with ❤️ using Flutter · [⭐ Star this repo](https://github.com/aryany9/MyLexicon) if you find it useful!
+
+</div>
