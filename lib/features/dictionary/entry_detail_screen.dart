@@ -235,7 +235,6 @@ class EntryDetailScreen extends ConsumerWidget {
                   // The Term/Text Display Card
                   Card(
                     elevation: 0,
-                    color: isDark ? const Color(0xFF1F2937) : Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                       side: BorderSide(
@@ -311,9 +310,7 @@ class EntryDetailScreen extends ConsumerWidget {
                         margin: const EdgeInsets.only(bottom: 8),
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: isDark
-                              ? const Color(0xFF1F2937)
-                              : Colors.grey.shade50,
+                          color: Theme.of(context).cardTheme.color,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: isDark
