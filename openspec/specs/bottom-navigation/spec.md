@@ -1,7 +1,7 @@
 ## MODIFIED Requirements
 
 ### Requirement: Persistent Bottom Navigation Bar
-The system SHALL display a persistent bottom navigation bar. `Settings` tab SHALL always be pinned as the final tab in the navigation bar. `Dashboard` tab and enabled feature tabs (`Words`, `Phrases`, `Idioms`, `Quotes`, `Collections`) SHALL be rendered in the custom order configured by the user. Disabled features SHALL be omitted while maintaining active-tab highlighting and tab order.
+The system SHALL display a persistent Material 3 bottom navigation bar (`NavigationBar`). `Settings` tab SHALL always be pinned as the final tab in the navigation bar. `Dashboard` tab and enabled feature tabs (`Words`, `Phrases`, `Idioms`, `Quotes`, `Collections`) SHALL be rendered in the custom order configured by the user. Disabled features SHALL be omitted while maintaining active-tab highlighting and tab order. The navigation bar SHALL integrate with the active theme palette, rendering with elevation 0, dedicated VS Code-calibrated bottom navigation background, active accent pill indicator, high-contrast active icon, and a subtle 1px top border matching the theme card border.
 
 #### Scenario: Navigate to Words tab
 - **WHEN** the user taps the "Words" tab in the bottom navigation bar
@@ -11,9 +11,9 @@ The system SHALL display a persistent bottom navigation bar. `Settings` tab SHAL
 - **WHEN** the user taps the "Settings" tab in the bottom navigation bar
 - **THEN** the system SHALL display the Settings screen as the last tab item
 
-#### Scenario: Active tab indicator
+#### Scenario: Active tab pill indicator
 - **WHEN** the user is on any tab
-- **THEN** the system SHALL visually highlight the active tab icon and label to distinguish it from inactive tabs
+- **THEN** the system SHALL visually highlight the active tab with a theme-colored pill indicator and an icon contrasting against the pill matching the FAB contrast model
 
 #### Scenario: Tab preserves navigation stack
 - **WHEN** the user navigates to an entry detail from the Words tab and taps back
@@ -38,3 +38,7 @@ The system SHALL display a persistent bottom navigation bar. `Settings` tab SHAL
 #### Scenario: Collections navigable via shell
 - **WHEN** the Collections feature is enabled
 - **THEN** navigating to the Collections tab SHALL render the Collections screen within the shared scaffold (bottom nav bar visible)
+
+#### Scenario: Palette-harmonized visual styling
+- **WHEN** the user switches to any theme palette (e.g. Abyss, Solarized Dark, Monokai, Kimbie Dark)
+- **THEN** the bottom navigation bar SHALL adopt the palette's VS Code-calibrated `bottomNavBackgroundColor`, render with elevation 0, display a 1px top border, and render an active pill indicator with high-contrast icon matching `fabForegroundColor`

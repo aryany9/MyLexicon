@@ -45,6 +45,28 @@ void main() {
         expect(colors.primaryColor, isNotNull);
       }
     });
+
+    test('Each palette configures navigationBarTheme and floatingActionButtonTheme', () {
+      for (final name in AppThemeName.values) {
+        final theme = AppThemeRegistry.getTheme(name);
+        final navBarTheme = theme.navigationBarTheme;
+        expect(navBarTheme, isNotNull);
+        expect(navBarTheme.elevation, 0);
+        expect(navBarTheme.indicatorColor, isNotNull);
+        expect(navBarTheme.backgroundColor, isNotNull);
+        expect(navBarTheme.height, 62);
+
+        final bottomNavTheme = theme.bottomNavigationBarTheme;
+        expect(bottomNavTheme, isNotNull);
+        expect(bottomNavTheme.elevation, 0);
+        expect(bottomNavTheme.backgroundColor, isNotNull);
+
+        final fabTheme = theme.floatingActionButtonTheme;
+        expect(fabTheme, isNotNull);
+        expect(fabTheme.backgroundColor, isNotNull);
+        expect(fabTheme.foregroundColor, isNotNull);
+      }
+    });
   });
 
   group('AppThemePreferenceNotifier Tests', () {

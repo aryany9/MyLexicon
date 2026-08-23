@@ -18,32 +18,34 @@ MyLexicon provides 8 distinct editor-style theme palettes (`defaultLight`, `defa
 
 ## Decisions
 
-### D1 — Explicit `navigationBarTheme` in `AppThemeRegistry._buildTheme`
-
-**Decision:** Configure `NavigationBarThemeData` for every palette preset inside `_buildTheme`:
-- `backgroundColor: surfaceColor`
+### D1 — Explicit `navigationBarTheme`, `bottomNavBackgroundColor`, and `floatingActionButtonTheme`
+ 
+**Decision:** Configure `NavigationBarThemeData`, `BottomNavigationBarThemeData`, and `FloatingActionButtonThemeData` for every palette preset inside `_buildTheme`:
+- `backgroundColor: bottomNavBackgroundColor` explicitly calibrated to VS Code's Activity Bar / Status Bar palettes (e.g. `#1E1F1C` for Monokai, `#073642` for Solarized Dark, `#00172E` for Abyss, `#EDEDF4` for Quiet Light, `#F0F0F0` for One Light).
+- `systemNavigationBarColor: bottomNavBackgroundColor` for Android edge-to-edge system bar continuity.
 - `elevation: 0`
-- `indicatorColor: primaryColor.withValues(alpha: 0.20)` (or `primaryColor.withValues(alpha: 0.25)` for dark palettes)
-- `iconTheme`: `WidgetStateProperty.resolveWith` returning `primaryColor` when selected, and muted tone (45% opacity white on dark, 40% opacity black on light) when unselected
+- `indicatorColor: primaryColor.withValues(alpha: isDark ? 0.85 : 0.80)` providing a solid pill background.
+- `iconTheme`: `WidgetStateProperty.resolveWith` returning `fabForegroundColor` (or luminance-based dark/light contrast) when selected, matching the FAB icon contrast model, and muted tone (45% opacity white on dark, 40% opacity black on light) when unselected.
 - `height: 62`
 - `labelBehavior: NavigationDestinationLabelBehavior.alwaysHide`
-
-**Rationale:** Centralizing navigation bar styling inside `ThemeData` gives all 8 palettes native Material 3 pill animation while keeping icon contrast and surface colors perfectly harmonized.
-
+- `floatingActionButtonTheme`: `backgroundColor: primaryColor`, `foregroundColor: fabForegroundColor ?? (luminance > 0.35 ? #111827 : Colors.white)` to guarantee crisp readability on bright primaries (Monokai lime, Solarized yellow, Kimbie amber, Abyss cyan).
+ 
+**Rationale:** Centralizing navigation bar and FAB styling inside `ThemeData` gives all palettes native Material 3 pill animation and harmonious, high-contrast icon rendering that precisely matches VS Code's UI hierarchy.
+ 
 ---
-
+ 
 ### D2 — `AppShell` M3 Navigation Migration
-
+ 
 **Decision:** In `lib/core/shell/app_shell.dart`, replace `BottomNavigationBar` + `BottomNavigationBarItem` with `NavigationBar` + `NavigationDestination`, wrapped in a `Container` with a 1px top border matching `cardBorderColor`.
-
+ 
 **Rationale:** `NavigationBar` is Flutter's official Material 3 component for top-level app switching, supporting accessibility, smooth indicator motion, and theme delegation.
-
+ 
 ---
-
+ 
 ### D3 — Modernize Dropdown in Navigation Settings
-
-**Decision:** In `navigation_settings_page.dart`, replace the unstyled `DropdownButton` with a clean Material 3 styled selector or `DropdownMenu` with proper rounded border, surface background, and trailing chevron.
-
+ 
+**Decision:** In `navigation_settings_page.dart`, replace the unstyled `DropdownButton` with a clean Material 3 styled container with `DropdownButtonHideUnderline`, rounded border, surface background, and trailing chevron.
+ 
 **Rationale:** Brings the navigation settings page to visual parity with the modern segmented controls on the appearance settings page.
 
 ## Risks / Trade-offs
