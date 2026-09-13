@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+
+# ==============================================================================
+# Git pre-commit hook: Require CHANGELOG.md update when pubspec.yaml version changes
+# ==============================================================================
+
+set -e
+
+# Check if pubspec.yaml is staged
+if ! git diff --cached --name-only | grep -E '^pubspec\.yaml$' > /dev/null; then
+  exit 0
+fi
+
+# Check if version line was modified or added in pubspec.yaml
+VERSION_DIFF=$(git diff --cached -U0 pubspec.yaml | grep -E '^\+[[:space:]]*version:' || true)
+
+if [ -z "$VERSION_DIFF" ]; then
+  # pubspec.yaml was modified, but version was not changed
+  exit 0
+fi
+
+# Extract the new version (e.g., 1.3.0 from "version: 1.3.0+4")
+NEW_VERSION=$(echo "$VERSION_DIFF" | sed -E 's/^\+[[:space:]]*version:[[:space:]]*([0-9]+\.[0-9]+\.[0-9]+).*/\1/' | tr -d '[:space:]')
+
+if [ -z "$NEW_VERSION" ]; then
+  exit 0
+fi
+
+echo "🔍 [pre-commit] Detected version bump in pubspec.yaml to: $NEW_VERSION"
+
+# Find changelog file (CHANGELOG.md or changelog.md)
+CHANGELOG_FILE=$(git ls-files | grep -i -E '^changelog\.md$' | head -n 1)
+if [ -z "$CHANGELOG_FILE" ]; then
+  CHANGELOG_FILE="CHANGELOG.md"
+fi
+
+# 1. Verify that CHANGELOG.md exists or is being created
+if [ ! -f "$CHANGELOG_FILE" ] && ! git diff --cached --name-only | grep -i -E '^changelog\.md$' > /dev/null; then
+  echo ""
+  echo "❌ [pre-commit] Pre-requisite failed:"
+  echo "   You updated the version in pubspec.yaml to '$NEW_VERSION',"
+  echo "   but '$CHANGELOG_FILE' does not exist!"
+  echo ""
+  echo "   Please create '$CHANGELOG_FILE' documenting what's new in v$NEW_VERSION and stage it:"
+  echo "     git add $CHANGELOG_FILE"
+  echo ""
+  exit 1
+fi
+
+# 2. Check if CHANGELOG.md is staged in this commit
+if ! git diff --cached --name-only | grep -i -E '^changelog\.md$' > /dev/null; then
+  echo ""
+  echo "❌ [pre-commit] Pre-requisite failed:"
+  echo "   You updated the version in pubspec.yaml to '$NEW_VERSION',"
+  echo "   but '$CHANGELOG_FILE' is NOT staged for this commit."
+  echo ""
+  echo "   Please update '$CHANGELOG_FILE' with the changes for v$NEW_VERSION and stage it:"
+  echo "     git add $CHANGELOG_FILE"
+  echo ""
+  exit 1
+fi
+
+# 3. Verify that the staged CHANGELOG.md actually contains a section for the new version
+STAGED_CONTENT=$(git show ":$CHANGELOG_FILE" 2>/dev/null || cat "$CHANGELOG_FILE" 2>/dev/null)
+
+if ! echo "$STAGED_CONTENT" | grep -E "##[[:space:]]*\[?v?${NEW_VERSION}" > /dev/null; then
+  TODAY=$(date +%Y-%m-%d)
+  echo ""
+  echo "❌ [pre-commit] Pre-requisite failed:"
+  echo "   '$CHANGELOG_FILE' is staged, but it does NOT contain a section for '## [$NEW_VERSION]'."
+  echo ""
+  echo "   Please add a release section at the top of '$CHANGELOG_FILE':"
+  echo ""
+  echo "   ----------------------------------------"
+  echo "   ## [$NEW_VERSION] - $TODAY"
+  echo ""
+  echo "   ### Added"
+  echo "   - Feature details..."
+  echo ""
+  echo "   ### Changed"
+  echo "   - Change details..."
+  echo ""
+  echo "   ### Fixed"
+  echo "   - Bug fixes..."
+  echo "   ----------------------------------------"
+  echo ""
+  echo "   After editing, re-stage the file and retry your commit:"
+  echo "     git add $CHANGELOG_FILE"
+  echo "     git commit"
+  echo ""
+  exit 1
+fi
+
+echo "✅ [pre-commit] CHANGELOG entry for v$NEW_VERSION verified."
+exit 0

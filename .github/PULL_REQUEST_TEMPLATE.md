@@ -115,6 +115,7 @@
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] New and existing unit tests pass locally (`flutter test`)
 - [ ] Any dependent changes have been merged and published in downstream modules
+- [ ] If bumping app version in `pubspec.yaml`, I have documented the changes in `CHANGELOG.md`
 
 ---
 

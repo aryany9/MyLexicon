@@ -30,6 +30,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -55,6 +57,20 @@ jobs:
 
       - name: Test
         run: flutter test
+
+      - name: Verify CHANGELOG update on version bump
+        if: github.event_name == 'pull_request'
+        run: |
+          VERSION_DIFF=$(git diff origin/${{ github.base_ref }}...HEAD -U0 pubspec.yaml | grep -E '^\+[[:space:]]*version:' || true)
+          if [ -n "$VERSION_DIFF" ]; then
+            NEW_VERSION=$(echo "$VERSION_DIFF" | sed -E 's/^\+[[:space:]]*version:[[:space:]]*([0-9]+\.[0-9]+\.[0-9]+).*/\1/' | tr -d '[:space:]')
+            echo "Detected version bump in pubspec.yaml to: $NEW_VERSION"
+            if ! grep -E "##[[:space:]]*\[?v?${NEW_VERSION}" CHANGELOG.md; then
+              echo "::error::pubspec.yaml version bumped to $NEW_VERSION, but CHANGELOG.md does not contain an entry for '## [$NEW_VERSION]'."
+              exit 1
+            fi
+            echo "CHANGELOG entry for v$NEW_VERSION verified."
+          fi
 
       # ABI splits keep each APK small instead of one fat APK.
       - name: Build split APKs
