@@ -81,15 +81,31 @@ class NavigationSettingsPage extends ConsumerWidget {
           _buildSectionHeader(context, 'Default Launch Tab'),
           ListTile(
             title: const Text('Default Launch Tab'),
-            subtitle: Text(_getTabName(effectivePath)),
-            trailing: DropdownButton<String>(
-              value: effectivePath,
-              onChanged: (path) {
-                if (path != null) {
-                  ref.read(defaultTabProvider.notifier).setDefaultTab(path);
-                }
-              },
-              items: tabItems,
+            subtitle: Text('Opens on ${_getTabName(effectivePath)}'),
+            trailing: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardTheme.color,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.grey.shade800
+                      : Colors.grey.shade300,
+                ),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: effectivePath,
+                  borderRadius: BorderRadius.circular(12),
+                  icon: const Icon(Icons.arrow_drop_down, size: 20),
+                  onChanged: (path) {
+                    if (path != null) {
+                      ref.read(defaultTabProvider.notifier).setDefaultTab(path);
+                    }
+                  },
+                  items: tabItems,
+                ),
+              ),
             ),
           ),
           const Divider(),

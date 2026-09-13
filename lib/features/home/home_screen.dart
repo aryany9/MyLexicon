@@ -172,7 +172,10 @@ class HomeScreen extends ConsumerWidget {
   }
 
   Widget _buildStatsGrid(
-      BuildContext context, WidgetRef ref, Map<String, int> stats) {
+    BuildContext context,
+    WidgetRef ref,
+    Map<String, int> stats,
+  ) {
     final flags = ref.watch(featureFlagsProvider);
     final wordCount = stats['words'] ?? 0;
     final quoteCount = stats['quotes'] ?? 0;
@@ -306,7 +309,6 @@ class HomeScreen extends ConsumerWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Card(
       elevation: 0,
-      color: isDark ? const Color(0xFF1F2937) : Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(
@@ -320,7 +322,9 @@ class HomeScreen extends ConsumerWidget {
             Icon(
               Icons.auto_stories_outlined,
               size: 64,
-              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+              color: Theme.of(
+                context,
+              ).colorScheme.primary.withValues(alpha: 0.5),
             ),
             const Gap.vertical(SizeConstants.lg),
             Text(

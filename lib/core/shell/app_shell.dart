@@ -109,28 +109,43 @@ class AppShell extends ConsumerWidget {
       return homeIdx != -1 ? homeIdx : 0;
     }();
 
+    final theme = Theme.of(context);
+    final borderColor = () {
+      final shape = theme.cardTheme.shape;
+      if (shape is RoundedRectangleBorder && shape.side != BorderSide.none) {
+        return shape.side.color;
+      }
+      return theme.brightness == Brightness.dark
+          ? Colors.grey.shade800
+          : Colors.grey.shade200;
+    }();
+
     return Scaffold(
       body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        type: BottomNavigationBarType.fixed,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        onTap: (index) {
-          final targetPath = visibleTabs[index].path;
-          if (location != targetPath) {
-            context.go(targetPath);
-          }
-        },
-        items: visibleTabs
-            .map(
-              (tab) => BottomNavigationBarItem(
-                icon: Icon(tab.icon),
-                activeIcon: Icon(tab.activeIcon),
-                label: tab.label,
-              ),
-            )
-            .toList(),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(color: borderColor, width: 1),
+          ),
+        ),
+        child: NavigationBar(
+          selectedIndex: currentIndex,
+          onDestinationSelected: (index) {
+            final targetPath = visibleTabs[index].path;
+            if (location != targetPath) {
+              context.go(targetPath);
+            }
+          },
+          destinations: visibleTabs
+              .map(
+                (tab) => NavigationDestination(
+                  icon: Icon(tab.icon),
+                  selectedIcon: Icon(tab.activeIcon),
+                  label: tab.label,
+                ),
+              )
+              .toList(),
+        ),
       ),
     );
   }
