@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2026-09-13
+
+### Added
+- **Named Theme Palettes**: Catalogue of 8+ editor-inspired theme palettes (`Default Light`, `Default Dark`, `Solarized Light`, `Solarized Dark`, `Abyss`, `Kimbie Dark`, `Monokai`, `One Light`, `Quiet Light`) defined and pre-constructed via `AppThemeRegistry`.
+- **Dual-Slot Theme Customization**: Independent selection for light mode palette and dark mode palette. Switching mode or relying on OS brightness (`System`) automatically resolves the configured palette.
+- **Interactive Theme Swatches**: Visual horizontal swatch selector in Appearance settings displaying background, surface, and primary accent colors with active selection state indicators.
+- **Theme Preference Persistence**: Riverpod `AppThemePreferenceNotifier` managing persistent storage for `mode`, `lightThemeName`, and `darkThemeName` with safe fallbacks.
+- **Unit Tests for Theme System**: Added test suite (`test/theme_preference_provider_test.dart`) covering palette registry lookups, subset filters, and persistence.
+- **OpenSpec Prompts and Skills**: Added `.pi` prompt templates and skill sets for OpenSpec workflows.
+
+### Changed
+- **Material 3 Navigation Bar Migration**: Upgraded `AppShell` from legacy `BottomNavigationBar` to Material 3 `NavigationBar` with `NavigationDestination`, tuned 62px height, hidden labels for tab density, and solid primary accent pill indicator.
+- **System Navigation Bar Theming**: Harmonized Android system navigation bar color (`systemNavigationBarColor`) to match `bottomNavBackgroundColor`.
+- **Dropdown & Card Styling Polish**: Modernized `NavigationSettingsPage` dropdown container and replaced hardcoded colors in `EntryDetailScreen` with theme-derived card colors.
+- **Removed Deprecated Themes**: Removed legacy static `AppTheme` in favor of `AppThemeRegistry`.
+
 ## [1.2.0] - 2026-08-16
 
 ### Added
