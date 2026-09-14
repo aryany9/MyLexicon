@@ -11,9 +11,36 @@ import 'routes/app_router.dart';
 import 'core/providers/tab_provider.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'core/mcp/services/mcp_background_service.dart';
+
+// Global navigator key to allow navigation from outside widgets
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
+  // Initialize Local Notifications for Tap Handling
+  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  const initializationSettingsAndroid = AndroidInitializationSettings('ic_launcher_monochrome');
+  const initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
+  
+  await flutterLocalNotificationsPlugin.initialize(
+    settings: initializationSettings,
+    onDidReceiveNotificationResponse: (NotificationResponse response) {
+      if (response.payload == 'mcp_settings') {
+        // Navigate to MCP Settings page directly when tapped
+        final context = navigatorKey.currentContext;
+        if (context != null) {
+          context.go('/settings/mcp');
+        }
+      }
+    },
+  );
+
+  // Initialize Background Service
+  await initializeMcpBackgroundService();
+
   // Initialize Hive
   await Hive.initFlutter();
   

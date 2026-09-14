@@ -7,10 +7,14 @@ import '../features/settings/settings_screen.dart';
 import '../features/dictionary/entry_detail_screen.dart';
 import '../features/dictionary/entry_form_screen.dart';
 import '../features/dictionary/category_list_screen.dart';
+import '../features/settings/sub_pages/mcp_server_settings_page.dart';
 import '../models/lexicon_type.dart';
+
+import '../main.dart'; // Import navigatorKey
 
 GoRouter createAppRouter({String initialLocation = '/'}) {
   return GoRouter(
+    navigatorKey: navigatorKey,
     initialLocation: initialLocation,
     routes: [
       ShellRoute(
@@ -35,6 +39,12 @@ GoRouter createAppRouter({String initialLocation = '/'}) {
           GoRoute(
             path: '/settings',
             builder: (context, state) => const SettingsScreen(),
+            routes: [
+              GoRoute(
+                path: 'mcp',
+                builder: (context, state) => const McpServerSettingsPage(),
+              ),
+            ],
           ),
         ],
       ),

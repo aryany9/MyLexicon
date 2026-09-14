@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'sub_pages/appearance_settings_page.dart';
 import 'sub_pages/navigation_settings_page.dart';
-import 'sub_pages/tags_settings_page.dart';
 import 'sub_pages/data_settings_page.dart';
+import 'sub_pages/tags_settings_page.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -70,6 +71,16 @@ class SettingsScreen extends ConsumerWidget {
                   builder: (context) => const DataSettingsPage(),
                 ),
               );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.hub_outlined),
+            title: const Text('Local MCP Server'),
+            subtitle: const Text('Connect AI assistants on your network'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              context.go('/settings/mcp');
             },
           ),
 
