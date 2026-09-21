@@ -39,13 +39,17 @@ class AppearanceSettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themePref = ref.watch(appThemePreferenceProvider);
     final listDensity = ref.watch(listDensityProvider);
+    final showTags = ref.watch(showCardTagsProvider);
+    final showTypeBadges = ref.watch(showTypeBadgesProvider);
+    final fontFamilyPref = ref.watch(fontFamilyPreferenceProvider);
+    final textScalePref = ref.watch(textScalePreferenceProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Appearance')),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         children: [
-          // ── Theme Section ─────────────────────────────────────────────────
+          // ── THEME ─────────────────────────────────────────────────────────
           _buildSectionHeader(context, 'Theme'),
           ListTile(
             key: const ValueKey('theme_settings_tile'),
@@ -81,11 +85,21 @@ class AppearanceSettingsPage extends ConsumerWidget {
               );
             },
           ),
-          // const SizedBox(height: 8),
-          // const Divider(),
+          SwitchListTile(
+            key: const ValueKey('pure_black_switch'),
+            secondary: const Icon(Icons.dark_mode_outlined),
+            title: const Text('Pure black (AMOLED)'),
+            subtitle: const Text('Use pitch black for dark mode backgrounds'),
+            value: themePref.isAmoled,
+            onChanged: (val) {
+              ref.read(appThemePreferenceProvider.notifier).setAmoled(val);
+            },
+          ),
+          const SizedBox(height: 8),
+          const Divider(),
 
-          // ── Display Section ───────────────────────────────────────────────
-          _buildSectionHeader(context, 'Display'),
+          // ── VIEW OPTIONS ──────────────────────────────────────────────────
+          _buildSectionHeader(context, 'View options'),
           PreferencePickerRow<ListDensity>(
             key: const ValueKey('display_density_card'),
             title: 'Display density',
@@ -112,6 +126,94 @@ class AppearanceSettingsPage extends ConsumerWidget {
             ],
             onChanged: (val) {
               ref.read(listDensityProvider.notifier).setDensity(val);
+            },
+          ),
+          SwitchListTile(
+            key: const ValueKey('show_tags_switch'),
+            secondary: const Icon(Icons.sell_outlined),
+            title: const Text('Show tags on cards'),
+            subtitle: const Text('Display tag chips on word cards'),
+            value: showTags,
+            onChanged: (val) {
+              ref.read(showCardTagsProvider.notifier).set(val);
+            },
+          ),
+          SwitchListTile(
+            key: const ValueKey('show_type_badges_switch'),
+            secondary: const Icon(Icons.label_outline_rounded),
+            title: const Text('Show type badges'),
+            subtitle: const Text(
+              'Display Word, Phrase, Idiom, or Quote badges',
+            ),
+            value: showTypeBadges,
+            onChanged: (val) {
+              ref.read(showTypeBadgesProvider.notifier).set(val);
+            },
+          ),
+          const SizedBox(height: 8),
+          const Divider(),
+
+          // ── TYPOGRAPHY ────────────────────────────────────────────────────
+          _buildSectionHeader(context, 'Typography'),
+          PreferencePickerRow<AppFontFamily>(
+            key: const ValueKey('font_family_picker_row'),
+            title: 'Font style',
+            icon: Icons.font_download_outlined,
+            currentValue: fontFamilyPref,
+            currentLabel: fontFamilyPref.label,
+            sheetTitle: 'Font style',
+            options: const [
+              PreferencePickerOption(
+                value: AppFontFamily.system,
+                label: 'System (Default)',
+                description: 'Clean, modern sans-serif typeface',
+              ),
+              PreferencePickerOption(
+                value: AppFontFamily.serif,
+                label: 'Serif (Literary)',
+                description: 'Classic editorial serif, great for reading',
+              ),
+              PreferencePickerOption(
+                value: AppFontFamily.monospace,
+                label: 'Monospace',
+                description: 'Fixed-width technical font',
+              ),
+            ],
+            onChanged: (val) {
+              ref.read(fontFamilyPreferenceProvider.notifier).setFont(val);
+            },
+          ),
+          PreferencePickerRow<AppTextScale>(
+            key: const ValueKey('text_scale_picker_row'),
+            title: 'Text size',
+            icon: Icons.format_size_rounded,
+            currentValue: textScalePref,
+            currentLabel: textScalePref.label,
+            sheetTitle: 'Text size',
+            options: const [
+              PreferencePickerOption(
+                value: AppTextScale.small,
+                label: 'Small (85%)',
+                description: 'Fit more text on screen',
+              ),
+              PreferencePickerOption(
+                value: AppTextScale.normal,
+                label: 'Default (100%)',
+                description: 'Standard balanced readability',
+              ),
+              PreferencePickerOption(
+                value: AppTextScale.large,
+                label: 'Large (115%)',
+                description: 'Larger text for comfortable reading',
+              ),
+              PreferencePickerOption(
+                value: AppTextScale.extraLarge,
+                label: 'Extra Large (130%)',
+                description: 'Maximum legibility',
+              ),
+            ],
+            onChanged: (val) {
+              ref.read(textScalePreferenceProvider.notifier).setScale(val);
             },
           ),
           const SizedBox(height: 16),

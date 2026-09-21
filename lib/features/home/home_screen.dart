@@ -8,6 +8,7 @@ import '../../core/services/database_service.dart';
 import '../../models/lexicon_entry.dart';
 import '../../models/lexicon_type.dart';
 import '../../core/models/app_feature.dart';
+import '../../core/providers/display_preferences_provider.dart';
 import '../../core/providers/feature_flags_provider.dart';
 import '../../widgets/gap.dart';
 import '../../widgets/stat_card.dart';
@@ -148,29 +149,7 @@ class HomeScreen extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          TextConstants.yourTags,
-          style: Theme.of(
-            context,
-          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const Gap.vertical(SizeConstants.space10),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: tags.take(8).map((tag) {
-            return ActionChip(
-              label: Text('#$tag'),
-              onPressed: () => context.push(PathConstants.searchByTag(tag)),
-              visualDensity: VisualDensity.compact,
-            );
-          }).toList(),
-        ),
-      ],
-    );
+    return DashboardTagsSection(tags: tags);
   }
 
   Widget _buildStatsGrid(
@@ -388,29 +367,25 @@ class HomeScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: typeColor.withValues(alpha: isDark ? 0.2 : 0.1),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
+                  Expanded(
                     child: Text(
-                      entry.type.name.toUpperCase(),
-                      style: TextStyle(
-                        color: typeColor,
-                        fontSize: 10,
+                      entry.term,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
+                  const Gap.horizontal(SizeConstants.sm),
                   IconButton(
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
+                    visualDensity: VisualDensity.compact,
                     icon: Icon(
                       entry.isFavorite ? Icons.favorite : Icons.favorite_border,
                       color: entry.isFavorite
@@ -428,16 +403,30 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ],
               ),
+              if (ref.watch(showTypeBadgesProvider)) ...[
+                const Gap.vertical(SizeConstants.xs),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: typeColor.withValues(
+                      alpha: isDark ? 0.2 : 0.1,
+                    ),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    entry.type.name.toUpperCase(),
+                    style: TextStyle(
+                      color: typeColor,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
               const Gap.vertical(SizeConstants.sm),
-              Text(
-                entry.term,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              const Gap.vertical(SizeConstants.xs),
               Text(
                 entry.definition,
                 maxLines: 2,
@@ -481,6 +470,94 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class DashboardTagsSection extends StatefulWidget {
+  final List<String> tags;
+
+  const DashboardTagsSection({super.key, required this.tags});
+
+  @override
+  State<DashboardTagsSection> createState() => _DashboardTagsSectionState();
+}
+
+class _DashboardTagsSectionState extends State<DashboardTagsSection> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tags = widget.tags;
+    if (tags.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    // Restrict to up to 2 or 3 rows max (1 row for <=3, 2 rows for <=7, 3 rows max).
+    // Any further additions scroll horizontally.
+    final int rowCount;
+    if (tags.length <= 3) {
+      rowCount = 1;
+    } else if (tags.length <= 7) {
+      rowCount = 2;
+    } else {
+      rowCount = 3;
+    }
+
+    final List<List<String>> rows = List.generate(rowCount, (_) => []);
+    for (int i = 0; i < tags.length; i++) {
+      rows[i % rowCount].add(tags[i]);
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          TextConstants.yourTags,
+          style: Theme.of(
+            context,
+          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const Gap.vertical(SizeConstants.space10),
+        Scrollbar(
+          controller: _scrollController,
+          thumbVisibility: false,
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (int r = 0; r < rowCount; r++) ...[
+                  if (r > 0) const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      for (final tag in rows[r])
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: ActionChip(
+                            label: Text('#$tag'),
+                            onPressed: () =>
+                                context.push(PathConstants.searchByTag(tag)),
+                            visualDensity: VisualDensity.compact,
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

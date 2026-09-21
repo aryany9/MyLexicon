@@ -1,0 +1,812 @@
+{
+  "version": 1,
+  "exportedAt": "2026-09-21T18:16:45.014224Z",
+  "collections": [
+    {
+      "id": "sample_col_gre",
+      "name": "GRE Master Vocabulary",
+      "description": null,
+      "colorValue": 4284704497,
+      "createdAt": "2026-09-18T18:16:45.014155Z"
+    },
+    {
+      "id": "sample_col_stoic",
+      "name": "Stoic Wisdom & Philosophy",
+      "description": null,
+      "colorValue": 4294286859,
+      "createdAt": "2026-09-19T18:16:45.014163Z"
+    }
+  ],
+  "entries": [
+    {
+      "id": "sample_word_1",
+      "term": "Serendipity",
+      "definition": "Occurrence of events by chance in a happy or beneficial way.",
+      "type": "word",
+      "examples": [
+        "Finding that antique bookstore was pure serendipity."
+      ],
+      "notes": "Coined by Horace Walpole in 1754.",
+      "tags": [
+        "vocab",
+        "advanced",
+        "happiness"
+      ],
+      "collectionId": "sample_col_gre",
+      "collectionIds": [
+        "sample_col_gre"
+      ],
+      "isFavorite": true,
+      "createdAt": "2026-09-21T18:06:45.014166Z"
+    },
+    {
+      "id": "sample_word_2",
+      "term": "Ephemeral",
+      "definition": "Lasting for a very short time; transitory.",
+      "type": "word",
+      "examples": [
+        "Fame in the digital era can be strikingly ephemeral."
+      ],
+      "notes": "From Greek ephemeros, meaning lasting only a day.",
+      "tags": [
+        "literary",
+        "philosophy",
+        "time"
+      ],
+      "collectionId": "sample_col_gre",
+      "collectionIds": [
+        "sample_col_gre"
+      ],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T17:51:45.014166Z"
+    },
+    {
+      "id": "sample_word_3",
+      "term": "Mellifluous",
+      "definition": "Sweet or musical; pleasant to hear.",
+      "type": "word",
+      "examples": [
+        "Her mellifluous voice captivated the entire auditorium."
+      ],
+      "notes": "From Latin mel (honey) and fluere (to flow).",
+      "tags": [
+        "sound",
+        "aesthetic",
+        "vocab"
+      ],
+      "collectionId": "sample_col_gre",
+      "collectionIds": [
+        "sample_col_gre"
+      ],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T17:36:45.014166Z"
+    },
+    {
+      "id": "sample_word_4",
+      "term": "Petrichor",
+      "definition": "The pleasant, earthy scent that accompanies the first rain after a dry spell.",
+      "type": "word",
+      "examples": [
+        "The sweet petrichor filled the evening breeze after months of summer drought."
+      ],
+      "notes": "Coined in 1964 by Australian researchers.",
+      "tags": [
+        "nature",
+        "sensory",
+        "weather"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": true,
+      "createdAt": "2026-09-21T17:21:45.014166Z"
+    },
+    {
+      "id": "sample_word_5",
+      "term": "Ineffable",
+      "definition": "Too great, powerful, or beautiful to be expressed in words.",
+      "type": "word",
+      "examples": [
+        "Standing atop the Himalayan summit gave him a sense of ineffable wonder."
+      ],
+      "notes": "Frequently used in mystical and philosophical texts.",
+      "tags": [
+        "emotions",
+        "spirituality",
+        "advanced"
+      ],
+      "collectionId": "sample_col_gre",
+      "collectionIds": [
+        "sample_col_gre"
+      ],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T17:01:45.014166Z"
+    },
+    {
+      "id": "sample_word_6",
+      "term": "Sycophant",
+      "definition": "A person who acts obsequiously toward someone important in order to gain advantage.",
+      "type": "word",
+      "examples": [
+        "Surrounded by sycophants, the emperor never heard an honest critique."
+      ],
+      "notes": "Often tested on GRE, SAT, and vocabulary exams.",
+      "tags": [
+        "character",
+        "politics",
+        "vocabulary"
+      ],
+      "collectionId": "sample_col_gre",
+      "collectionIds": [
+        "sample_col_gre"
+      ],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T16:36:45.014166Z"
+    },
+    {
+      "id": "sample_word_7",
+      "term": "Equanimity",
+      "definition": "Mental calmness, composure, and evenness of temper, especially in a difficult situation.",
+      "type": "word",
+      "examples": [
+        "She accepted both praise and harsh criticism with admirable equanimity."
+      ],
+      "notes": "Core virtue in Stoic and Buddhist philosophy.",
+      "tags": [
+        "stoicism",
+        "virtue",
+        "mindset"
+      ],
+      "collectionId": "sample_col_stoic",
+      "collectionIds": [
+        "sample_col_stoic"
+      ],
+      "isFavorite": true,
+      "createdAt": "2026-09-21T16:06:45.014166Z"
+    },
+    {
+      "id": "sample_word_8",
+      "term": "Ubiquitous",
+      "definition": "Present, appearing, or found everywhere simultaneously.",
+      "type": "word",
+      "examples": [
+        "Smartphones have become ubiquitous across the globe."
+      ],
+      "notes": "Derived from Latin ubique, meaning everywhere.",
+      "tags": [
+        "technology",
+        "daily",
+        "modern"
+      ],
+      "collectionId": "sample_col_gre",
+      "collectionIds": [
+        "sample_col_gre"
+      ],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T15:31:45.014166Z"
+    },
+    {
+      "id": "sample_word_9",
+      "term": "Luminescence",
+      "definition": "Emission of light by a substance not resulting from heat.",
+      "type": "word",
+      "examples": [
+        "Deep-sea jellyfish display mesmerizing bioluminescence in the abyss."
+      ],
+      "notes": "Includes fluorescence and phosphorescence.",
+      "tags": [
+        "science",
+        "nature",
+        "visual"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T14:56:45.014166Z"
+    },
+    {
+      "id": "sample_word_10",
+      "term": "Resilience",
+      "definition": "The capacity to withstand or recover quickly from difficult conditions.",
+      "type": "word",
+      "examples": [
+        "The team demonstrated remarkable resilience throughout the challenging season."
+      ],
+      "notes": "From Latin resilire, to spring back.",
+      "tags": [
+        "character",
+        "psychology",
+        "growth"
+      ],
+      "collectionId": "sample_col_stoic",
+      "collectionIds": [
+        "sample_col_stoic"
+      ],
+      "isFavorite": true,
+      "createdAt": "2026-09-21T14:16:45.014166Z"
+    },
+    {
+      "id": "sample_phrase_1",
+      "term": "Ad infinitum",
+      "definition": "Again and again in the same way; forever or without end.",
+      "type": "phrase",
+      "examples": [
+        "They debated the proposed policy ad infinitum without reaching consensus."
+      ],
+      "notes": "Latin phrase widely used in legal and academic arguments.",
+      "tags": [
+        "latin",
+        "formal",
+        "logic"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T13:46:45.014166Z"
+    },
+    {
+      "id": "sample_phrase_2",
+      "term": "Bona fide",
+      "definition": "Undertaken in good faith; genuine, real, without fraud.",
+      "type": "phrase",
+      "examples": [
+        "She made a bona fide effort to resolve the dispute before filing suit."
+      ],
+      "notes": "Latin for \"with good faith\".",
+      "tags": [
+        "law",
+        "formal",
+        "business"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": true,
+      "createdAt": "2026-09-21T13:16:45.014166Z"
+    },
+    {
+      "id": "sample_phrase_3",
+      "term": "Carpe diem",
+      "definition": "Seize the day; make the most of the present moment with little concern for the future.",
+      "type": "phrase",
+      "examples": [
+        "Remember carpe diem when hesitating to pursue your passions."
+      ],
+      "notes": "Originated in Roman poet Horace’s Odes (23 BC).",
+      "tags": [
+        "latin",
+        "motivation",
+        "philosophy"
+      ],
+      "collectionId": "sample_col_stoic",
+      "collectionIds": [
+        "sample_col_stoic"
+      ],
+      "isFavorite": true,
+      "createdAt": "2026-09-21T12:36:45.014166Z"
+    },
+    {
+      "id": "sample_phrase_4",
+      "term": "Status quo",
+      "definition": "The existing state of affairs, especially regarding social, cultural, or political issues.",
+      "type": "phrase",
+      "examples": [
+        "The innovative startup actively sought to disrupt the industry status quo."
+      ],
+      "notes": "Short for status quo ante (the state before the war).",
+      "tags": [
+        "politics",
+        "business",
+        "society"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T12:01:45.014166Z"
+    },
+    {
+      "id": "sample_phrase_5",
+      "term": "Tabula rasa",
+      "definition": "An absence of preconceived ideas or predetermined goals; a clean slate.",
+      "type": "phrase",
+      "examples": [
+        "The new design lead treated the legacy product architecture as a tabula rasa."
+      ],
+      "notes": "Popularized by John Locke in An Essay Concerning Human Understanding.",
+      "tags": [
+        "philosophy",
+        "psychology",
+        "education"
+      ],
+      "collectionId": "sample_col_stoic",
+      "collectionIds": [
+        "sample_col_stoic"
+      ],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T11:16:45.014166Z"
+    },
+    {
+      "id": "sample_phrase_6",
+      "term": "De facto",
+      "definition": "Existing in fact or practice, whether recognized by formal law or not.",
+      "type": "phrase",
+      "examples": [
+        "Although not officially the director, he became the de facto leader of the initiative."
+      ],
+      "notes": "Contrast with de jure (by legal right).",
+      "tags": [
+        "law",
+        "business",
+        "governance"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T10:16:45.014166Z"
+    },
+    {
+      "id": "sample_phrase_7",
+      "term": "Modus operandi",
+      "definition": "A particular way or method of doing something, especially one that is distinctive.",
+      "type": "phrase",
+      "examples": [
+        "The detective recognized the serial burglar by his signature modus operandi."
+      ],
+      "notes": "Often abbreviated as M.O.",
+      "tags": [
+        "investigation",
+        "methodology",
+        "formal"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T09:16:45.014166Z"
+    },
+    {
+      "id": "sample_phrase_8",
+      "term": "Prima facie",
+      "definition": "Based on first impression; accepted as correct until proved otherwise.",
+      "type": "phrase",
+      "examples": [
+        "The bank statements provided prima facie evidence of financial fraud."
+      ],
+      "notes": "Latin meaning \"at first face\".",
+      "tags": [
+        "law",
+        "logic",
+        "formal"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T08:16:45.014166Z"
+    },
+    {
+      "id": "sample_phrase_9",
+      "term": "Quid pro quo",
+      "definition": "A favor, benefit, or advantage granted in return for something of equivalent value.",
+      "type": "phrase",
+      "examples": [
+        "The treaty negotiation involved an intricate quid pro quo between the nations."
+      ],
+      "notes": "Latin for \"something for something\".",
+      "tags": [
+        "negotiation",
+        "business",
+        "politics"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T07:16:45.014166Z"
+    },
+    {
+      "id": "sample_phrase_10",
+      "term": "Vox populi",
+      "definition": "The opinion or beliefs of the majority; the voice of the general public.",
+      "type": "phrase",
+      "examples": [
+        "Editorial columns often claim to speak directly for the vox populi."
+      ],
+      "notes": "From the proverb \"Vox populi, vox Dei\" (The voice of the people is the voice of God).",
+      "tags": [
+        "journalism",
+        "politics",
+        "society"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T06:16:45.014166Z"
+    },
+    {
+      "id": "sample_idiom_1",
+      "term": "Bite the bullet",
+      "definition": "To face a grim or difficult situation with fortitude and courage.",
+      "type": "idiom",
+      "examples": [
+        "She decided to bite the bullet and give the critical presentation to senior executives."
+      ],
+      "notes": "Historically arose from soldiers biting lead bullets during battlefield surgery.",
+      "tags": [
+        "courage",
+        "action",
+        "colloquial"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": true,
+      "createdAt": "2026-09-21T05:16:45.014166Z"
+    },
+    {
+      "id": "sample_idiom_2",
+      "term": "Break the ice",
+      "definition": "To relieve tension, stiffness, or awkwardness in a social gathering.",
+      "type": "idiom",
+      "examples": [
+        "A humorous trivia question helped break the ice among unfamiliar teammates."
+      ],
+      "notes": "Refers to icebreaker ships carving paths for other vessels.",
+      "tags": [
+        "conversation",
+        "social",
+        "humor"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T04:16:45.014166Z"
+    },
+    {
+      "id": "sample_idiom_3",
+      "term": "Burn the midnight oil",
+      "definition": "To work, study, or read late into the night with intense focus.",
+      "type": "idiom",
+      "examples": [
+        "Engineers burned the midnight oil to deploy the patch before market opening."
+      ],
+      "notes": "Refers to burning oil in lamps before the advent of electricity.",
+      "tags": [
+        "effort",
+        "work",
+        "study"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T03:16:45.014166Z"
+    },
+    {
+      "id": "sample_idiom_4",
+      "term": "Hit the nail on the head",
+      "definition": "To identify or describe the exact root cause of a problem accurately.",
+      "type": "idiom",
+      "examples": [
+        "Her concise audit of customer churn hit the nail on the head."
+      ],
+      "notes": "Craftsmanship idiom dating back to the 16th century.",
+      "tags": [
+        "accuracy",
+        "feedback",
+        "communication"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": true,
+      "createdAt": "2026-09-21T02:16:45.014166Z"
+    },
+    {
+      "id": "sample_idiom_5",
+      "term": "Let the cat out of the bag",
+      "definition": "To reveal a secret or confidential piece of information, often accidentally.",
+      "type": "idiom",
+      "examples": [
+        "David accidentally let the cat out of the bag regarding Maya’s promotion."
+      ],
+      "notes": "Origin debated; commonly linked to marketplace livestock deception.",
+      "tags": [
+        "secrets",
+        "mistake",
+        "social"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T01:16:45.014166Z"
+    },
+    {
+      "id": "sample_idiom_6",
+      "term": "Piece of cake",
+      "definition": "A task or job that is remarkably simple and easy to do.",
+      "type": "idiom",
+      "examples": [
+        "After weeks of exhaustive study, the introductory exam was a piece of cake."
+      ],
+      "notes": "Originated in 1930s colloquial American and British English.",
+      "tags": [
+        "ease",
+        "confidence",
+        "informal"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-21T00:16:45.014166Z"
+    },
+    {
+      "id": "sample_idiom_7",
+      "term": "Steal someone's thunder",
+      "definition": "To pre-empt someone by doing or saying what they had planned, taking the praise.",
+      "type": "idiom",
+      "examples": [
+        "Announcing the product launch ahead of her keynote stole her thunder."
+      ],
+      "notes": "Attributed to dramatist John Dennis in 1709 whose theater thunder device was copied.",
+      "tags": [
+        "competition",
+        "workplace",
+        "recognition"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-20T23:16:45.014166Z"
+    },
+    {
+      "id": "sample_idiom_8",
+      "term": "Take with a grain of salt",
+      "definition": "To view something with a healthy degree of skepticism rather than full acceptance.",
+      "type": "idiom",
+      "examples": [
+        "Sensational online headlines should always be taken with a grain of salt."
+      ],
+      "notes": "From Latin \"cum grano salis\", mentioned by Pliny the Elder in 77 AD.",
+      "tags": [
+        "skepticism",
+        "wisdom",
+        "critical-thinking"
+      ],
+      "collectionId": "sample_col_stoic",
+      "collectionIds": [
+        "sample_col_stoic"
+      ],
+      "isFavorite": true,
+      "createdAt": "2026-09-20T22:16:45.014166Z"
+    },
+    {
+      "id": "sample_idiom_9",
+      "term": "Through the grapevine",
+      "definition": "Via gossip, informal hearsay, or rumors passed from person to person.",
+      "type": "idiom",
+      "examples": [
+        "I heard through the grapevine that a major merger is being finalized."
+      ],
+      "notes": "Traced back to the American Civil War telegraph lines that looked like grapevines.",
+      "tags": [
+        "rumors",
+        "workplace",
+        "communication"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-20T21:16:45.014166Z"
+    },
+    {
+      "id": "sample_idiom_10",
+      "term": "Under the weather",
+      "definition": "Feeling slightly ill, indisposed, or lacking usual energy.",
+      "type": "idiom",
+      "examples": [
+        "He skipped the dinner banquet because he was feeling a bit under the weather."
+      ],
+      "notes": "Nautical origin: sailors retreated below deck in bad weather to rest.",
+      "tags": [
+        "health",
+        "daily",
+        "courtesy"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-20T20:16:45.014166Z"
+    },
+    {
+      "id": "sample_quote_1",
+      "term": "Knowing You Know Nothing",
+      "definition": "The only true wisdom is in knowing you know nothing.",
+      "type": "quote",
+      "examples": [
+        "Socrates"
+      ],
+      "notes": "Reflecting the Socratic paradox recorded in Plato’s Apology.",
+      "tags": [
+        "philosophy",
+        "wisdom",
+        "humility"
+      ],
+      "collectionId": "sample_col_stoic",
+      "collectionIds": [
+        "sample_col_stoic"
+      ],
+      "isFavorite": true,
+      "createdAt": "2026-09-20T19:16:45.014166Z"
+    },
+    {
+      "id": "sample_quote_2",
+      "term": "Be The Change",
+      "definition": "Be the change that you wish to see in the world.",
+      "type": "quote",
+      "examples": [
+        "Mahatma Gandhi"
+      ],
+      "notes": "Inspiring personal agency and moral leadership.",
+      "tags": [
+        "inspiration",
+        "leadership",
+        "action"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": true,
+      "createdAt": "2026-09-20T17:16:45.014166Z"
+    },
+    {
+      "id": "sample_quote_3",
+      "term": "Opportunity in Difficulty",
+      "definition": "In the middle of difficulty lies opportunity.",
+      "type": "quote",
+      "examples": [
+        "Albert Einstein"
+      ],
+      "notes": "Encouraging a growth mindset during adversity.",
+      "tags": [
+        "optimism",
+        "science",
+        "perseverance"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-20T16:16:45.014166Z"
+    },
+    {
+      "id": "sample_quote_4",
+      "term": "The Power of Persistence",
+      "definition": "It does not matter how slowly you go as long as you do not stop.",
+      "type": "quote",
+      "examples": [
+        "Confucius"
+      ],
+      "notes": "Timeless Eastern philosophy on continuous steady progress.",
+      "tags": [
+        "persistence",
+        "discipline",
+        "life"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-20T15:16:45.014166Z"
+    },
+    {
+      "id": "sample_quote_5",
+      "term": "The Unexamined Life",
+      "definition": "The unexamined life is not worth living.",
+      "type": "quote",
+      "examples": [
+        "Socrates"
+      ],
+      "notes": "Uttered at Socrates’ trial in Athens.",
+      "tags": [
+        "philosophy",
+        "reflection",
+        "truth"
+      ],
+      "collectionId": "sample_col_stoic",
+      "collectionIds": [
+        "sample_col_stoic"
+      ],
+      "isFavorite": true,
+      "createdAt": "2026-09-20T14:16:45.014166Z"
+    },
+    {
+      "id": "sample_quote_6",
+      "term": "Stay Hungry, Stay Foolish",
+      "definition": "Stay hungry. Stay foolish. Never settle for what is comfortable.",
+      "type": "quote",
+      "examples": [
+        "Steve Jobs (Stanford Commencement, 2005)"
+      ],
+      "notes": "Originally published on the back cover of the Whole Earth Catalog in 1974.",
+      "tags": [
+        "innovation",
+        "curiosity",
+        "ambition"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": true,
+      "createdAt": "2026-09-20T13:16:45.014166Z"
+    },
+    {
+      "id": "sample_quote_7",
+      "term": "Happiness Depends on Ourselves",
+      "definition": "Happiness depends upon ourselves.",
+      "type": "quote",
+      "examples": [
+        "Aristotle"
+      ],
+      "notes": "From Nicomachean Ethics regarding eudaimonia.",
+      "tags": [
+        "stoicism",
+        "happiness",
+        "mindset"
+      ],
+      "collectionId": "sample_col_stoic",
+      "collectionIds": [
+        "sample_col_stoic"
+      ],
+      "isFavorite": false,
+      "createdAt": "2026-09-20T12:16:45.014166Z"
+    },
+    {
+      "id": "sample_quote_8",
+      "term": "Not All Who Wander",
+      "definition": "Not all those who wander are lost.",
+      "type": "quote",
+      "examples": [
+        "J.R.R. Tolkien (The Fellowship of the Ring)"
+      ],
+      "notes": "From the poem \"All that is gold does not glitter\".",
+      "tags": [
+        "literature",
+        "journey",
+        "adventure"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": true,
+      "createdAt": "2026-09-20T11:16:45.014166Z"
+    },
+    {
+      "id": "sample_quote_9",
+      "term": "A Why to Live",
+      "definition": "He who has a why to live can bear almost any how.",
+      "type": "quote",
+      "examples": [
+        "Friedrich Nietzsche"
+      ],
+      "notes": "Quoted extensively by Viktor Frankl in Man’s Search for Meaning.",
+      "tags": [
+        "meaning",
+        "resilience",
+        "existentialism"
+      ],
+      "collectionId": "sample_col_stoic",
+      "collectionIds": [
+        "sample_col_stoic"
+      ],
+      "isFavorite": true,
+      "createdAt": "2026-09-20T10:16:45.014166Z"
+    },
+    {
+      "id": "sample_quote_10",
+      "term": "Ultimate Sophistication",
+      "definition": "Simplicity is the ultimate sophistication.",
+      "type": "quote",
+      "examples": [
+        "Leonardo da Vinci"
+      ],
+      "notes": "Guiding principle in timeless architecture, design, and writing.",
+      "tags": [
+        "design",
+        "art",
+        "clarity"
+      ],
+      "collectionId": null,
+      "collectionIds": [],
+      "isFavorite": false,
+      "createdAt": "2026-09-20T09:16:45.014166Z"
+    }
+  ]
+}

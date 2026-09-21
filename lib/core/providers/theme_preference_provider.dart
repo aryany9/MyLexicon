@@ -17,12 +17,14 @@ class AppThemePreferenceNotifier extends StateNotifier<AppThemePreference> {
   static const _modeKey = 'app_theme_mode';
   static const _lightThemeKey = 'app_light_theme';
   static const _darkThemeKey = 'app_dark_theme';
+  static const _isAmoledKey = 'app_theme_is_amoled';
 
   Future<void> _load() async {
     final prefs = await SharedPreferences.getInstance();
     final modeStr = prefs.getString(_modeKey);
     final lightThemeStr = prefs.getString(_lightThemeKey);
     final darkThemeStr = prefs.getString(_darkThemeKey);
+    final isAmoled = prefs.getBool(_isAmoledKey) ?? false;
 
     ThemeMode mode = state.mode;
     if (modeStr != null) {
@@ -52,6 +54,7 @@ class AppThemePreferenceNotifier extends StateNotifier<AppThemePreference> {
       mode: mode,
       lightThemeName: lightThemeName,
       darkThemeName: darkThemeName,
+      isAmoled: isAmoled,
     );
   }
 
@@ -73,5 +76,11 @@ class AppThemePreferenceNotifier extends StateNotifier<AppThemePreference> {
     state = state.copyWith(darkThemeName: name);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_darkThemeKey, name.name);
+  }
+
+  Future<void> setAmoled(bool isAmoled) async {
+    state = state.copyWith(isAmoled: isAmoled);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_isAmoledKey, isAmoled);
   }
 }

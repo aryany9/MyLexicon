@@ -5,22 +5,26 @@ class AppThemePreference {
   final ThemeMode mode;
   final AppThemeName lightThemeName;
   final AppThemeName darkThemeName;
+  final bool isAmoled;
 
   const AppThemePreference({
     this.mode = ThemeMode.system,
     this.lightThemeName = AppThemeName.defaultLight,
     this.darkThemeName = AppThemeName.defaultDark,
+    this.isAmoled = false,
   });
 
   AppThemePreference copyWith({
     ThemeMode? mode,
     AppThemeName? lightThemeName,
     AppThemeName? darkThemeName,
+    bool? isAmoled,
   }) {
     return AppThemePreference(
       mode: mode ?? this.mode,
       lightThemeName: lightThemeName ?? this.lightThemeName,
       darkThemeName: darkThemeName ?? this.darkThemeName,
+      isAmoled: isAmoled ?? this.isAmoled,
     );
   }
 
@@ -30,9 +34,11 @@ class AppThemePreference {
     return other is AppThemePreference &&
         other.mode == mode &&
         other.lightThemeName == lightThemeName &&
-        other.darkThemeName == darkThemeName;
+        other.darkThemeName == darkThemeName &&
+        other.isAmoled == isAmoled;
   }
 
   @override
-  int get hashCode => Object.hash(mode, lightThemeName, darkThemeName);
+  int get hashCode =>
+      Object.hash(mode, lightThemeName, darkThemeName, isAmoled);
 }

@@ -108,4 +108,50 @@ void main() {
     // Bottom sheet is dismissed
     expect(find.byKey(const ValueKey('preference_picker_close_button')), findsNothing);
   });
+
+  testWidgets(
+      'AppearanceSettingsPage renders AMOLED, tags, badges switches and typography rows',
+      (tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(buildTestApp());
+    await tester.pumpAndSettle();
+
+    // Verify switches
+    expect(find.byKey(const ValueKey('pure_black_switch')), findsOneWidget);
+    expect(find.text('Pure black (AMOLED)'), findsOneWidget);
+
+    expect(find.byKey(const ValueKey('show_tags_switch')), findsOneWidget);
+    expect(find.text('Show tags on cards'), findsOneWidget);
+
+    expect(find.byKey(const ValueKey('show_type_badges_switch')), findsOneWidget);
+    expect(find.text('Show type badges'), findsOneWidget);
+
+    // Toggle switches
+    await tester.tap(find.byKey(const ValueKey('pure_black_switch')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('show_tags_switch')));
+    await tester.pumpAndSettle();
+
+    // Verify Typography pickers
+    expect(find.byKey(const ValueKey('font_family_picker_row')), findsOneWidget);
+    expect(find.text('Font style'), findsOneWidget);
+
+    expect(find.byKey(const ValueKey('text_scale_picker_row')), findsOneWidget);
+    expect(find.text('Text size'), findsOneWidget);
+
+    // Tap Font style to open bottom sheet
+    await tester.tap(find.byKey(const ValueKey('font_family_picker_row')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Serif (Literary)'), findsOneWidget);
+    await tester.tap(find.text('Serif (Literary)'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Serif (Literary)'), findsWidgets);
+  });
 }
