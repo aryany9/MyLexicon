@@ -1,0 +1,15 @@
+Version 1.3.0
+
+Added:
+• Named Theme Palettes: 8+ editor-inspired theme palettes (Default Light/Dark, Solarized Light/Dark, Abyss, Kimbie Dark, Monokai, One Light, Quiet Light).
+• Dual-Slot Theme Customization: Independent palette selection for light mode and dark mode with automatic system brightness resolution.
+• Interactive Theme Swatches: Visual horizontal swatch selector in Appearance settings showing background, surface, and accent colors.
+• Theme Preference Persistence: Persistent state management for theme mode and palette choices.
+• Unit Tests for Theme System: Comprehensive test suite covering palette registry, filters, and persistence.
+• OpenSpec Prompts and Skills: Prompt templates and skill sets for OpenSpec workflows.
+
+Changed:
+• Material 3 Navigation Bar Migration: Upgraded to Material 3 NavigationBar with solid accent pill indicator and improved density.
+• System Navigation Bar Theming: Harmonized Android system navigation bar color with app navigation bar.
+• Dropdown & Card Styling Polish: Modernized Navigation settings dropdown and themed card styling.
+• Removed legacy static themes in favor of theme registry.

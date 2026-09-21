@@ -65,7 +65,9 @@ class DatabaseService {
   // --- Lexicon Entries CRUD ---
 
   List<LexiconEntry> getEntries() {
-    return _entriesBox.values.toList();
+    final list = _entriesBox.values.toList();
+    list.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    return list;
   }
 
   Future<void> saveEntry(LexiconEntry entry) async {

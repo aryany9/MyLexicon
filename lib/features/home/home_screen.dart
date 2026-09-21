@@ -102,8 +102,10 @@ class HomeScreen extends ConsumerWidget {
                         if (entries.isEmpty) {
                           return _buildEmptyState(context);
                         }
-                        // Limit to top 5 recent entries
-                        final recent = entries.take(5).toList();
+                        // Sort by newest first and limit to top 5 recent entries
+                        final sorted = List<LexiconEntry>.from(entries)
+                          ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+                        final recent = sorted.take(5).toList();
                         return ListView.separated(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
