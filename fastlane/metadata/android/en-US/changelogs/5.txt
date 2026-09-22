@@ -1,0 +1,8 @@
+v1.3.1 – Patches & Polish
+
+• Multi-select batch delete in category lists (long-press to enter selection mode)
+• Modernized Settings/Appearance with bottom-sheet pickers for theme, density, AMOLED, tags & badges
+• Compact entry card mode for denser list browsing
+• Fixed: back button after dismissing delete dialog no longer exits the app (Android 14)
+• Fixed: back from any tab now returns to Dashboard before exiting
+• Fixed: Settings back button navigates to Dashboard correctly
