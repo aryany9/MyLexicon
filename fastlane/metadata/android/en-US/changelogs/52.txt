@@ -1,0 +1,17 @@
+Version 1.3.1
+
+Added:
+• About Page: Version info, GitHub link, bug report shortcut, open-source licenses, and attribution — all in one place.
+• Multi-Select Batch Delete: Long-press entries in category lists to enter selection mode, then batch-delete with confirmation.
+• Compact WordsCard Mode: Entry cards adapt to a compact layout when list density is set to Compact.
+• Blurred FanOutFab Backdrop: Frosted-glass blur behind expanded FAB action buttons.
+
+Changed:
+• Modernized Settings/Appearance UI: Theme, density, AMOLED, tags & badge preferences now use bottom-sheet pickers.
+• About tile in Settings root shows app version as subtitle (e.g. v1.3.1) for a quick glance.
+
+Fixed:
+• Back button after dismissing delete dialog no longer exits the app on Android 14.
+• Back from any tab now returns to Dashboard before exiting.
+• Settings back button navigates to Dashboard correctly.
+• External links (GitHub etc.) now open correctly on Android 11+.
