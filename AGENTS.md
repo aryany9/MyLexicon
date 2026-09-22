@@ -50,6 +50,37 @@ All three files should have identical content. Copy from one:
 cp 51.txt 52.txt && cp 51.txt 53.txt
 ```
 
+### default.txt — fallback changelog
+`fastlane/metadata/android/en-US/changelogs/default.txt` is shown by Fastlane when no version-specific changelog file exists for a given versionCode.
+
+**Rules:**
+- **Never put version-specific content in `default.txt`** — it would show stale release notes for future versions that are missing their 51/52/53 files.
+- Keep it as a **generic, evergreen app description** that is always accurate regardless of version.
+- Point to the GitHub CHANGELOG for users who want full release details.
+
+Current content (do not make version-specific):
+```
+My Lexicon — your personal knowledge companion.
+
+Save and organize words, quotes, phrases, idioms, collections, and more in one place.
+
+See the full changelog at:
+https://github.com/aryany9/MyLexicon/blob/main/CHANGELOG.md
+```
+
+### Store descriptions — use HTML, not Markdown
+`fastlane/metadata/android/en-US/full_description.txt` is submitted to F-Droid and the Play Store. These platforms render **HTML**, not Markdown.
+
+**Rules:**
+- Use `<p>`, `<b>`, `<i>`, `<ul>`, `<li>` etc. — never `**bold**`, `# headings`, or `- bullets`.
+- `short_description.txt` is plain text only (no HTML, no Markdown) — 80 character limit.
+
+Example of correct `full_description.txt` format:
+```html
+<p><b>My Lexicon</b> is an <b>open-source</b> personal dictionary app for Android.</p>
+<p>Save words, quotes, phrases, idioms, and collections — all stored 100% locally.</p>
+```
+
 ### F-Droid metadata file
 Located at: `/Users/aryanyadav/Documents/Development/fdroiddata/metadata/com.aryanyadav.mylexicon.yml`
 
