@@ -25,7 +25,7 @@ No account. No internet. No compromise.
 &nbsp;
 [![Obtainium](https://img.shields.io/badge/Get%20it%20on-Obtainium-7B2FBE?style=for-the-badge&logo=obtainium)](https://apps.obtainium.imranr.dev/redirect.html?r=obtainium://add/https://github.com/aryany9/MyLexicon)
 &nbsp;
-[![F-Droid](https://img.shields.io/badge/Coming%20Soon-F--Droid-1976D2?style=for-the-badge&logo=fdroid)](https://f-droid.org)
+[![F-Droid](https://img.shields.io/badge/Get%20it%20on-F--Droid-1976D2?style=for-the-badge&logo=fdroid)](https://f-droid.org/packages/com.aryanyadav.mylexicon)
 
 </div>
 
@@ -53,7 +53,8 @@ No account. No internet. No compromise.
 | **Custom Dictionary** | Save words, phrases, idioms, quotes, and personal notes with examples and tags |
 | **Collections** | Group entries into named collections with membership tracking |
 | **Favorites** | Star entries for quick access and filter by favorites across all tabs |
-| **Contextual FAB** | Fan-out floating action button adapts to your enabled categories |
+| **Contextual FAB** | Fan-out floating action button with frosted-glass backdrop, adapts to your enabled categories |
+| **Multi-Select Batch Delete** | Long-press any entry to enter selection mode; select all or individually, then delete with confirmation |
 
 ### ⚙️ Customization
 
@@ -62,15 +63,18 @@ No account. No internet. No compromise.
 | **Category Toggles** | Enable/disable Words, Phrases, Idioms, Quotes, or Collections system-wide |
 | **Tab Reordering** | Drag-and-drop navigation tab ordering in Settings |
 | **Default Launch Tab** | Choose which screen opens when you start the app |
-| **Nested Settings** | Clean sub-pages: Appearance · Navigation & Features · Tags · Data |
+| **Nested Settings** | Clean sub-pages: Appearance · Navigation & Features · Tags · Data · About |
 
 ### 🎨 Display Preferences
 
 | Feature | Description |
 |---|---|
+| **Named Theme Palettes** | 8+ editor-inspired palettes (Default, Solarized, Abyss, Kimbie Dark, Monokai, One Light, Quiet Light) |
+| **Dual-Slot Theme** | Independent palette selection for light mode and dark mode |
 | **Per-Tab Sorting** | Sort each category independently: Newest, Oldest, A–Z, Z–A |
-| **List Density** | Choose Compact, Comfortable, or Detailed card layouts globally |
-| **Material 3 Themes** | Light, dark, and system-default themes with modern Material You design |
+| **List Density** | Compact, Comfortable, or Detailed card layouts |
+| **AMOLED Black** | True black background for AMOLED displays |
+| **Tags & Badge Display** | Toggle tag chips and entry-type badges on cards |
 
 ### 💾 Data & Privacy
 
@@ -80,6 +84,14 @@ No account. No internet. No compromise.
 | **JSON Backup & Restore** | One-tap full database export/import with conflict resolution (Skip / Overwrite / Merge) |
 | **CSV Exchange** | Export and import entries via CSV, preserving collection structure |
 | **Offline-First** | 100% local storage via Hive — no account, no network, no cloud |
+
+### 📱 Android-Native Behaviour
+
+| Feature | Description |
+|---|---|
+| **Dashboard-First Back Navigation** | Back from any tab returns to Dashboard before exiting the app |
+| **Android 14 Predictive Back** | Confirmation dialogs and selection mode work correctly with Android 14's predictive back gesture |
+| **About Page** | Dynamic version display, GitHub links, open-source licenses viewer |
 
 ---
 
@@ -92,8 +104,10 @@ No account. No internet. No compromise.
 | **Navigation** | GoRouter (`go_router ^17.3.0`) |
 | **Local Database** | Hive + Hive Flutter |
 | **Preferences** | Shared Preferences |
-| **File I/O** | `file_picker` · `share_plus` · `path_provider` · `csv` |
+| **File I/O** | `file_picker ^12` · `share_plus` · `path_provider` · `csv` |
 | **Internationalization** | `intl` |
+| **App Info** | `package_info_plus` (dynamic version display) |
+| **External Links** | `url_launcher` |
 | **Target Platform** | Android (Min SDK 21) |
 
 ---
@@ -123,10 +137,12 @@ lib/
 │       ├── import_preview_screen.dart
 │       ├── settings_screen.dart
 │       └── sub_pages/
+│           ├── about_settings_page.dart
 │           ├── appearance_settings_page.dart
 │           ├── data_settings_page.dart
 │           ├── navigation_settings_page.dart
-│           └── tags_settings_page.dart
+│           ├── tags_settings_page.dart
+│           └── theme_settings_page.dart
 ├── models/
 ├── routes/
 └── widgets/
@@ -184,8 +200,8 @@ flutter run
 **5. Build release binaries**
 
 ```bash
-# Android APK
-flutter build apk --release
+# Android APK (split per ABI)
+flutter build apk --release --split-per-abi
 
 # Android App Bundle (for Play Store)
 flutter build appbundle --release
@@ -205,6 +221,7 @@ Please ensure your changes:
 - Follow the **feature-first** directory layout
 - Respect **offline-first** design principles
 - Align with existing **OpenSpec** specifications
+- Read [`AGENTS.md`](AGENTS.md) for project conventions before contributing
 
 Found a bug or have a feature idea? [Open an issue](https://github.com/aryany9/MyLexicon/issues) — all feedback is appreciated.
 
