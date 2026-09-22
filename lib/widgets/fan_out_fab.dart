@@ -1,3 +1,4 @@
+import 'dart:ui' show ImageFilter;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,14 +16,15 @@ class FanOutFab extends ConsumerStatefulWidget {
 class _FanOutFabState extends ConsumerState<FanOutFab>
     with SingleTickerProviderStateMixin {
   bool _isOpen = false;
-  late AnimationController _controller;
-  late Animation<double> _expandAnimation;
+  late final AnimationController _controller;
+  late final Animation<double> _expandAnimation;
+  final _overlayController = OverlayPortalController();
+  final _layerLink = LayerLink();
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      value: _isOpen ? 1.0 : 0.0,
       duration: const Duration(milliseconds: 250),
       vsync: this,
     );
@@ -35,23 +37,43 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
 
   @override
   void dispose() {
+    if (_overlayController.isShowing) {
+      _overlayController.hide();
+    }
     _controller.dispose();
     super.dispose();
   }
 
   void _toggle() {
-    setState(() {
-      _isOpen = !_isOpen;
-      if (_isOpen) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
-    });
+    if (_isOpen) {
+      _controller.reverse().then((_) {
+        if (mounted) {
+          _overlayController.hide();
+          setState(() {
+            _isOpen = false;
+          });
+        }
+      });
+      setState(() {
+        _isOpen = false;
+      });
+    } else {
+      setState(() {
+        _isOpen = true;
+      });
+      _overlayController.show();
+      _controller.forward();
+    }
   }
 
   void _onOptionTap(LexiconType type) {
-    _toggle();
+    if (_overlayController.isShowing) {
+      _overlayController.hide();
+    }
+    _controller.reset();
+    setState(() {
+      _isOpen = false;
+    });
     context.push('/entry-form?type=${type.name}');
   }
 
@@ -96,50 +118,89 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
     // Fallback: If no category features are enabled, render simple FAB to entry form.
     if (visibleOptions.isEmpty) {
       return FloatingActionButton(
+        heroTag: null,
         onPressed: () => context.push('/entry-form'),
         elevation: 4,
         child: const Icon(Icons.add),
       );
     }
 
-    return Stack(
-      alignment: Alignment.bottomRight,
-      clipBehavior: Clip.none,
-      children: [
-        if (_isOpen)
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: _toggle,
-              behavior: HitTestBehavior.opaque,
-              child: Container(color: Colors.transparent),
+    return CompositedTransformTarget(
+      link: _layerLink,
+      child: OverlayPortal(
+        controller: _overlayController,
+        overlayChildBuilder: (context) {
+          return PopScope(
+            canPop: false,
+            onPopInvokedWithResult: (didPop, _) {
+              if (!didPop && _isOpen) {
+                _toggle();
+              }
+            },
+            child: Stack(
+              children: [
+                // Full-screen backdrop blur and modal tap barrier
+                Positioned.fill(
+                  child: FadeTransition(
+                    opacity: _expandAnimation,
+                    child: GestureDetector(
+                      key: const ValueKey('fan_out_backdrop_barrier'),
+                      onTap: _toggle,
+                      behavior: HitTestBehavior.opaque,
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+                        child: Container(
+                          color: Colors.black.withValues(alpha: 0.35),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                // Anchored fan-out buttons and close FAB
+                CompositedTransformFollower(
+                  link: _layerLink,
+                  targetAnchor: Alignment.bottomRight,
+                  followerAnchor: Alignment.bottomRight,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      ...visibleOptions.map(
+                        (opt) => _buildOption(
+                          context: context,
+                          label: opt.label,
+                          icon: opt.icon,
+                          color: opt.color,
+                          type: opt.type,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      FloatingActionButton(
+                        key: const ValueKey('fan_out_close_fab'),
+                        heroTag: null,
+                        onPressed: _toggle,
+                        elevation: 4,
+                        child: AnimatedRotation(
+                          turns: 0.125,
+                          duration: const Duration(milliseconds: 200),
+                          child: const Icon(Icons.add),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            ...visibleOptions.map(
-              (opt) => _buildOption(
-                context: context,
-                label: opt.label,
-                icon: opt.icon,
-                color: opt.color,
-                type: opt.type,
-              ),
-            ),
-            const SizedBox(height: 8),
-            FloatingActionButton(
-              onPressed: _toggle,
-              elevation: 4,
-              child: AnimatedRotation(
-                turns: _isOpen ? 0.125 : 0.0,
-                duration: const Duration(milliseconds: 200),
-                child: const Icon(Icons.add),
-              ),
-            ),
-          ],
+          );
+        },
+        child: FloatingActionButton(
+          key: const ValueKey('fan_out_main_fab'),
+          heroTag: null,
+          onPressed: _toggle,
+          elevation: 4,
+          child: const Icon(Icons.add),
         ),
-      ],
+      ),
     );
   }
 

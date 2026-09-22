@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/services/database_service.dart';
 import '../../../core/services/export_import_service.dart';
+import '../../../core/services/sample_data_service.dart';
 import '../import_preview_screen.dart';
 
 class DataSettingsPage extends ConsumerWidget {
@@ -81,6 +83,144 @@ class DataSettingsPage extends ConsumerWidget {
     );
   }
 
+  void _showLoadSampleConfirmation(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Load Sample Data?'),
+          content: const Text(
+            'This will populate 10 curated entries for each category (10 Words, 10 Phrases, 10 Idioms, and 10 Quotes) along with sample collections.\n\n'
+            '• Existing sample entries will be refreshed.\n'
+            '• Any custom entries you created with matching terms will be preserved.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () async {
+                Navigator.of(dialogContext).pop();
+                final db = ref.read(databaseServiceProvider);
+                try {
+                  final result = await SampleDataService.loadSampleData(db);
+                  ref.invalidate(statsProvider);
+                  ref.invalidate(entriesProvider);
+                  ref.invalidate(collectionsProvider);
+                  if (context.mounted) {
+                    String message;
+                    Color bgColor = Colors.green;
+
+                    if (result.added > 0 && result.skipped == 0) {
+                      message =
+                          'Loaded ${result.added} sample entries across all categories!';
+                    } else if (result.added > 0 && result.skipped > 0) {
+                      message =
+                          'Loaded ${result.added} sample entries (${result.skipped} skipped as existing custom duplicates).';
+                    } else if (result.updated > 0 && result.skipped == 0) {
+                      message = 'Refreshed ${result.updated} sample entries.';
+                    } else if (result.updated > 0 && result.skipped > 0) {
+                      message =
+                          'Refreshed ${result.updated} sample entries (${result.skipped} custom duplicates preserved).';
+                    } else {
+                      message =
+                          'All ${result.skipped} sample terms already exist in your lexicon as custom entries.';
+                      bgColor = Colors.orange;
+                    }
+
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(message),
+                        backgroundColor: bgColor,
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Error loading sample data: $e'),
+                        backgroundColor: Colors.redAccent,
+                      ),
+                    );
+                  }
+                }
+              },
+              child: const Text('Load Sample Data'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDeleteSampleConfirmation(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text(
+            'Delete Sample Data?',
+            style: TextStyle(color: Colors.orangeAccent),
+          ),
+          content: const Text(
+            'This will remove all sample loaded entries and sample collections.\n\n'
+            'Your own custom entries and collections will remain untouched.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.orangeAccent,
+                foregroundColor: Colors.black,
+              ),
+              onPressed: () async {
+                Navigator.of(dialogContext).pop();
+                final db = ref.read(databaseServiceProvider);
+                try {
+                  final deleted = await SampleDataService.deleteSampleData(db);
+                  ref.invalidate(statsProvider);
+                  ref.invalidate(entriesProvider);
+                  ref.invalidate(collectionsProvider);
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          deleted > 0
+                              ? 'Deleted $deleted sample entries and sample collections.'
+                              : 'No sample entries found to delete.',
+                        ),
+                        backgroundColor: Colors.orange,
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Error deleting sample data: $e'),
+                        backgroundColor: Colors.redAccent,
+                      ),
+                    );
+                  }
+                }
+              },
+              child: const Text('Delete Sample Data'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   /// Prompts the user for an export format, generates the export file via
   /// [ExportImportService], then lets the user pick where to save it locally
   /// using the system's native save/file-location picker (file_picker).
@@ -132,7 +272,7 @@ class DataSettingsPage extends ConsumerWidget {
           'lexicon_export_${DateTime.now().millisecondsSinceEpoch}.${format.name}';
 
       // Ask the user where to save the file locally.
-      final String? savedPath = await FilePicker.saveFile(
+      final Uri? savedUri = await FilePicker.saveFile(
         dialogTitle: 'Save Lexicon Export',
         fileName: fileName,
         type: FileType.custom,
@@ -141,18 +281,9 @@ class DataSettingsPage extends ConsumerWidget {
       );
 
       // User cancelled the save dialog.
-      if (savedPath == null) {
+      if (savedUri == null) {
         return;
       }
-
-      // Some file_picker versions/platforms only return the chosen path and
-      // do not write the file for you when `bytes` is provided (this varies
-      // by platform and package version). Guard against that so the export
-      // is always written even on older/desktop implementations.
-      // final savedFile = File(savedPath);
-      // if (!await savedFile.exists()) {
-      //   await savedFile.writeAsBytes(bytes);
-      // }
 
       // Clean up the temp file now that the real copy has been saved.
       if (await tempFile.exists()) {
@@ -160,9 +291,10 @@ class DataSettingsPage extends ConsumerWidget {
       }
 
       if (context.mounted) {
+        final path = savedUri.path;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Export saved to $savedPath'),
+            content: Text('Export saved to $path'),
             backgroundColor: Colors.green,
           ),
         );
@@ -184,11 +316,11 @@ class DataSettingsPage extends ConsumerWidget {
       type: FileType.custom,
       allowedExtensions: const ['json', 'csv'],
     );
-    if (selection == null || selection.files.isEmpty) {
+    if (selection.isEmpty) {
       return;
     }
 
-    final path = selection.files.single.path;
+    final path = selection.single.path;
     if (path == null) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -290,6 +422,36 @@ class DataSettingsPage extends ConsumerWidget {
             ),
             onTap: () => _showClearAllConfirmation(context, ref),
           ),
+
+          // ── Developer (Debug Only) ────────────────────────────────────────
+          if (kDebugMode) ...[
+            const Divider(),
+            _buildSectionHeader(context, 'Developer (Debug Mode)'),
+            ListTile(
+              key: const ValueKey('load_sample_data_tile'),
+              leading: const Icon(Icons.auto_stories_outlined),
+              title: const Text('Load Sample Data'),
+              subtitle: const Text(
+                'Populate 10 items in each category (40 entries)',
+              ),
+              onTap: () => _showLoadSampleConfirmation(context, ref),
+            ),
+            ListTile(
+              key: const ValueKey('delete_sample_data_tile'),
+              leading: const Icon(
+                Icons.delete_sweep_outlined,
+                color: Colors.orangeAccent,
+              ),
+              title: const Text(
+                'Delete Sample Data',
+                style: TextStyle(color: Colors.orangeAccent),
+              ),
+              subtitle: const Text(
+                'Remove only the sample loaded entries and collections',
+              ),
+              onTap: () => _showDeleteSampleConfirmation(context, ref),
+            ),
+          ],
         ],
       ),
     );

@@ -244,7 +244,17 @@ class CollectionsScreen extends ConsumerWidget {
     final collectionsAsync = ref.watch(collectionsProvider);
     final entriesAsync = ref.watch(entriesProvider);
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        if (Navigator.of(context).canPop()) {
+          Navigator.of(context).pop();
+        } else {
+          context.go('/');
+        }
+      },
+      child: Scaffold(
       appBar: AppBar(title: const Text('Collections')),
       body: collectionsAsync.when(
         data: (collections) {
@@ -287,8 +297,9 @@ class CollectionsScreen extends ConsumerWidget {
         onPressed: () => _showCollectionForm(context, ref),
         child: const Icon(Icons.create_new_folder_outlined),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildEmptyState(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;

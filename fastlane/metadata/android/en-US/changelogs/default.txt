@@ -1,0 +1,6 @@
+My Lexicon — your personal knowledge companion.
+
+Save and organize words, quotes, phrases, idioms, collections, and more in one place.
+
+See the full changelog at:
+https://github.com/aryany9/MyLexicon/blob/main/CHANGELOG.md

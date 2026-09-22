@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'core/providers/display_preferences_provider.dart';
 import 'core/services/database_service.dart';
 import 'core/theme/app_theme_registry.dart';
 import 'core/providers/theme_preference_provider.dart';
@@ -50,9 +51,19 @@ class MyLexiconApp extends ConsumerWidget {
     final initialPath = ref.watch(defaultTabProvider);
     final router = useMemoizedRouter(initialPath);
     final themePref = ref.watch(appThemePreferenceProvider);
+    final fontFamilyPref = ref.watch(fontFamilyPreferenceProvider);
+    final textScalePref = ref.watch(textScalePreferenceProvider);
 
-    final lightTheme = AppThemeRegistry.getTheme(themePref.lightThemeName);
-    final darkTheme = AppThemeRegistry.getTheme(themePref.darkThemeName);
+    final lightTheme = AppThemeRegistry.getTheme(
+      themePref.lightThemeName,
+      isAmoled: false,
+      fontFamily: fontFamilyPref.fontFamily,
+    );
+    final darkTheme = AppThemeRegistry.getTheme(
+      themePref.darkThemeName,
+      isAmoled: themePref.isAmoled,
+      fontFamily: fontFamilyPref.fontFamily,
+    );
 
     return MaterialApp.router(
       title: 'MyLexicon',
@@ -61,6 +72,15 @@ class MyLexiconApp extends ConsumerWidget {
       themeMode: themePref.mode,
       routerConfig: router,
       debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        final mediaQuery = MediaQuery.of(context);
+        return MediaQuery(
+          data: mediaQuery.copyWith(
+            textScaler: TextScaler.linear(textScalePref.scaleFactor),
+          ),
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
   }
 }

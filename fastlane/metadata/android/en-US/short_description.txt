@@ -1,1 +1,1 @@
-offline-first personal knowledge companion where you can create, organize, and master words, quotes, phrases, idioms, personal notes, tags, favorites, and custom collections
+Offline-first personal dictionary and vocabulary companion.

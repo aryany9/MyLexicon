@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.1] - 2026-09-22
+
+### Added
+- **Multi-Select Batch Delete**: Long-press any entry in category list screens to enter selection mode. Select individual items or use "Select All", then batch-delete with a confirmation dialog.
+- **Compact WordsCard Mode**: Entry cards adapt to a compact layout when list density is set to `Compact`, showing only the term and type badge for a denser browsing experience.
+- **Blurred FanOutFab Backdrop**: `FanOutFab` now renders a frosted-glass blur backdrop behind expanded action buttons for better visual polish.
+- **About Page**: New dedicated About section in Settings showing dynamic app version (read from the build, no hardcoding), GitHub source code link, bug report shortcut, open-source licenses viewer, and a "Made with ♥ in India" attribution. Version number is also shown as a subtitle on the About tile in the Settings root for a quick glance.
+
+### Changed
+- **Modernized Settings/Appearance UI**: Appearance preferences (theme mode, light/dark palette, list density, AMOLED black, tags display, badge display) now open via intuitive bottom-sheet pickers instead of inline dropdowns.
+- **Dedicated ThemeSettingsPage**: Extracted theme palette selection into its own sub-page within Settings for a cleaner navigation hierarchy.
+- **AMOLED, Tags & Badge Preferences**: Added persistent preferences for AMOLED black mode, showing/hiding tags on entry cards, and controlling entry-type badge visibility.
+
+### Fixed
+- **Android 14 Back Navigation After Dialog Dismiss**: Dismissing the delete confirmation dialog in category list screens no longer triggers an app exit. Fixed by using `showDialog(useRootNavigator: false)` to keep the dialog on the inner navigator.
+- **Dashboard-First Back Navigation**: Pressing back from any non-home screen (Settings, Collections, Category Lists) now navigates back to the Dashboard instead of directly exiting the app.
+- **Settings Back Button**: Back button on the Settings screen now correctly navigates to the Dashboard; back from a Settings sub-page (e.g., Appearance) correctly returns to the Settings root.
+- **`file_picker` v12 API Migration**: Migrated data import/export to the updated `file_picker` v12 API (`saveFile` returns `Uri?`, `pickFiles` returns `List<PlatformFile>`).
+- **External Links in About Page**: Added `https`/`http` scheme queries to `AndroidManifest.xml` so `url_launcher` correctly resolves browser apps on Android 11+ (package visibility requirement).
+
+
 ## [1.3.0] - 2026-09-13
 
 ### Added

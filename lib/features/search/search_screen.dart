@@ -5,6 +5,7 @@ import '../../core/services/database_service.dart';
 import '../../models/lexicon_entry.dart';
 import '../../models/lexicon_type.dart';
 import '../../core/models/app_feature.dart';
+import '../../core/providers/display_preferences_provider.dart';
 import '../../core/providers/feature_flags_provider.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -398,29 +399,25 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: typeColor.withValues(alpha: isDark ? 0.2 : 0.1),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
+                  Expanded(
                     child: Text(
-                      entry.type.name.toUpperCase(),
-                      style: TextStyle(
-                        color: typeColor,
-                        fontSize: 10,
+                      entry.term,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
+                  const SizedBox(width: 8),
                   IconButton(
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
+                    visualDensity: VisualDensity.compact,
                     icon: Icon(
                       entry.isFavorite ? Icons.favorite : Icons.favorite_border,
                       color: entry.isFavorite
@@ -438,14 +435,30 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   ),
                 ],
               ),
+              if (ref.watch(showTypeBadgesProvider)) ...[
+                const SizedBox(height: 4),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: typeColor.withValues(
+                      alpha: isDark ? 0.2 : 0.1,
+                    ),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    entry.type.name.toUpperCase(),
+                    style: TextStyle(
+                      color: typeColor,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
               const SizedBox(height: 8),
-              Text(
-                entry.term,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 4),
               Text(
                 entry.definition,
                 maxLines: 2,

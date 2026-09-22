@@ -43,9 +43,14 @@ void main() {
     }
   });
 
-  Widget buildCardWidget(LexiconEntry entry, ListDensity density) {
+  Widget buildCardWidget(
+    LexiconEntry entry,
+    ListDensity density, {
+    bool isSelectionMode = false,
+    bool isSelected = false,
+  }) {
     return ProviderScope(
-      key: ValueKey(density),
+      key: ValueKey('$density-$isSelectionMode-$isSelected'),
       overrides: [
         databaseServiceProvider.overrideWithValue(dbService),
         listDensityProvider.overrideWith((ref) {
@@ -60,7 +65,12 @@ void main() {
             children: [
               Consumer(
                 builder: (context, ref, child) {
-                  return WordsCard(ref: ref, entry: entry);
+                  return WordsCard(
+                    ref: ref,
+                    entry: entry,
+                    isSelectionMode: isSelectionMode,
+                    isSelected: isSelected,
+                  );
                 },
               ),
             ],
@@ -118,5 +128,35 @@ void main() {
     final detailedSize = tester.getSize(find.byType(WordsCard));
 
     expect(compactSize.height, lessThan(detailedSize.height));
+  });
+
+  testWidgets('Compact mode maintains identical row height in selection mode', (tester) async {
+    await tester.pumpWidget(buildCardWidget(testEntry, ListDensity.compact, isSelectionMode: false));
+    await tester.pumpAndSettle();
+    final normalCompact = tester.getSize(find.byType(WordsCard));
+
+    await tester.pumpWidget(buildCardWidget(testEntry, ListDensity.compact, isSelectionMode: true, isSelected: true));
+    await tester.pumpAndSettle();
+    final selectionCompact = tester.getSize(find.byType(WordsCard));
+
+    await tester.pumpWidget(buildCardWidget(testEntry, ListDensity.comfortable, isSelectionMode: false));
+    await tester.pumpAndSettle();
+    final normalComfortable = tester.getSize(find.byType(WordsCard));
+
+    await tester.pumpWidget(buildCardWidget(testEntry, ListDensity.comfortable, isSelectionMode: true, isSelected: true));
+    await tester.pumpAndSettle();
+    final selectionComfortable = tester.getSize(find.byType(WordsCard));
+
+    await tester.pumpWidget(buildCardWidget(testEntry, ListDensity.detailed, isSelectionMode: false));
+    await tester.pumpAndSettle();
+    final normalDetailed = tester.getSize(find.byType(WordsCard));
+
+    await tester.pumpWidget(buildCardWidget(testEntry, ListDensity.detailed, isSelectionMode: true, isSelected: true));
+    await tester.pumpAndSettle();
+    final selectionDetailed = tester.getSize(find.byType(WordsCard));
+
+    expect(selectionCompact.height, equals(normalCompact.height));
+    expect(selectionComfortable.height, equals(normalComfortable.height));
+    expect(selectionDetailed.height, equals(normalDetailed.height));
   });
 }

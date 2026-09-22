@@ -143,5 +143,23 @@ void main() {
         expect(notifier.state.darkThemeName, AppThemeName.defaultDark);
       },
     );
+
+    test('setAmoled updates state and persists to SharedPreferences', () async {
+      final notifier = AppThemePreferenceNotifier();
+      expect(notifier.state.isAmoled, false);
+
+      await notifier.setAmoled(true);
+      expect(notifier.state.isAmoled, true);
+
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getBool('app_theme_is_amoled'), true);
+
+      // Verify AMOLED theme gets black scaffold
+      final amoledTheme = AppThemeRegistry.getTheme(
+        AppThemeName.defaultDark,
+        isAmoled: true,
+      );
+      expect(amoledTheme.scaffoldBackgroundColor, Colors.black);
+    });
   });
 }

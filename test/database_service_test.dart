@@ -67,6 +67,34 @@ void main() {
     expect(entries.length, 1);
     expect(entries.first.term, 'Serendipity');
   });
+  test('getEntries returns entries sorted by createdAt descending (newest first)', () async {
+    final older = LexiconEntry(
+      id: 'entry1',
+      term: 'Old Word',
+      definition: 'Old definition',
+      type: LexiconType.word,
+      tags: const [],
+      isFavorite: false,
+      createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+    );
+    final newer = LexiconEntry(
+      id: 'entry2',
+      term: 'New Phrase',
+      definition: 'New definition',
+      type: LexiconType.phrase,
+      tags: const [],
+      isFavorite: false,
+      createdAt: DateTime.now(),
+    );
+
+    await dbService.saveEntry(older);
+    await dbService.saveEntry(newer);
+
+    final entries = dbService.getEntries();
+    expect(entries.length, 2);
+    expect(entries[0].term, 'New Phrase');
+    expect(entries[1].term, 'Old Word');
+  });
 
   test('Search and filter works', () async {
     final entry1 = LexiconEntry(

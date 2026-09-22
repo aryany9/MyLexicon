@@ -250,11 +250,47 @@ class AppThemeRegistry {
       .where((t) => t.brightness == Brightness.dark)
       .toList();
 
-  static ThemeData getTheme(AppThemeName name) {
-    return _themes[name] ??
+  static ThemeData getTheme(
+    AppThemeName name, {
+    bool isAmoled = false,
+    String? fontFamily,
+  }) {
+    var theme = _themes[name] ??
         _themes[name.brightness == Brightness.light
             ? AppThemeName.defaultLight
             : AppThemeName.defaultDark]!;
+
+    if (isAmoled && name.brightness == Brightness.dark) {
+      theme = theme.copyWith(
+        scaffoldBackgroundColor: Colors.black,
+        canvasColor: Colors.black,
+        colorScheme: theme.colorScheme.copyWith(
+          surface: Colors.black,
+          surfaceContainerLowest: Colors.black,
+          surfaceContainerLow: const Color(0xFF080808),
+          surfaceContainer: const Color(0xFF101010),
+          surfaceContainerHigh: const Color(0xFF181818),
+          surfaceContainerHighest: const Color(0xFF202020),
+        ),
+        appBarTheme: theme.appBarTheme.copyWith(
+          backgroundColor: Colors.transparent,
+        ),
+        bottomNavigationBarTheme: theme.bottomNavigationBarTheme.copyWith(
+          backgroundColor: Colors.black,
+        ),
+        navigationBarTheme: theme.navigationBarTheme.copyWith(
+          backgroundColor: Colors.black,
+        ),
+      );
+    }
+
+    if (fontFamily != null) {
+      theme = theme.copyWith(
+        textTheme: theme.textTheme.apply(fontFamily: fontFamily),
+      );
+    }
+
+    return theme;
   }
 
   static PaletteColors getColors(AppThemeName name) {
