@@ -1,3 +1,4 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,7 +76,7 @@ void main() {
             return notifier;
           }),
         ],
-        child: const MaterialApp(home: HomeScreen()),
+        child: const MaterialApp(localizationsDelegates: AppLocalizations.localizationsDelegates, supportedLocales: AppLocalizations.supportedLocales,home: HomeScreen()),
       ),
     );
     await tester.pumpAndSettle();
@@ -118,7 +119,7 @@ void main() {
             return notifier;
           }),
         ],
-        child: const MaterialApp(home: HomeScreen()),
+        child: const MaterialApp(localizationsDelegates: AppLocalizations.localizationsDelegates, supportedLocales: AppLocalizations.supportedLocales,home: HomeScreen()),
       ),
     );
     await tester.pumpAndSettle();

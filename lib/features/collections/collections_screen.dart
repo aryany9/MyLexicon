@@ -1,3 +1,4 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,8 +38,9 @@ class CollectionsScreen extends ConsumerWidget {
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
+            final l10n = AppLocalizations.of(context)!;
             return AlertDialog(
-              title: Text(isEdit ? 'Edit Collection' : 'Create Collection'),
+              title: Text(isEdit ? l10n.editCollection : l10n.addCollection),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -47,18 +49,18 @@ class CollectionsScreen extends ConsumerWidget {
                     TextField(
                       controller: nameController,
                       textCapitalization: TextCapitalization.words,
-                      decoration: const InputDecoration(
-                        labelText: 'Collection Name',
-                        hintText: 'e.g. GRE Words, German Phrases',
+                      decoration: InputDecoration(
+                        labelText: l10n.collectionName,
+                        hintText: l10n.collectionNameHint,
                       ),
                     ),
                     const SizedBox(height: 16),
                     TextField(
                       controller: descController,
                       textCapitalization: TextCapitalization.sentences,
-                      decoration: const InputDecoration(
-                        labelText: 'Description (Optional)',
-                        hintText: 'Describe this collection...',
+                      decoration: InputDecoration(
+                        labelText: l10n.collectionDescription,
+                        hintText: l10n.collectionDescriptionHint,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -117,7 +119,7 @@ class CollectionsScreen extends ConsumerWidget {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Cancel'),
+                  child: Text(l10n.cancel),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -188,17 +190,14 @@ class CollectionsScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
         return AlertDialog(
-          title: const Text('Delete Collection?'),
-          content: Text(
-            'Are you sure you want to delete "${collection.name}"?\n\n'
-            'Important: The entries stored inside this collection will NOT be deleted. '
-            'They will simply become unassigned (orphaned) so you don\'t lose your words.',
-          ),
+          title: Text(l10n.deleteCollectionTitle(collection.name)),
+          content: Text(l10n.deleteCollectionContent),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             TextButton(
               onPressed: () async {
@@ -241,6 +240,7 @@ class CollectionsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final collectionsAsync = ref.watch(collectionsProvider);
     final entriesAsync = ref.watch(entriesProvider);
 
@@ -255,7 +255,7 @@ class CollectionsScreen extends ConsumerWidget {
         }
       },
       child: Scaffold(
-      appBar: AppBar(title: const Text('Collections')),
+      appBar: AppBar(title: Text(l10n.navCollections)),
       body: collectionsAsync.when(
         data: (collections) {
           if (collections.isEmpty) {
@@ -348,6 +348,7 @@ class CollectionsScreen extends ConsumerWidget {
     LexiconCollection collection,
     int count,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final color = Color(collection.colorValue);
 
@@ -416,7 +417,7 @@ class CollectionsScreen extends ConsumerWidget {
               IconButton(
                 icon: const Icon(Icons.edit_outlined, size: 20),
                 onPressed: () => _showCollectionForm(context, ref, collection),
-                tooltip: 'Edit Collection',
+                tooltip: l10n.editCollectionTooltip,
               ),
               IconButton(
                 icon: const Icon(
@@ -425,7 +426,7 @@ class CollectionsScreen extends ConsumerWidget {
                   size: 20,
                 ),
                 onPressed: () => _confirmDelete(context, ref, collection),
-                tooltip: 'Delete Collection',
+                tooltip: l10n.deleteCollectionTooltip,
               ),
             ],
           ),

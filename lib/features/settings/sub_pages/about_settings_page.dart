@@ -1,3 +1,4 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -32,11 +33,12 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
 
   void _copyVersion() {
     if (_packageInfo == null) return;
+    final l10n = AppLocalizations.of(context)!;
     final version = 'v${_packageInfo!.version}+${_packageInfo!.buildNumber}';
     Clipboard.setData(ClipboardData(text: version));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('$version copied to clipboard'),
+        content: Text(l10n.versionCopied(version)),
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 2),
       ),
@@ -45,6 +47,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -53,7 +56,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
         : '—';
 
     return Scaffold(
-      appBar: AppBar(title: const Text('About')),
+      appBar: AppBar(title: Text(l10n.about)),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8),
         children: [
@@ -130,22 +133,22 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
 
           ListTile(
             leading: const Icon(Icons.code_rounded),
-            title: const Text('Source Code'),
+            title: Text(l10n.sourceCode),
             subtitle: const Text('github.com/aryany9/MyLexicon'),
             trailing: const Icon(Icons.open_in_new, size: 18),
             onTap: () => _launchUrl('https://github.com/aryany9/MyLexicon'),
           ),
           ListTile(
             leading: const Icon(Icons.bug_report_outlined),
-            title: const Text('Report a Bug'),
-            subtitle: const Text('Open an issue on GitHub'),
+            title: Text(l10n.reportBug),
+            subtitle: Text(l10n.reportBugSubtitle),
             trailing: const Icon(Icons.open_in_new, size: 18),
             onTap: () => _launchUrl(
                 'https://github.com/aryany9/MyLexicon/issues/new'),
           ),
           ListTile(
             leading: const Icon(Icons.star_outline_rounded),
-            title: const Text('Star on GitHub'),
+            title: Text(l10n.starOnGithub),
             subtitle: const Text('If you find My Lexicon useful'),
             trailing: const Icon(Icons.open_in_new, size: 18),
             onTap: () => _launchUrl('https://github.com/aryany9/MyLexicon'),
@@ -166,7 +169,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
 
           ListTile(
             leading: const Icon(Icons.description_outlined),
-            title: const Text('Open Source Licenses'),
+            title: Text(l10n.openSourceLicenses),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
               showLicensePage(

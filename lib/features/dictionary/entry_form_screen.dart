@@ -1,3 +1,4 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -253,6 +254,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final collectionsAsync = ref.watch(collectionsProvider);
     final allTags = ref.read(databaseServiceProvider).getAllTags();
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -286,7 +288,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: _save,
-            tooltip: 'Save',
+            tooltip: l10n.saveTooltip,
           ),
         ],
       ),
@@ -471,7 +473,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                       TextButton.icon(
                         onPressed: _addExampleField,
                         icon: const Icon(Icons.add, size: 18),
-                        label: const Text('Add Example'),
+                        label: Text(l10n.addExample),
                       ),
                   ],
                 ),
@@ -501,7 +503,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                             color: Colors.redAccent,
                           ),
                           onPressed: () => _removeExampleField(index),
-                          tooltip: 'Remove example',
+                          tooltip: l10n.removeExampleTooltip,
                         ),
                       ],
                     ),
@@ -613,7 +615,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                           controller: controller,
                           focusNode: focusNode,
                           decoration: InputDecoration(
-                            hintText: 'Type a tag and press enter...',
+                            hintText: l10n.tagInputHint,
                             suffixIcon: IconButton(
                               icon: const Icon(Icons.add),
                               onPressed: () {
@@ -658,7 +660,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
 
                 // Favorite Switch List Tile
                 SwitchListTile.adaptive(
-                  title: const Text('Mark as Favorite'),
+                  title: Text(l10n.markAsFavorite),
                   subtitle: const Text(
                     'Easily access this entry from favorites quick actions',
                   ),

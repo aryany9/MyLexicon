@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../models/app_feature.dart';
 import '../providers/feature_flags_provider.dart';
 import '../providers/tab_order_provider.dart';
+import 'package:mylexicon/l10n/app_localizations.dart';
 
 class _TabDescriptor {
   final AppFeature? feature;
@@ -138,11 +139,25 @@ class AppShell extends ConsumerWidget {
           },
           destinations: visibleTabs
               .map(
-                (tab) => NavigationDestination(
-                  icon: Icon(tab.icon),
-                  selectedIcon: Icon(tab.activeIcon),
-                  label: tab.label,
-                ),
+                (tab) {
+                  final l10n = AppLocalizations.of(context)!;
+                  String label;
+                  switch (tab.path) {
+                    case '/': label = l10n.navDashboard; break;
+                    case '/category/word': label = l10n.navWords; break;
+                    case '/category/phrase': label = l10n.navPhrases; break;
+                    case '/category/idiom': label = l10n.navIdioms; break;
+                    case '/category/quote': label = l10n.navQuotes; break;
+                    case '/collections': label = l10n.navCollections; break;
+                    case '/settings': label = l10n.navSettings; break;
+                    default: label = tab.label; break;
+                  }
+                  return NavigationDestination(
+                    icon: Icon(tab.icon),
+                    selectedIcon: Icon(tab.activeIcon),
+                    label: label,
+                  );
+                },
               )
               .toList(),
         ),

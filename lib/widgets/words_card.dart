@@ -1,3 +1,5 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
+import 'package:mylexicon/l10n/lexicon_type_l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -64,7 +66,7 @@ class WordsCard extends ConsumerWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
-        type.name.toUpperCase(),
+        type.localizedBadge(AppLocalizations.of(context)!),
         style: TextStyle(
           color: typeColor,
           fontSize: 9,

@@ -1,3 +1,4 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,7 +7,7 @@ import 'package:mylexicon/widgets/fan_out_fab.dart';
 void main() {
   Widget buildTestApp({required VoidCallback onBackgroundTap}) {
     return ProviderScope(
-      child: MaterialApp(
+      child: MaterialApp(localizationsDelegates: AppLocalizations.localizationsDelegates, supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: Center(
             child: ElevatedButton(

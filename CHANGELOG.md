@@ -1,3 +1,16 @@
+## [1.4.0] - 2026-09-30
+
+### Added
+- Multilingual support: Ukrainian, Russian, Persian (Farsi), and Hindi
+- Language selection screen in Settings > Language
+- All UI strings, dialogs, SnackBars, and type badges are fully localized
+- Right-to-left (RTL) layout support for Persian
+- Locale-aware date formatting (month names adapt to selected language)
+- System language detection (automatically uses device language if supported)
+
+### Roadmap
+Upcoming language support: Marathi, Gujarati, Punjabi, Tamil, Telugu, Malayalam, Kannada, Bengali
+
 # Changelog
 
 All notable changes to this project will be documented in this file.

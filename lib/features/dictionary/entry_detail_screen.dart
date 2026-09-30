@@ -1,3 +1,5 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
+import 'package:mylexicon/l10n/lexicon_type_l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -40,16 +42,16 @@ class EntryDetailScreen extends ConsumerWidget {
   void _confirmDelete(BuildContext context, WidgetRef ref, LexiconEntry entry) {
     showDialog(
       context: context,
+      useRootNavigator: false,
       builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
         return AlertDialog(
-          title: const Text('Delete Entry?'),
-          content: Text(
-            'Are you sure you want to permanently delete "${entry.term}"? This action cannot be undone.',
-          ),
+          title: Text(l10n.deleteEntryTitle),
+          content: Text(l10n.deleteEntryContent(entry.term)),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             TextButton(
               onPressed: () async {
@@ -61,8 +63,8 @@ class EntryDetailScreen extends ConsumerWidget {
                   ref.invalidate(entriesProvider);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Entry deleted successfully'),
+                      SnackBar(
+                        content: Text(l10n.deleteSuccess),
                         backgroundColor: Colors.green,
                       ),
                     );
@@ -72,16 +74,16 @@ class EntryDetailScreen extends ConsumerWidget {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Failed to delete entry: $e'),
+                        content: Text(l10n.deleteError(e.toString())),
                         backgroundColor: Colors.redAccent,
                       ),
                     );
                   }
                 }
               },
-              child: const Text(
-                'Delete',
-                style: TextStyle(color: Colors.redAccent),
+              child: Text(
+                l10n.delete,
+                style: const TextStyle(color: Colors.redAccent),
               ),
             ),
           ],
@@ -92,6 +94,7 @@ class EntryDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final entriesAsync = ref.watch(entriesProvider);
     final collectionsAsync = ref.watch(collectionsProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -101,12 +104,13 @@ class EntryDetailScreen extends ConsumerWidget {
         final entryIndex = entries.indexWhere((e) => e.id == entryId);
         if (entryIndex == -1) {
           // Entry not found (deleted)
-          return const Scaffold(body: Center(child: Text('Entry not found')));
+          return Scaffold(body: Center(child: Text(l10n.entryNotFound)));
         }
 
         final entry = entries[entryIndex];
         final formattedDate = DateFormat(
           'MMMM d, yyyy • hh:mm a',
+          Localizations.localeOf(context).languageCode,
         ).format(entry.createdAt);
 
         // Fetch collection details
@@ -117,7 +121,7 @@ class EntryDetailScreen extends ConsumerWidget {
                 entry.collectionIds.contains(c.id),
             orElse: () => LexiconCollection(
               id: '',
-              name: 'Uncategorized',
+              name: l10n.uncategorized,
               colorValue: Colors.grey.toARGB32(),
               createdAt: DateTime.now(),
             ),
@@ -143,7 +147,7 @@ class EntryDetailScreen extends ConsumerWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Entry Details'),
+            title: Text(l10n.entryDetails),
             actions: [
               IconButton(
                 icon: Icon(
@@ -151,17 +155,17 @@ class EntryDetailScreen extends ConsumerWidget {
                   color: entry.isFavorite ? Colors.redAccent : null,
                 ),
                 onPressed: () => _toggleFavorite(context, ref, entry),
-                tooltip: entry.isFavorite ? 'Unfavorite' : 'Favorite',
+                tooltip: entry.isFavorite ? l10n.unfavoriteTooltip : l10n.favoriteTooltip,
               ),
               IconButton(
                 icon: const Icon(Icons.edit_outlined),
                 onPressed: () => context.push('/entry-form?id=${entry.id}'),
-                tooltip: 'Edit',
+                tooltip: l10n.editTooltip,
               ),
               IconButton(
                 icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
                 onPressed: () => _confirmDelete(context, ref, entry),
-                tooltip: 'Delete',
+                tooltip: l10n.deleteTooltip,
               ),
             ],
           ),
@@ -184,7 +188,7 @@ class EntryDetailScreen extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          entry.type.name.toUpperCase(),
+                          entry.type.localizedBadge(AppLocalizations.of(context)!),
                           style: TextStyle(
                             color: typeColor,
                             fontSize: 11,

@@ -1,3 +1,4 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/models/app_theme_preference.dart';
@@ -37,6 +38,7 @@ class AppearanceSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final themePref = ref.watch(appThemePreferenceProvider);
     final listDensity = ref.watch(listDensityProvider);
     final showTags = ref.watch(showCardTagsProvider);
@@ -45,7 +47,7 @@ class AppearanceSettingsPage extends ConsumerWidget {
     final textScalePref = ref.watch(textScalePreferenceProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Appearance')),
+      appBar: AppBar(title: Text(l10n.appearance)),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         children: [
@@ -54,7 +56,7 @@ class AppearanceSettingsPage extends ConsumerWidget {
           ListTile(
             key: const ValueKey('theme_settings_tile'),
             leading: const Icon(Icons.palette_outlined),
-            title: const Text('Theme'),
+            title: Text(l10n.theme),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -88,7 +90,7 @@ class AppearanceSettingsPage extends ConsumerWidget {
           SwitchListTile(
             key: const ValueKey('pure_black_switch'),
             secondary: const Icon(Icons.dark_mode_outlined),
-            title: const Text('Pure black (AMOLED)'),
+            title: Text(l10n.pureBlack),
             subtitle: const Text('Use pitch black for dark mode backgrounds'),
             value: themePref.isAmoled,
             onChanged: (val) {
@@ -131,7 +133,7 @@ class AppearanceSettingsPage extends ConsumerWidget {
           SwitchListTile(
             key: const ValueKey('show_tags_switch'),
             secondary: const Icon(Icons.sell_outlined),
-            title: const Text('Show tags on cards'),
+            title: Text(l10n.showTagsOnCards),
             subtitle: const Text('Display tag chips on word cards'),
             value: showTags,
             onChanged: (val) {
@@ -141,7 +143,7 @@ class AppearanceSettingsPage extends ConsumerWidget {
           SwitchListTile(
             key: const ValueKey('show_type_badges_switch'),
             secondary: const Icon(Icons.label_outline_rounded),
-            title: const Text('Show type badges'),
+            title: Text(l10n.showTypeBadges),
             subtitle: const Text(
               'Display Word, Phrase, Idiom, or Quote badges',
             ),

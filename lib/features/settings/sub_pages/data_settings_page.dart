@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,6 +31,7 @@ class DataSettingsPage extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
         return AlertDialog(
           title: const Text(
             'Clear All Data?',
@@ -42,7 +44,7 @@ class DataSettingsPage extends ConsumerWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             TextButton(
               onPressed: () async {
@@ -87,8 +89,9 @@ class DataSettingsPage extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (dialogContext) {
+        final l10n = AppLocalizations.of(dialogContext)!;
         return AlertDialog(
-          title: const Text('Load Sample Data?'),
+          title: Text(l10n.loadSampleDataTitle),
           content: const Text(
             'This will populate 10 curated entries for each category (10 Words, 10 Phrases, 10 Idioms, and 10 Quotes) along with sample collections.\n\n'
             '• Existing sample entries will be refreshed.\n'
@@ -97,7 +100,7 @@ class DataSettingsPage extends ConsumerWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             FilledButton(
               onPressed: () async {
@@ -161,6 +164,7 @@ class DataSettingsPage extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (dialogContext) {
+        final l10n = AppLocalizations.of(dialogContext)!;
         return AlertDialog(
           title: const Text(
             'Delete Sample Data?',
@@ -173,7 +177,7 @@ class DataSettingsPage extends ConsumerWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             FilledButton(
               style: FilledButton.styleFrom(
@@ -206,7 +210,7 @@ class DataSettingsPage extends ConsumerWidget {
                     ScaffoldMessenger.of(context).removeCurrentSnackBar();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Error deleting sample data: $e'),
+                        content: Text(l10n.sampleDataDeleteError(e.toString())),
                         backgroundColor: Colors.redAccent,
                       ),
                     );
@@ -232,11 +236,12 @@ class DataSettingsPage extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
+    final l10n = AppLocalizations.of(context)!;
     final format = await showDialog<ExportFormat>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Export Data'),
+          title: Text(l10n.exportData),
           content: const Text(
             'Choose the export format for your lexicon backup.',
           ),
@@ -381,8 +386,9 @@ class DataSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Data')),
+      appBar: AppBar(title: Text(l10n.data)),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         children: [
@@ -390,7 +396,7 @@ class DataSettingsPage extends ConsumerWidget {
           _buildSectionHeader(context, 'Data Import & Export'),
           ListTile(
             leading: const Icon(Icons.save_alt_outlined),
-            title: const Text('Export Data'),
+            title: Text(l10n.exportData),
             subtitle: const Text(
               'Save a JSON backup or CSV export of your lexicon to a location you choose',
             ),
@@ -398,7 +404,7 @@ class DataSettingsPage extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.download_outlined),
-            title: const Text('Import Data'),
+            title: Text(l10n.importData),
             subtitle: const Text(
               'Pick a JSON or CSV file and preview duplicates before import',
             ),
@@ -430,7 +436,7 @@ class DataSettingsPage extends ConsumerWidget {
             ListTile(
               key: const ValueKey('load_sample_data_tile'),
               leading: const Icon(Icons.auto_stories_outlined),
-              title: const Text('Load Sample Data'),
+              title: Text(l10n.loadSampleData),
               subtitle: const Text(
                 'Populate 10 items in each category (40 entries)',
               ),

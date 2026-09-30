@@ -1,3 +1,4 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,7 +67,7 @@ void main() {
       ],
       child: MediaQuery(
         data: const MediaQueryData(size: Size(800, 2400)),
-        child: MaterialApp(home: child),
+        child: MaterialApp(localizationsDelegates: AppLocalizations.localizationsDelegates, supportedLocales: AppLocalizations.supportedLocales,home: child),
       ),
     );
   }
@@ -92,7 +93,7 @@ void main() {
   ) async {
     await pumpApp(tester, const HomeScreen());
 
-    expect(find.text('Your lexicon is empty!'), findsOneWidget);
+    expect(find.text('Your Lexicon is Empty'), findsOneWidget);
     expect(find.text('Add First Entry'), findsOneWidget);
   });
 

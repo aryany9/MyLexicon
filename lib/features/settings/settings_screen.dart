@@ -1,3 +1,4 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import 'sub_pages/navigation_settings_page.dart';
 import 'sub_pages/tags_settings_page.dart';
 import 'sub_pages/data_settings_page.dart';
 import 'sub_pages/about_settings_page.dart';
+import 'sub_pages/language_settings_page.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -29,6 +31,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
@@ -40,14 +43,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('Settings')),
+        appBar: AppBar(title: Text(l10n.settings)),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           children: [
             ListTile(
               leading: const Icon(Icons.palette_outlined),
-              title: const Text('Appearance'),
-              subtitle: const Text('Theme, display density'),
+              title: Text(l10n.appearance),
+              subtitle: Text(l10n.appearanceSubtitle),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.of(context).push(
@@ -60,7 +63,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.tune_outlined),
-              title: const Text('Navigation & Features'),
+              title: Text(l10n.navigationAndFeatures),
               subtitle: const Text('Startup tab, sort tabs or toggle features'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
@@ -74,8 +77,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.sell_outlined),
-              title: const Text('Tags'),
-              subtitle: const Text('Rename and delete tags'),
+              title: Text(l10n.tags),
+              subtitle: Text(l10n.tagsSubtitle),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.of(context).push(
@@ -88,7 +91,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.storage_outlined),
-              title: const Text('Data'),
+              title: Text(l10n.data),
               subtitle: const Text('Export, import, and clear data'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
@@ -101,8 +104,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
             const Divider(),
             ListTile(
+              leading: const Icon(Icons.translate),
+              title: Text(l10n.language),
+              subtitle: Text(l10n.languageSubtitle),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const LanguageSettingsPage(),
+                  ),
+                );
+              },
+            ),
+            const Divider(),
+            ListTile(
               leading: const Icon(Icons.info_outline_rounded),
-              title: const Text('About'),
+              title: Text(l10n.about),
               subtitle: Text(
                 _version != null
                     ? 'v$_version · Licenses and links'

@@ -1,9 +1,10 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
+import 'package:mylexicon/l10n/lexicon_type_l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/constants/size_constants.dart';
 import '../../core/constants/path_constants.dart';
-import '../../core/constants/text_constants.dart';
 import '../../core/services/database_service.dart';
 import '../../models/lexicon_entry.dart';
 import '../../models/lexicon_type.dart';
@@ -19,18 +20,19 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final statsAsync = ref.watch(statsProvider);
     final entriesAsync = ref.watch(entriesProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(TextConstants.appTitle),
+        title: Text(l10n.appTitle),
         centerTitle: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () => context.push(PathConstants.search),
-            tooltip: TextConstants.search,
+            tooltip: l10n.searchTitle,
           ),
         ],
       ),
@@ -56,7 +58,7 @@ class HomeScreen extends ConsumerWidget {
 
                     // Stats Grid Section
                     Text(
-                      TextConstants.yourLexiconStats,
+                      l10n.yourLexiconStats,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -67,7 +69,7 @@ class HomeScreen extends ConsumerWidget {
 
                     // Quick Actions
                     Text(
-                      TextConstants.quickActions,
+                      l10n.quickActions,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -85,14 +87,14 @@ class HomeScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          TextConstants.recentEntries,
+                          l10n.recentEntries,
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         if (total > 0)
                           TextButton(
                             onPressed: () => context.push(PathConstants.search),
-                            child: const Text(TextConstants.viewAll),
+                            child: Text(l10n.viewAll),
                           ),
                       ],
                     ),
@@ -121,7 +123,7 @@ class HomeScreen extends ConsumerWidget {
                       loading: () =>
                           const Center(child: CircularProgressIndicator()),
                       error: (err, stack) =>
-                          Text('${TextConstants.errorLoadingEntries} $err'),
+                          Text(l10n.errorLoadingEntries(err.toString())),
                     ),
                     const Gap.vertical(
                       SizeConstants.fabSpacer,
@@ -135,7 +137,7 @@ class HomeScreen extends ConsumerWidget {
         loading: () =>
             const Scaffold(body: Center(child: CircularProgressIndicator())),
         error: (err, stack) =>
-            Scaffold(body: Center(child: Text('${TextConstants.error} $err'))),
+            Scaffold(body: Center(child: Text(l10n.error(err.toString())))),
       ),
       floatingActionButton: const FanOutFab(),
     );
@@ -157,6 +159,7 @@ class HomeScreen extends ConsumerWidget {
     WidgetRef ref,
     Map<String, int> stats,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     final flags = ref.watch(featureFlagsProvider);
     final wordCount = stats['words'] ?? 0;
     final quoteCount = stats['quotes'] ?? 0;
@@ -166,7 +169,7 @@ class HomeScreen extends ConsumerWidget {
     final cards = <Widget>[
       if (flags[AppFeature.word] ?? true)
         StatCard(
-          title: TextConstants.words,
+          title: l10n.typeWords,
           count: wordCount,
           icon: Icons.abc,
           color: Colors.blue,
@@ -174,7 +177,7 @@ class HomeScreen extends ConsumerWidget {
         ),
       if (flags[AppFeature.quote] ?? true)
         StatCard(
-          title: TextConstants.quotes,
+          title: l10n.typeQuotes,
           count: quoteCount,
           icon: Icons.format_quote,
           color: Colors.purple,
@@ -182,7 +185,7 @@ class HomeScreen extends ConsumerWidget {
         ),
       if (flags[AppFeature.phrase] ?? true)
         StatCard(
-          title: TextConstants.phrases,
+          title: l10n.typePhrases,
           count: phraseCount,
           icon: Icons.chat_bubble_outline,
           color: Colors.teal,
@@ -190,7 +193,7 @@ class HomeScreen extends ConsumerWidget {
         ),
       if (flags[AppFeature.idiom] ?? true)
         StatCard(
-          title: TextConstants.idioms,
+          title: l10n.typeIdioms,
           count: idiomCount,
           icon: Icons.auto_awesome,
           color: Colors.orange,
@@ -214,6 +217,7 @@ class HomeScreen extends ConsumerWidget {
   }
 
   Widget _buildQuickActions(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final flags = ref.watch(featureFlagsProvider);
     final showCollections = flags[AppFeature.collections] ?? true;
 
@@ -223,7 +227,7 @@ class HomeScreen extends ConsumerWidget {
         children: [
           _buildActionButton(
             context,
-            label: TextConstants.favorites,
+            label: l10n.favorites,
             icon: Icons.favorite,
             color: Colors.redAccent,
             onTap: () => context.push(PathConstants.searchFavorites()),
@@ -232,7 +236,7 @@ class HomeScreen extends ConsumerWidget {
             const Gap.horizontal(SizeConstants.md),
             _buildActionButton(
               context,
-              label: TextConstants.collections,
+              label: l10n.navCollections,
               icon: Icons.folder_special,
               color: Colors.indigo,
               onTap: () => context.push(PathConstants.collections),
@@ -241,7 +245,7 @@ class HomeScreen extends ConsumerWidget {
           const Gap.horizontal(SizeConstants.md),
           _buildActionButton(
             context,
-            label: TextConstants.searchTags,
+            label: l10n.searchTags,
             icon: Icons.sell,
             color: Colors.green,
             onTap: () => context.push(PathConstants.searchFocusTags()),
@@ -287,6 +291,7 @@ class HomeScreen extends ConsumerWidget {
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Card(
       elevation: 0,
@@ -309,14 +314,14 @@ class HomeScreen extends ConsumerWidget {
             ),
             const Gap.vertical(SizeConstants.lg),
             Text(
-              TextConstants.yourLexiconIsEmpty,
+              l10n.yourLexiconIsEmpty,
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const Gap.vertical(SizeConstants.sm),
             Text(
-              TextConstants.emptyStateDescription,
+              l10n.emptyStateDescription,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
@@ -327,7 +332,7 @@ class HomeScreen extends ConsumerWidget {
             ElevatedButton.icon(
               onPressed: () => context.push(PathConstants.entryForm),
               icon: const Icon(Icons.add),
-              label: const Text(TextConstants.addFirstEntry),
+              label: Text(l10n.addFirstEntry),
             ),
           ],
         ),
@@ -417,7 +422,7 @@ class HomeScreen extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    entry.type.name.toUpperCase(),
+                    entry.type.localizedBadge(AppLocalizations.of(context)!),
                     style: TextStyle(
                       color: typeColor,
                       fontSize: 10,
@@ -494,6 +499,7 @@ class _DashboardTagsSectionState extends State<DashboardTagsSection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final tags = widget.tags;
     if (tags.isEmpty) {
       return const SizedBox.shrink();
@@ -519,7 +525,7 @@ class _DashboardTagsSectionState extends State<DashboardTagsSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          TextConstants.yourTags,
+          l10n.yourTags,
           style: Theme.of(
             context,
           ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -542,7 +548,7 @@ class _DashboardTagsSectionState extends State<DashboardTagsSection> {
                     children: [
                       for (final tag in rows[r])
                         Padding(
-                          padding: const EdgeInsets.only(right: 8),
+                          padding: const EdgeInsetsDirectional.only(end: 8.0),
                           child: ActionChip(
                             label: Text('#$tag'),
                             onPressed: () =>

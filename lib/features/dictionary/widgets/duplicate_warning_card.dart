@@ -1,3 +1,5 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
+import 'package:mylexicon/l10n/lexicon_type_l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/lexicon_entry.dart';
@@ -49,7 +51,7 @@ class DuplicateWarningCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${duplicateEntry.term} • ${duplicateEntry.type.name}',
+                    '${duplicateEntry.term} • ${duplicateEntry.type.localizedSingular(AppLocalizations.of(context)!)}',
                     style: const TextStyle(fontSize: 13),
                   ),
                   const SizedBox(height: 4),

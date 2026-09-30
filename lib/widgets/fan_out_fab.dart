@@ -157,12 +157,16 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
                   ),
                 ),
                 // Anchored fan-out buttons and close FAB
-                CompositedTransformFollower(
-                  link: _layerLink,
-                  targetAnchor: Alignment.bottomRight,
-                  followerAnchor: Alignment.bottomRight,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                Builder(
+                  builder: (context) {
+                    final isRtl = Directionality.of(context) == TextDirection.rtl;
+                    final anchor = isRtl ? Alignment.bottomLeft : Alignment.bottomRight;
+                    return CompositedTransformFollower(
+                      link: _layerLink,
+                      targetAnchor: anchor,
+                      followerAnchor: anchor,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       ...visibleOptions.map(
@@ -188,7 +192,9 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
                       ),
                     ],
                   ),
-                ),
+                );
+              },
+            ),
               ],
             ),
           );

@@ -1,3 +1,4 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/models/app_feature.dart';
@@ -9,21 +10,21 @@ import '../../../widgets/preference_picker_card.dart';
 enum _NavigationSection { navigation, features }
 
 /// Maps a tab route path to a human-readable name.
-String _getTabName(String path) {
+String _getTabName(String path, AppLocalizations l10n) {
   switch (path) {
     case '/collections':
-      return 'Collections';
+      return l10n.navCollections;
     case '/category/word':
-      return 'Words';
+      return l10n.navWords;
     case '/category/idiom':
-      return 'Idioms';
+      return l10n.navIdioms;
     case '/category/phrase':
-      return 'Phrases';
+      return l10n.navPhrases;
     case '/category/quote':
-      return 'Quotes';
+      return l10n.navQuotes;
     case '/':
     default:
-      return 'Dashboard';
+      return l10n.navDashboard;
   }
 }
 
@@ -63,18 +64,18 @@ IconData _getFeatureIcon(AppFeature feature) {
 }
 
 /// Maps an [AppFeature] to its descriptive subtitle.
-String _getFeatureSubtitle(AppFeature feature) {
+String _getFeatureSubtitle(AppFeature feature, AppLocalizations l10n) {
   switch (feature) {
     case AppFeature.collections:
-      return 'Custom lists and entry groups';
+      return l10n.featureCollectionsSubtitle;
     case AppFeature.word:
-      return 'Vocabulary terms and definitions';
+      return l10n.featureWordSubtitle;
     case AppFeature.idiom:
-      return 'Figurative expressions and meanings';
+      return l10n.featureIdiomSubtitle;
     case AppFeature.phrase:
-      return 'Common phrases and expressions';
+      return l10n.featurePhraseSubtitle;
     case AppFeature.quote:
-      return 'Memorable citations and notes';
+      return l10n.featureQuoteSubtitle;
   }
 }
 
@@ -106,6 +107,7 @@ class _NavigationSettingsPageState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final featureFlags = ref.watch(featureFlagsProvider);
     final currentPath = ref.watch(defaultTabProvider);
     final tabOrder = ref.watch(tabOrderProvider);
@@ -126,7 +128,7 @@ class _NavigationSettingsPageState
         : '/';
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Navigation & Features')),
+      appBar: AppBar(title: Text(l10n.navigationAndFeatures)),
       body: Column(
         children: [
           Padding(
@@ -183,6 +185,7 @@ class _NavigationSettingsPageState
     List<String> tabOrder,
     Map<AppFeature, bool> featureFlags,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
     return ListView(
@@ -190,22 +193,22 @@ class _NavigationSettingsPageState
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       children: [
         // ── Default Launch Screen Preference Row ──────────────────────────
-        _buildSectionHeader(context, 'Default launch screen'),
+        _buildSectionHeader(context, l10n.defaultLaunchScreen),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: PreferencePickerCard<String>(
             key: const ValueKey('default_launch_screen_card'),
-            title: 'Default launch screen',
-            subtitle: 'Screen shown when MyLexicon opens',
+            title: l10n.defaultLaunchScreen,
+            subtitle: l10n.defaultLaunchScreenSubtitle,
             icon: Icons.rocket_launch_outlined,
             currentValue: effectivePath,
-            currentLabel: _getTabName(effectivePath),
-            sheetTitle: 'Default launch screen',
-            sheetSubtitle: 'Choose your starting screen',
+            currentLabel: _getTabName(effectivePath, l10n),
+            sheetTitle: l10n.defaultLaunchScreen,
+            sheetSubtitle: l10n.chooseStartingScreen,
             options: availableTabs.map((path) {
               return PreferencePickerOption<String>(
                 value: path,
-                label: _getTabName(path),
+                label: _getTabName(path, l10n),
                 icon: _getTabIcon(path),
               );
             }).toList(),
@@ -217,11 +220,11 @@ class _NavigationSettingsPageState
         const SizedBox(height: 16),
 
         // ── Bottom Navigation Tab Order ───────────────────────────────────
-        _buildSectionHeader(context, 'Navigation Tab Order'),
+        _buildSectionHeader(context, l10n.navigationTabOrder),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
-            'Drag handles to reorder tabs in the bottom navigation bar.',
+            l10n.dragToReorder,
             style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
           ),
         ),
@@ -276,7 +279,7 @@ class _NavigationSettingsPageState
                         : theme.disabledColor,
                   ),
                   title: Text(
-                    _getTabName(path),
+                    _getTabName(path, l10n),
                     style: TextStyle(
                       color: isEnabled ? null : theme.disabledColor,
                       fontWeight: FontWeight.w500,
@@ -315,6 +318,7 @@ class _NavigationSettingsPageState
     BuildContext context,
     Map<AppFeature, bool> featureFlags,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final enabledCount = AppFeature.values
         .where((f) => featureFlags[f] ?? true)
@@ -325,11 +329,11 @@ class _NavigationSettingsPageState
       key: const ValueKey('features_section'),
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       children: [
-        _buildSectionHeader(context, 'Category & Feature Toggles'),
+        _buildSectionHeader(context, l10n.categoryAndFeatureToggles),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
-            '$enabledCount of $totalCount active • Disabled categories are hidden across navigation, dashboard, and search.',
+            l10n.activeFeatures(enabledCount, totalCount),
             style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
           ),
         ),
@@ -368,7 +372,7 @@ class _NavigationSettingsPageState
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
                       subtitle: Text(
-                        _getFeatureSubtitle(feature),
+                        _getFeatureSubtitle(feature, l10n),
                         style: TextStyle(
                           fontSize: 12,
                           color: isEnabled
