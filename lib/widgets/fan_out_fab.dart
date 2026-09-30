@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../core/models/app_feature.dart';
 import '../core/providers/feature_flags_provider.dart';
+import '../l10n/app_localizations.dart';
 import '../models/lexicon_type.dart';
 
 class FanOutFab extends ConsumerStatefulWidget {
@@ -79,33 +80,34 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final flags = ref.watch(featureFlagsProvider);
 
     final allOptions = [
       (
         feature: AppFeature.quote,
-        label: 'Add Quote',
+        label: l10n.addQuote,
         icon: Icons.format_quote,
         color: Colors.purple,
         type: LexiconType.quote,
       ),
       (
         feature: AppFeature.idiom,
-        label: 'Add Idiom',
+        label: l10n.addIdiom,
         icon: Icons.auto_awesome,
         color: Colors.orange,
         type: LexiconType.idiom,
       ),
       (
         feature: AppFeature.phrase,
-        label: 'Add Phrase',
+        label: l10n.addPhrase,
         icon: Icons.chat_bubble_outline,
         color: Colors.teal,
         type: LexiconType.phrase,
       ),
       (
         feature: AppFeature.word,
-        label: 'Add Word',
+        label: l10n.addWord,
         icon: Icons.abc,
         color: Colors.blue,
         type: LexiconType.word,
@@ -119,6 +121,7 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
     if (visibleOptions.isEmpty) {
       return FloatingActionButton(
         heroTag: null,
+        tooltip: l10n.addEntry,
         onPressed: () => context.push('/entry-form'),
         elevation: 4,
         child: const Icon(Icons.add),
@@ -182,6 +185,7 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
                       FloatingActionButton(
                         key: const ValueKey('fan_out_close_fab'),
                         heroTag: null,
+                        tooltip: l10n.cancel,
                         onPressed: _toggle,
                         elevation: 4,
                         child: AnimatedRotation(
@@ -202,6 +206,7 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
         child: FloatingActionButton(
           key: const ValueKey('fan_out_main_fab'),
           heroTag: null,
+          tooltip: l10n.addEntry,
           onPressed: _toggle,
           elevation: 4,
           child: const Icon(Icons.add),

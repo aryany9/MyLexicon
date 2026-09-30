@@ -64,6 +64,32 @@ To expand accessibility to international audiences, we are introducing localized
 - **Rationale**: Keeping the constants file alongside `AppLocalizations` creates two competing sources of truth for UI strings, risks developers using the English-only constants in new code, and breaks the contract that all user-facing text flows through the l10n system.
 - **Migration**: Each `TextConstants.*` and `TitleConstants.*` reference is replaced with the semantically equivalent `AppLocalizations.of(context)!.*` key during the string extraction pass.
 
+### 10. Floating Action Button & Speed-Dial Menu Localization
+- **Decision**: Define specific ARB keys for each entry type addition (`addWord`, `addPhrase`, `addIdiom`, `addQuote`) and provide a helper method `LexiconTypeL10n.localizedAdd(l10n)` on the `LexiconType` extension.
+- **Rationale**: `FanOutFab` and `CategoryListScreen` action buttons require clean grammatical phrasing in inflected languages (e.g. Russian accusative `Добавить слово`, Hindi `शब्द जोड़ें`). Using dedicated keys avoids awkward string concatenations like `"Add - Word"`.
+
+### 11. Contextual Section Headings in Entry Detail Screen
+- **Decision**: Provide distinct localized section titles for definitions and examples depending on the `LexiconType`:
+  - Quotes: `contextAndMeaning` ("Context & Meaning") and `sourceContext` ("Source Context")
+  - Idioms: `meaningAndInterpretation` ("Meaning & Interpretation")
+  - Words/Phrases: `definitionLabel` ("Definition") and `examples` / `exampleUsage`
+  - Notes: `personalNotes` ("Personal Notes")
+  - Creation timestamp: `storedOn` ("Stored on {date}")
+- **Rationale**: Gives users a polished, natural reading experience tailored to each lexicon item type across all languages.
+
+### 12. Modern Flutter RadioGroup Pattern
+- **Decision**: Wrap the language options list in `RadioGroup<String>` in `LanguageSettingsPage` rather than setting `groupValue` and `onChanged` individually on each `RadioListTile`.
+- **Rationale**: Conforms to modern Flutter SDK requirements (v3.32+) where `RadioListTile.groupValue` is deprecated in favor of `RadioGroup` ancestors, preventing analyzer deprecation warnings.
+
+### 13. Dynamic Term & Form Localization in Entry Form Screen
+- **Decision**: Dynamically resolve term and definition field labels based on the currently selected `LexiconType` using dedicated ARB keys:
+  - Words: `typeWord` ("Word") and `meaningOrDefinition` ("Meaning / Definition")
+  - Quotes: `quoteText` ("Quote Text") and `quoteContextMeaningNotes` ("Context / Meaning / Author Notes")
+  - Phrases: `typePhrase` ("Phrase") and `meaningOrTranslation` ("Meaning / Translation")
+  - Idioms: `typeIdiom` ("Idiom") and `meaningOrOrigin` ("Meaning / Origin")
+- Provide parameterized ARB messages for input hints (`enterFieldHint: "Enter {field}..."`) and validation errors (`fieldCannotBeEmpty: "{field} cannot be empty"`), ensuring natural localized form validation across all languages.
+- Localize collection selection dropdowns (`selectCollectionHint`, `noneCollection`, `errorLoadingCollections`), tag indicators (`tags`, `noTagsAddedYet`), and action submission buttons (`saveEntry`, `updateEntry`).
+
 ## Risks / Trade-offs
 
 - **[Risk] Text Expansion in Indic Scripts**: Indian language translations can be 20–40% longer in width, potentially causing button/chip overflow.

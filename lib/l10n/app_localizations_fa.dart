@@ -105,6 +105,18 @@ class AppLocalizationsFa extends AppLocalizations {
   String get addEntry => 'افزودن ورودی';
 
   @override
+  String get addWord => 'افزودن کلمه';
+
+  @override
+  String get addPhrase => 'افزودن عبارت';
+
+  @override
+  String get addIdiom => 'افزودن اصطلاح';
+
+  @override
+  String get addQuote => 'افزودن نقل‌قول';
+
+  @override
   String get editEntry => 'ویرایش ورودی';
 
   @override
@@ -198,6 +210,34 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String deleteError(String error) {
     return 'خطا در حذف: $error';
+  }
+
+  @override
+  String failedToUpdateFavorite(String error) {
+    return 'به‌روزرسانی وضعیت موردعلاقه انجام نشد: $error';
+  }
+
+  @override
+  String get contextAndMeaning => 'زمینه و معنی';
+
+  @override
+  String get meaningAndInterpretation => 'معنی و تفسیر';
+
+  @override
+  String get sourceContext => 'زمینه منبع';
+
+  @override
+  String get examples => 'مثال‌ها';
+
+  @override
+  String get exampleUsage => 'نمونه کاربرد';
+
+  @override
+  String get personalNotes => 'یادداشت‌های شخصی';
+
+  @override
+  String storedOn(String date) {
+    return 'ذخیره‌شده در $date';
   }
 
   @override
@@ -734,4 +774,76 @@ class AppLocalizationsFa extends AppLocalizations {
   String error(String error) {
     return 'خطا: $error';
   }
+
+  @override
+  String get addNewEntry => 'افزودن ورودی جدید';
+
+  @override
+  String get quoteText => 'متن نقل‌قول';
+
+  @override
+  String get meaningOrDefinition => 'معنی / تعریف';
+
+  @override
+  String get quoteContextMeaningNotes => 'زمینه / معنی / یادداشت‌های نویسنده';
+
+  @override
+  String get meaningOrTranslation => 'معنی / ترجمه';
+
+  @override
+  String get meaningOrOrigin => 'معنی / ریشه';
+
+  @override
+  String get selectEntryType => 'انتخاب نوع ورودی';
+
+  @override
+  String enterFieldHint(String field) {
+    return '$field را وارد کنید...';
+  }
+
+  @override
+  String fieldCannotBeEmpty(String field) {
+    return '$field نمی‌تواند خالی باشد';
+  }
+
+  @override
+  String get exampleSentences => 'جملات نمونه';
+
+  @override
+  String get quoteSourceExample => 'مثلاً: شکسپیر - هملت، پرده ۳';
+
+  @override
+  String exampleNth(int number) {
+    return 'مثال $number...';
+  }
+
+  @override
+  String get personalNotesOptional => 'یادداشت‌های شخصی (اختیاری)';
+
+  @override
+  String get personalNotesHint =>
+      'افزودن یادداشت‌های شخصی، سرنخ‌ها یا ارجاعات...';
+
+  @override
+  String get collectionOptional => 'مجموعه (اختیاری)';
+
+  @override
+  String get selectCollectionHint => 'انتخاب یک مجموعه...';
+
+  @override
+  String get noneCollection => 'هیچ‌کدام';
+
+  @override
+  String errorLoadingCollections(String error) {
+    return 'خطا در بارگذاری مجموعه‌ها: $error';
+  }
+
+  @override
+  String get noTagsAddedYet => 'هنوز برچسبی اضافه نشده است';
+
+  @override
+  String get updateEntry => 'به‌روزرسانی ورودی';
+
+  @override
+  String get saveEntry => 'ذخیره ورودی';
 }

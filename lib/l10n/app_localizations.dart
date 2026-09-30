@@ -296,6 +296,30 @@ abstract class AppLocalizations {
   /// **'Add Entry'**
   String get addEntry;
 
+  /// No description provided for @addWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Word'**
+  String get addWord;
+
+  /// No description provided for @addPhrase.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Phrase'**
+  String get addPhrase;
+
+  /// No description provided for @addIdiom.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Idiom'**
+  String get addIdiom;
+
+  /// No description provided for @addQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Quote'**
+  String get addQuote;
+
   /// No description provided for @editEntry.
   ///
   /// In en, this message translates to:
@@ -475,6 +499,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to delete: {error}'**
   String deleteError(String error);
+
+  /// No description provided for @failedToUpdateFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update favorite status: {error}'**
+  String failedToUpdateFavorite(String error);
+
+  /// No description provided for @contextAndMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Context & Meaning'**
+  String get contextAndMeaning;
+
+  /// No description provided for @meaningAndInterpretation.
+  ///
+  /// In en, this message translates to:
+  /// **'Meaning & Interpretation'**
+  String get meaningAndInterpretation;
+
+  /// No description provided for @sourceContext.
+  ///
+  /// In en, this message translates to:
+  /// **'Source Context'**
+  String get sourceContext;
+
+  /// No description provided for @examples.
+  ///
+  /// In en, this message translates to:
+  /// **'Examples'**
+  String get examples;
+
+  /// No description provided for @exampleUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Example Usage'**
+  String get exampleUsage;
+
+  /// No description provided for @personalNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Notes'**
+  String get personalNotes;
+
+  /// No description provided for @storedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored on {date}'**
+  String storedOn(String date);
 
   /// No description provided for @shareEntry.
   ///
@@ -1459,6 +1531,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error: {error}'**
   String error(String error);
+
+  /// No description provided for @addNewEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Entry'**
+  String get addNewEntry;
+
+  /// No description provided for @quoteText.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote Text'**
+  String get quoteText;
+
+  /// No description provided for @meaningOrDefinition.
+  ///
+  /// In en, this message translates to:
+  /// **'Meaning / Definition'**
+  String get meaningOrDefinition;
+
+  /// No description provided for @quoteContextMeaningNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Context / Meaning / Author Notes'**
+  String get quoteContextMeaningNotes;
+
+  /// No description provided for @meaningOrTranslation.
+  ///
+  /// In en, this message translates to:
+  /// **'Meaning / Translation'**
+  String get meaningOrTranslation;
+
+  /// No description provided for @meaningOrOrigin.
+  ///
+  /// In en, this message translates to:
+  /// **'Meaning / Origin'**
+  String get meaningOrOrigin;
+
+  /// No description provided for @selectEntryType.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Entry Type'**
+  String get selectEntryType;
+
+  /// No description provided for @enterFieldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter {field}...'**
+  String enterFieldHint(String field);
+
+  /// No description provided for @fieldCannotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'{field} cannot be empty'**
+  String fieldCannotBeEmpty(String field);
+
+  /// No description provided for @exampleSentences.
+  ///
+  /// In en, this message translates to:
+  /// **'Example Sentences'**
+  String get exampleSentences;
+
+  /// No description provided for @quoteSourceExample.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Shakespeare - Hamlet, Act III'**
+  String get quoteSourceExample;
+
+  /// No description provided for @exampleNth.
+  ///
+  /// In en, this message translates to:
+  /// **'Example {number}...'**
+  String exampleNth(int number);
+
+  /// No description provided for @personalNotesOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Notes (Optional)'**
+  String get personalNotesOptional;
+
+  /// No description provided for @personalNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add personal notes, memory triggers, or references...'**
+  String get personalNotesHint;
+
+  /// No description provided for @collectionOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection (Optional)'**
+  String get collectionOptional;
+
+  /// No description provided for @selectCollectionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a collection...'**
+  String get selectCollectionHint;
+
+  /// No description provided for @noneCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get noneCollection;
+
+  /// No description provided for @errorLoadingCollections.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading collections: {error}'**
+  String errorLoadingCollections(String error);
+
+  /// No description provided for @noTagsAddedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No tags added yet'**
+  String get noTagsAddedYet;
+
+  /// No description provided for @updateEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Entry'**
+  String get updateEntry;
+
+  /// No description provided for @saveEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Entry'**
+  String get saveEntry;
 }
 
 class _AppLocalizationsDelegate

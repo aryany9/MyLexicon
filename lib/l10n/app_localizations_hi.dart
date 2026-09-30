@@ -105,6 +105,18 @@ class AppLocalizationsHi extends AppLocalizations {
   String get addEntry => 'प्रविष्टि जोड़ें';
 
   @override
+  String get addWord => 'शब्द जोड़ें';
+
+  @override
+  String get addPhrase => 'वाक्यांश जोड़ें';
+
+  @override
+  String get addIdiom => 'मुहावरा जोड़ें';
+
+  @override
+  String get addQuote => 'उद्धरण जोड़ें';
+
+  @override
   String get editEntry => 'प्रविष्टि संपादित करें';
 
   @override
@@ -198,6 +210,34 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String deleteError(String error) {
     return 'हटाने में त्रुटि: $error';
+  }
+
+  @override
+  String failedToUpdateFavorite(String error) {
+    return 'पसंदीदा स्थिति अपडेट करने में विफल: $error';
+  }
+
+  @override
+  String get contextAndMeaning => 'संदर्भ और अर्थ';
+
+  @override
+  String get meaningAndInterpretation => 'अर्थ और व्याख्या';
+
+  @override
+  String get sourceContext => 'स्रोत संदर्भ';
+
+  @override
+  String get examples => 'उदाहरण';
+
+  @override
+  String get exampleUsage => 'उदाहरण उपयोग';
+
+  @override
+  String get personalNotes => 'व्यक्तिगत नोट्स';
+
+  @override
+  String storedOn(String date) {
+    return 'सहेजा गया: $date';
   }
 
   @override
@@ -733,4 +773,76 @@ class AppLocalizationsHi extends AppLocalizations {
   String error(String error) {
     return 'त्रुटि: $error';
   }
+
+  @override
+  String get addNewEntry => 'नई प्रविष्टि जोड़ें';
+
+  @override
+  String get quoteText => 'उद्धरण का पाठ';
+
+  @override
+  String get meaningOrDefinition => 'अर्थ / परिभाषा';
+
+  @override
+  String get quoteContextMeaningNotes => 'संदर्भ / अर्थ / लेखक की टिप्पणी';
+
+  @override
+  String get meaningOrTranslation => 'अर्थ / अनुवाद';
+
+  @override
+  String get meaningOrOrigin => 'अर्थ / उत्पत्ति';
+
+  @override
+  String get selectEntryType => 'प्रविष्टि का प्रकार चुनें';
+
+  @override
+  String enterFieldHint(String field) {
+    return '$field दर्ज करें...';
+  }
+
+  @override
+  String fieldCannotBeEmpty(String field) {
+    return '$field खाली नहीं हो सकता';
+  }
+
+  @override
+  String get exampleSentences => 'उदाहरण वाक्य';
+
+  @override
+  String get quoteSourceExample => 'उदा. शेक्सपियर - हेमलेट, अंक III';
+
+  @override
+  String exampleNth(int number) {
+    return 'उदाहरण $number...';
+  }
+
+  @override
+  String get personalNotesOptional => 'व्यक्तिगत नोट्स (वैकल्पिक)';
+
+  @override
+  String get personalNotesHint =>
+      'व्यक्तिगत नोट्स, स्मृति संकेत या संदर्भ जोड़ें...';
+
+  @override
+  String get collectionOptional => 'संग्रह (वैकल्पिक)';
+
+  @override
+  String get selectCollectionHint => 'एक संग्रह चुनें...';
+
+  @override
+  String get noneCollection => 'कोई नहीं';
+
+  @override
+  String errorLoadingCollections(String error) {
+    return 'संग्रह लोड करने में त्रुटि: $error';
+  }
+
+  @override
+  String get noTagsAddedYet => 'अभी तक कोई टैग नहीं जोड़ा गया';
+
+  @override
+  String get updateEntry => 'प्रविष्टि अपडेट करें';
+
+  @override
+  String get saveEntry => 'प्रविष्टि सहेजें';
 }

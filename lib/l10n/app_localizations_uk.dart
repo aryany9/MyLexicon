@@ -105,6 +105,18 @@ class AppLocalizationsUk extends AppLocalizations {
   String get addEntry => 'Додати запис';
 
   @override
+  String get addWord => 'Додати слово';
+
+  @override
+  String get addPhrase => 'Додати фразу';
+
+  @override
+  String get addIdiom => 'Додати ідіому';
+
+  @override
+  String get addQuote => 'Додати цитату';
+
+  @override
   String get editEntry => 'Редагувати запис';
 
   @override
@@ -198,6 +210,34 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String deleteError(String error) {
     return 'Помилка видалення: $error';
+  }
+
+  @override
+  String failedToUpdateFavorite(String error) {
+    return 'Не вдалося оновити статус улюбленого: $error';
+  }
+
+  @override
+  String get contextAndMeaning => 'Контекст і значення';
+
+  @override
+  String get meaningAndInterpretation => 'Значення та тлумачення';
+
+  @override
+  String get sourceContext => 'Контекст джерела';
+
+  @override
+  String get examples => 'Приклади';
+
+  @override
+  String get exampleUsage => 'Приклад вживання';
+
+  @override
+  String get personalNotes => 'Особисті нотатки';
+
+  @override
+  String storedOn(String date) {
+    return 'Збережено: $date';
   }
 
   @override
@@ -733,4 +773,77 @@ class AppLocalizationsUk extends AppLocalizations {
   String error(String error) {
     return 'Помилка: $error';
   }
+
+  @override
+  String get addNewEntry => 'Додати новий запис';
+
+  @override
+  String get quoteText => 'Текст цитати';
+
+  @override
+  String get meaningOrDefinition => 'Значення / Визначення';
+
+  @override
+  String get quoteContextMeaningNotes =>
+      'Контекст / Значення / Примітки автора';
+
+  @override
+  String get meaningOrTranslation => 'Значення / Переклад';
+
+  @override
+  String get meaningOrOrigin => 'Значення / Походження';
+
+  @override
+  String get selectEntryType => 'Виберіть тип запису';
+
+  @override
+  String enterFieldHint(String field) {
+    return 'Введіть $field...';
+  }
+
+  @override
+  String fieldCannotBeEmpty(String field) {
+    return '$field не може бути порожнім';
+  }
+
+  @override
+  String get exampleSentences => 'Приклади речень';
+
+  @override
+  String get quoteSourceExample => 'напр., Шекспір — Гамлет, Дія III';
+
+  @override
+  String exampleNth(int number) {
+    return 'Приклад $number...';
+  }
+
+  @override
+  String get personalNotesOptional => 'Особисті нотатки (необов\'язково)';
+
+  @override
+  String get personalNotesHint =>
+      'Додайте особисті нотатки, асоціації чи посилання...';
+
+  @override
+  String get collectionOptional => 'Колекція (необов\'язково)';
+
+  @override
+  String get selectCollectionHint => 'Виберіть колекцію...';
+
+  @override
+  String get noneCollection => 'Немає';
+
+  @override
+  String errorLoadingCollections(String error) {
+    return 'Помилка завантаження колекцій: $error';
+  }
+
+  @override
+  String get noTagsAddedYet => 'Тегів ще не додано';
+
+  @override
+  String get updateEntry => 'Оновити запис';
+
+  @override
+  String get saveEntry => 'Зберегти запис';
 }

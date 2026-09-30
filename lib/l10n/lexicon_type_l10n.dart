@@ -31,4 +31,17 @@ extension LexiconTypeL10n on LexiconType {
   String localizedBadge(AppLocalizations l10n) {
     return localizedSingular(l10n).toUpperCase();
   }
+
+  String localizedAdd(AppLocalizations l10n) {
+    switch (this) {
+      case LexiconType.word:
+        return l10n.addWord;
+      case LexiconType.quote:
+        return l10n.addQuote;
+      case LexiconType.phrase:
+        return l10n.addPhrase;
+      case LexiconType.idiom:
+        return l10n.addIdiom;
+    }
+  }
 }

@@ -99,3 +99,35 @@ The application SHALL NOT display raw Dart enum identifiers (e.g. `word`, `quote
 #### Scenario: Import preview duplicate list in Russian
 - **WHEN** the active locale is Russian (`ru`) and the import preview screen shows duplicate matches
 - **THEN** the duplicate entry type label SHALL display in Russian Cyrillic and SHALL NOT display the raw English enum value `word`, `quote`, etc.
+
+### Requirement: Localized Floating Action Buttons and Action Menus
+The application SHALL localize all Floating Action Button (FAB) labels, fan-out action options, and interactive action tooltips across all supported languages without hardcoded English fallbacks.
+
+#### Scenario: FanOutFab options rendered in target locale
+- **WHEN** the user opens the `FanOutFab` on the home screen in a non-English locale (e.g. Hindi `hi` or Ukrainian `uk`)
+- **THEN** the individual speed-dial options SHALL render localized labels (e.g. `शब्द जोड़ें`, `वाक्यांश जोड़ें` in Hindi; `Додати слово`, `Додати фразу` in Ukrainian)
+- **THEN** the main FAB and close FAB tooltips SHALL render localized strings (`addEntry`, `cancel`)
+
+#### Scenario: CategoryListScreen extended FAB label in target locale
+- **WHEN** the user navigates to a category screen in any supported locale
+- **THEN** the extended FAB label SHALL display the localized action phrase (e.g. `widget.type.localizedAdd(l10n)`) rather than an English string
+
+### Requirement: Localized Entry Detail Sections and Metadata
+The application's `EntryDetailScreen` SHALL render all semantic section headers, example usage indicators, personal notes headers, metadata timestamps, and favorite status error messages in the active locale.
+
+#### Scenario: Section headers adapted to entry type in Russian
+- **WHEN** the user views a quote or idiom entry detail in Russian (`ru`)
+- **THEN** quotes SHALL display `Контекст и значение` (`contextAndMeaning`) and `Контекст источника` (`sourceContext`)
+- **THEN** idioms SHALL display `Значение и толкование` (`meaningAndInterpretation`)
+- **THEN** words and phrases SHALL display `Определение` (`definitionLabel`) and `Примеры` / `Пример использования`
+- **THEN** personal notes SHALL display `Личные заметки` (`personalNotes`) and creation date SHALL display `Сохранено: <formattedDate>` (`storedOn`)
+
+### Requirement: Localized Entry Form Screen
+The application's `EntryFormScreen` SHALL localize all user-facing strings including AppBar titles, segmented button options, dynamic term/definition labels, input hints, validation error messages, examples/source context section labels, personal notes, collection selector dropdown, tags input/chips, favorite switch, and submission buttons.
+
+#### Scenario: Form validation and type selection in non-English locale
+- **WHEN** the user creates or edits an entry in a non-English locale (e.g. Russian `ru`)
+- **THEN** the screen title SHALL display `Добавить новую запись` (`addNewEntry`) or `Редактировать запись` (`editEntry`)
+- **THEN** type selector segments SHALL display localized types (`Слово`, `Цитата`, `Фраза`, `Идиома`)
+- **THEN** form field validation errors on empty submission SHALL display localized messages (e.g. `Слово не может быть пустым`)
+- **THEN** the save button SHALL display `Сохранить запись` (`saveEntry`) or `Обновить запись` (`updateEntry`)

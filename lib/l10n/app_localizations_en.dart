@@ -106,6 +106,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addEntry => 'Add Entry';
 
   @override
+  String get addWord => 'Add Word';
+
+  @override
+  String get addPhrase => 'Add Phrase';
+
+  @override
+  String get addIdiom => 'Add Idiom';
+
+  @override
+  String get addQuote => 'Add Quote';
+
+  @override
   String get editEntry => 'Edit Entry';
 
   @override
@@ -199,6 +211,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String deleteError(String error) {
     return 'Failed to delete: $error';
+  }
+
+  @override
+  String failedToUpdateFavorite(String error) {
+    return 'Failed to update favorite status: $error';
+  }
+
+  @override
+  String get contextAndMeaning => 'Context & Meaning';
+
+  @override
+  String get meaningAndInterpretation => 'Meaning & Interpretation';
+
+  @override
+  String get sourceContext => 'Source Context';
+
+  @override
+  String get examples => 'Examples';
+
+  @override
+  String get exampleUsage => 'Example Usage';
+
+  @override
+  String get personalNotes => 'Personal Notes';
+
+  @override
+  String storedOn(String date) {
+    return 'Stored on $date';
   }
 
   @override
@@ -737,4 +777,76 @@ class AppLocalizationsEn extends AppLocalizations {
   String error(String error) {
     return 'Error: $error';
   }
+
+  @override
+  String get addNewEntry => 'Add New Entry';
+
+  @override
+  String get quoteText => 'Quote Text';
+
+  @override
+  String get meaningOrDefinition => 'Meaning / Definition';
+
+  @override
+  String get quoteContextMeaningNotes => 'Context / Meaning / Author Notes';
+
+  @override
+  String get meaningOrTranslation => 'Meaning / Translation';
+
+  @override
+  String get meaningOrOrigin => 'Meaning / Origin';
+
+  @override
+  String get selectEntryType => 'Select Entry Type';
+
+  @override
+  String enterFieldHint(String field) {
+    return 'Enter $field...';
+  }
+
+  @override
+  String fieldCannotBeEmpty(String field) {
+    return '$field cannot be empty';
+  }
+
+  @override
+  String get exampleSentences => 'Example Sentences';
+
+  @override
+  String get quoteSourceExample => 'e.g. Shakespeare - Hamlet, Act III';
+
+  @override
+  String exampleNth(int number) {
+    return 'Example $number...';
+  }
+
+  @override
+  String get personalNotesOptional => 'Personal Notes (Optional)';
+
+  @override
+  String get personalNotesHint =>
+      'Add personal notes, memory triggers, or references...';
+
+  @override
+  String get collectionOptional => 'Collection (Optional)';
+
+  @override
+  String get selectCollectionHint => 'Select a collection...';
+
+  @override
+  String get noneCollection => 'None';
+
+  @override
+  String errorLoadingCollections(String error) {
+    return 'Error loading collections: $error';
+  }
+
+  @override
+  String get noTagsAddedYet => 'No tags added yet';
+
+  @override
+  String get updateEntry => 'Update Entry';
+
+  @override
+  String get saveEntry => 'Save Entry';
 }

@@ -92,4 +92,31 @@ void main() {
     // Verify closed
     expect(find.byKey(const ValueKey('fan_out_backdrop_barrier')), findsNothing);
   });
+
+  testWidgets('FanOutFab renders localized labels in non-English locale',
+      (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          locale: const Locale('hi'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const Scaffold(
+            floatingActionButton: FanOutFab(),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    // Open FAB
+    await tester.tap(find.byKey(const ValueKey('fan_out_main_fab')));
+    await tester.pumpAndSettle();
+
+    // Verify Hindi labels are displayed
+    expect(find.text('शब्द जोड़ें'), findsOneWidget);
+    expect(find.text('वाक्यांश जोड़ें'), findsOneWidget);
+    expect(find.text('मुहावरा जोड़ें'), findsOneWidget);
+    expect(find.text('उद्धरण जोड़ें'), findsOneWidget);
+  });
 }

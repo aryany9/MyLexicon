@@ -57,7 +57,7 @@ void main() {
   ///
   /// Uses an expanded 800×2400 viewport so the entire [EntryFormScreen] is
   /// rendered in the tree at once — no scroll gestures needed.
-  Widget createTestWidget(Widget child) {
+  Widget createTestWidget(Widget child, {Locale? locale}) {
     return ProviderScope(
       overrides: [
         databaseServiceProvider.overrideWithValue(dbService),
@@ -67,17 +67,22 @@ void main() {
       ],
       child: MediaQuery(
         data: const MediaQueryData(size: Size(800, 2400)),
-        child: MaterialApp(localizationsDelegates: AppLocalizations.localizationsDelegates, supportedLocales: AppLocalizations.supportedLocales,home: child),
+        child: MaterialApp(
+          locale: locale,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: child,
+        ),
       ),
     );
   }
 
-  Future<void> pumpApp(WidgetTester tester, Widget child) async {
+  Future<void> pumpApp(WidgetTester tester, Widget child, {Locale? locale}) async {
     tester.view.physicalSize = const Size(800, 2400);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
-    await tester.pumpWidget(createTestWidget(child));
+    await tester.pumpWidget(createTestWidget(child, locale: locale));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
   }
@@ -131,6 +136,29 @@ void main() {
     // At least one 'cannot be empty' validation error should be visible
     expect(find.textContaining('cannot be empty'), findsWidgets);
   });
+
+  testWidgets(
+    'EntryFormScreen renders localized labels and validation in non-English locale',
+    (WidgetTester tester) async {
+      await pumpApp(tester, const EntryFormScreen(), locale: const Locale('ru'));
+
+      // Check Russian labels rendered
+      expect(find.text('Добавить новую запись'), findsOneWidget);
+      expect(find.text('Выберите тип записи'), findsOneWidget);
+      expect(find.text('Значение / Определение'), findsOneWidget);
+      expect(find.text('Личные заметки (необязательно)'), findsOneWidget);
+      expect(find.text('Коллекция (необязательно)'), findsOneWidget);
+      expect(find.text('Теги'), findsOneWidget);
+      expect(find.text('Теги ещё не добавлены'), findsOneWidget);
+      expect(find.text('Сохранить запись'), findsOneWidget);
+
+      // Tap Save while empty -> triggers Russian validation
+      await tester.tap(find.byKey(const Key('saveEntryButton')));
+      await tester.pump();
+
+      expect(find.textContaining('не может быть пустым'), findsWidgets);
+    },
+  );
 
   // testWidgets('EntryFormScreen saves a valid entry', (
   //   WidgetTester tester,

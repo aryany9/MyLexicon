@@ -265,7 +265,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
                 onPressed: () =>
                     context.push('/entry-form?type=${widget.type.name}'),
                 icon: const Icon(Icons.add),
-                label: Text('${l10n.addEntry} - ${widget.type.localizedSingular(l10n)}'),
+                label: Text(widget.type.localizedAdd(l10n)),
               ),
       ),
     );

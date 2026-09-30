@@ -21,6 +21,7 @@ class EntryDetailScreen extends ConsumerWidget {
     WidgetRef ref,
     LexiconEntry entry,
   ) async {
+    final l10n = AppLocalizations.of(context)!;
     final db = ref.read(databaseServiceProvider);
     entry.isFavorite = !entry.isFavorite;
     try {
@@ -31,7 +32,7 @@ class EntryDetailScreen extends ConsumerWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to update favorite status: $e'),
+            content: Text(l10n.failedToUpdateFavorite(e.toString())),
             backgroundColor: Colors.redAccent,
           ),
         );
@@ -272,10 +273,10 @@ class EntryDetailScreen extends ConsumerWidget {
                   // Definition / Meaning Section
                   Text(
                     entry.type == LexiconType.quote
-                        ? 'Context & Meaning'
+                        ? l10n.contextAndMeaning
                         : entry.type == LexiconType.idiom
-                        ? 'Meaning & Interpretation'
-                        : 'Definition',
+                        ? l10n.meaningAndInterpretation
+                        : l10n.definitionLabel,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,
@@ -297,10 +298,10 @@ class EntryDetailScreen extends ConsumerWidget {
                   if (entry.examples.isNotEmpty) ...[
                     Text(
                       entry.type == LexiconType.quote
-                          ? 'Source Context'
+                          ? l10n.sourceContext
                           : entry.examples.length > 1
-                          ? 'Examples'
-                          : 'Example Usage',
+                          ? l10n.examples
+                          : l10n.exampleUsage,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.primary,
@@ -364,7 +365,7 @@ class EntryDetailScreen extends ConsumerWidget {
                   // Notes Section
                   if (entry.notes != null) ...[
                     Text(
-                      'Personal Notes',
+                      l10n.personalNotes,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.primary,
@@ -394,7 +395,7 @@ class EntryDetailScreen extends ConsumerWidget {
                   // Tags Section
                   if (entry.tags.isNotEmpty) ...[
                     Text(
-                      'Tags',
+                      l10n.tags,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -420,7 +421,7 @@ class EntryDetailScreen extends ConsumerWidget {
 
                   // Metadata section
                   Text(
-                    'Stored on $formattedDate',
+                    l10n.storedOn(formattedDate),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: isDark
                           ? Colors.grey.shade500
@@ -436,7 +437,7 @@ class EntryDetailScreen extends ConsumerWidget {
       },
       loading: () =>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (err, stack) => Scaffold(body: Center(child: Text('Error: $err'))),
+      error: (err, stack) => Scaffold(body: Center(child: Text(l10n.error(err.toString())))),
     );
   }
 }

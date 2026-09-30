@@ -32,6 +32,10 @@
   "clearFilters": "Clear Filters",
   "searchTitle": "Search",
   "addEntry": "Add Entry",
+  "addWord": "Add Word",
+  "addPhrase": "Add Phrase",
+  "addIdiom": "Add Idiom",
+  "addQuote": "Add Quote",
   "editEntry": "Edit Entry",
   "saveTooltip": "Save",
   "termLabel": "Term",
@@ -79,6 +83,28 @@
   "@deleteError": {
     "placeholders": {
       "error": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToUpdateFavorite": "Failed to update favorite status: {error}",
+  "@failedToUpdateFavorite": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "contextAndMeaning": "Context & Meaning",
+  "meaningAndInterpretation": "Meaning & Interpretation",
+  "sourceContext": "Source Context",
+  "examples": "Examples",
+  "exampleUsage": "Example Usage",
+  "personalNotes": "Personal Notes",
+  "storedOn": "Stored on {date}",
+  "@storedOn": {
+    "placeholders": {
+      "date": {
         "type": "String"
       }
     }
@@ -384,5 +410,54 @@
         "type": "String"
       }
     }
-  }
+  },
+  "addNewEntry": "Add New Entry",
+  "quoteText": "Quote Text",
+  "meaningOrDefinition": "Meaning / Definition",
+  "quoteContextMeaningNotes": "Context / Meaning / Author Notes",
+  "meaningOrTranslation": "Meaning / Translation",
+  "meaningOrOrigin": "Meaning / Origin",
+  "selectEntryType": "Select Entry Type",
+  "enterFieldHint": "Enter {field}...",
+  "@enterFieldHint": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "fieldCannotBeEmpty": "{field} cannot be empty",
+  "@fieldCannotBeEmpty": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "exampleSentences": "Example Sentences",
+  "quoteSourceExample": "e.g. Shakespeare - Hamlet, Act III",
+  "exampleNth": "Example {number}...",
+  "@exampleNth": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "personalNotesOptional": "Personal Notes (Optional)",
+  "personalNotesHint": "Add personal notes, memory triggers, or references...",
+  "collectionOptional": "Collection (Optional)",
+  "selectCollectionHint": "Select a collection...",
+  "noneCollection": "None",
+  "errorLoadingCollections": "Error loading collections: {error}",
+  "@errorLoadingCollections": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noTagsAddedYet": "No tags added yet",
+  "updateEntry": "Update Entry",
+  "saveEntry": "Save Entry"
 }

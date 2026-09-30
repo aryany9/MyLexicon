@@ -105,6 +105,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get addEntry => 'Добавить запись';
 
   @override
+  String get addWord => 'Добавить слово';
+
+  @override
+  String get addPhrase => 'Добавить фразу';
+
+  @override
+  String get addIdiom => 'Добавить идиому';
+
+  @override
+  String get addQuote => 'Добавить цитату';
+
+  @override
   String get editEntry => 'Редактировать запись';
 
   @override
@@ -198,6 +210,34 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String deleteError(String error) {
     return 'Ошибка удаления: $error';
+  }
+
+  @override
+  String failedToUpdateFavorite(String error) {
+    return 'Не удалось обновить статус избранного: $error';
+  }
+
+  @override
+  String get contextAndMeaning => 'Контекст и значение';
+
+  @override
+  String get meaningAndInterpretation => 'Значение и толкование';
+
+  @override
+  String get sourceContext => 'Контекст источника';
+
+  @override
+  String get examples => 'Примеры';
+
+  @override
+  String get exampleUsage => 'Пример использования';
+
+  @override
+  String get personalNotes => 'Личные заметки';
+
+  @override
+  String storedOn(String date) {
+    return 'Сохранено: $date';
   }
 
   @override
@@ -734,4 +774,76 @@ class AppLocalizationsRu extends AppLocalizations {
   String error(String error) {
     return 'Ошибка: $error';
   }
+
+  @override
+  String get addNewEntry => 'Добавить новую запись';
+
+  @override
+  String get quoteText => 'Текст цитаты';
+
+  @override
+  String get meaningOrDefinition => 'Значение / Определение';
+
+  @override
+  String get quoteContextMeaningNotes => 'Контекст / Значение / Заметки автора';
+
+  @override
+  String get meaningOrTranslation => 'Значение / Перевод';
+
+  @override
+  String get meaningOrOrigin => 'Значение / Происхождение';
+
+  @override
+  String get selectEntryType => 'Выберите тип записи';
+
+  @override
+  String enterFieldHint(String field) {
+    return 'Введите $field...';
+  }
+
+  @override
+  String fieldCannotBeEmpty(String field) {
+    return '$field не может быть пустым';
+  }
+
+  @override
+  String get exampleSentences => 'Примеры предложений';
+
+  @override
+  String get quoteSourceExample => 'напр., Шекспир — Гамлет, Действие III';
+
+  @override
+  String exampleNth(int number) {
+    return 'Пример $number...';
+  }
+
+  @override
+  String get personalNotesOptional => 'Личные заметки (необязательно)';
+
+  @override
+  String get personalNotesHint =>
+      'Добавьте личные заметки, ассоциации или ссылки...';
+
+  @override
+  String get collectionOptional => 'Коллекция (необязательно)';
+
+  @override
+  String get selectCollectionHint => 'Выберите коллекцию...';
+
+  @override
+  String get noneCollection => 'Нет';
+
+  @override
+  String errorLoadingCollections(String error) {
+    return 'Ошибка загрузки коллекций: $error';
+  }
+
+  @override
+  String get noTagsAddedYet => 'Теги ещё не добавлены';
+
+  @override
+  String get updateEntry => 'Обновить запись';
+
+  @override
+  String get saveEntry => 'Сохранить запись';
 }
