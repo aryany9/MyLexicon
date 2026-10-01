@@ -26,7 +26,7 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 250),
+      duration: Duration(milliseconds: 250),
       vsync: this,
     );
     _expandAnimation = CurvedAnimation(
@@ -124,7 +124,7 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
         tooltip: l10n.addEntry,
         onPressed: () => context.push('/entry-form'),
         elevation: 4,
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
       );
     }
 
@@ -147,7 +147,7 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
                   child: FadeTransition(
                     opacity: _expandAnimation,
                     child: GestureDetector(
-                      key: const ValueKey('fan_out_backdrop_barrier'),
+                      key: ValueKey('fan_out_backdrop_barrier'),
                       onTap: _toggle,
                       behavior: HitTestBehavior.opaque,
                       child: BackdropFilter(
@@ -181,17 +181,17 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
                           type: opt.type,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8),
                       FloatingActionButton(
-                        key: const ValueKey('fan_out_close_fab'),
+                        key: ValueKey('fan_out_close_fab'),
                         heroTag: null,
                         tooltip: l10n.cancel,
                         onPressed: _toggle,
                         elevation: 4,
                         child: AnimatedRotation(
                           turns: 0.125,
-                          duration: const Duration(milliseconds: 200),
-                          child: const Icon(Icons.add),
+                          duration: Duration(milliseconds: 200),
+                          child: Icon(Icons.add),
                         ),
                       ),
                     ],
@@ -204,12 +204,12 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
           );
         },
         child: FloatingActionButton(
-          key: const ValueKey('fan_out_main_fab'),
+          key: ValueKey('fan_out_main_fab'),
           heroTag: null,
           tooltip: l10n.addEntry,
           onPressed: _toggle,
           elevation: 4,
-          child: const Icon(Icons.add),
+          child: Icon(Icons.add),
         ),
       ),
     );
@@ -227,7 +227,7 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
       child: FadeTransition(
         opacity: _expandAnimation,
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 12.0),
+          padding: EdgeInsets.only(bottom: 12.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -236,20 +236,20 @@ class _FanOutFabState extends ConsumerState<FanOutFab>
                 borderRadius: BorderRadius.circular(8),
                 color: Theme.of(context).cardColor,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 12.0,
                     vertical: 6.0,
                   ),
                   child: Text(
                     label,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               FloatingActionButton.small(
                 heroTag: 'fab_${type.name}',
                 onPressed: () => _onOptionTap(type),

@@ -40,7 +40,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
       SnackBar(
         content: Text(l10n.versionCopied(version)),
         behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 2),
+        duration: Duration(seconds: 2),
       ),
     );
   }
@@ -58,11 +58,11 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.about)),
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.symmetric(vertical: 8),
         children: [
           // App identity card
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Card(
               elevation: 0,
               color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
@@ -70,7 +70,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24),
                 child: Column(
                   children: [
                     Container(
@@ -86,14 +86,14 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
                         color: colorScheme.onPrimaryContainer,
                       ),
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14),
                     Text(
-                      'My Lexicon',
+                      l10n.appTitle,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     GestureDetector(
                       onLongPress: _copyVersion,
                       child: Text(
@@ -103,9 +103,9 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6),
                     Text(
-                      'Your personal knowledge companion',
+                      l10n.appTagline,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -117,11 +117,11 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
             ),
           ),
 
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              'Links',
+              l10n.links,
               style: theme.textTheme.labelSmall?.copyWith(
                 color: colorScheme.primary,
                 fontWeight: FontWeight.w600,
@@ -129,36 +129,36 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
               ),
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
 
           ListTile(
-            leading: const Icon(Icons.code_rounded),
+            leading: Icon(Icons.code_rounded),
             title: Text(l10n.sourceCode),
-            subtitle: const Text('github.com/aryany9/MyLexicon'),
-            trailing: const Icon(Icons.open_in_new, size: 18),
+            subtitle: Text(l10n.githubUrl),
+            trailing: Icon(Icons.open_in_new, size: 18),
             onTap: () => _launchUrl('https://github.com/aryany9/MyLexicon'),
           ),
           ListTile(
-            leading: const Icon(Icons.bug_report_outlined),
+            leading: Icon(Icons.bug_report_outlined),
             title: Text(l10n.reportBug),
             subtitle: Text(l10n.reportBugSubtitle),
-            trailing: const Icon(Icons.open_in_new, size: 18),
+            trailing: Icon(Icons.open_in_new, size: 18),
             onTap: () => _launchUrl(
                 'https://github.com/aryany9/MyLexicon/issues/new'),
           ),
           ListTile(
-            leading: const Icon(Icons.star_outline_rounded),
+            leading: Icon(Icons.star_outline_rounded),
             title: Text(l10n.starOnGithub),
-            subtitle: const Text('If you find My Lexicon useful'),
-            trailing: const Icon(Icons.open_in_new, size: 18),
+            subtitle: Text(l10n.ifYouFindUseful),
+            trailing: Icon(Icons.open_in_new, size: 18),
             onTap: () => _launchUrl('https://github.com/aryany9/MyLexicon'),
           ),
 
-          const Divider(indent: 16, endIndent: 16),
+          Divider(indent: 16, endIndent: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Text(
-              'Legal',
+              l10n.legal,
               style: theme.textTheme.labelSmall?.copyWith(
                 color: colorScheme.primary,
                 fontWeight: FontWeight.w600,
@@ -168,18 +168,18 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
           ),
 
           ListTile(
-            leading: const Icon(Icons.description_outlined),
+            leading: Icon(Icons.description_outlined),
             title: Text(l10n.openSourceLicenses),
-            trailing: const Icon(Icons.chevron_right),
+            trailing: Icon(Icons.chevron_right),
             onTap: () {
               showLicensePage(
                 context: context,
-                applicationName: 'My Lexicon',
+                applicationName: l10n.appTitle,
                 applicationVersion: _packageInfo != null
                     ? 'v${_packageInfo!.version}'
                     : '',
                 applicationIcon: Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(8),
                   child: Icon(
                     Icons.menu_book_rounded,
                     size: 48,
@@ -190,7 +190,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
             },
           ),
 
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
           // Footer
           Column(
             children: [
@@ -200,20 +200,20 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
                     color: colorScheme.onSurfaceVariant,
                   ),
                   children: [
-                    const TextSpan(text: 'Made with '),
+                    TextSpan(text: l10n.madeWith),
                     TextSpan(
                       text: '♥',
                       style: TextStyle(color: colorScheme.error),
                     ),
-                    const TextSpan(text: ' in India'),
+                    TextSpan(text: l10n.inIndia),
                   ],
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
               GestureDetector(
                 onTap: () => _launchUrl('https://github.com/aryany9'),
                 child: Text(
-                  'by Aryan Yadav',
+                  l10n.byAuthor,
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: colorScheme.primary,
                     decoration: TextDecoration.underline,
@@ -221,7 +221,7 @@ class _AboutSettingsPageState extends State<AboutSettingsPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
             ],
           ),
         ],

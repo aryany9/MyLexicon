@@ -219,7 +219,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 // Tags Chip
                 ActionChip(
                   label: Text(
-                    _selectedTag != null ? '#$_selectedTag' : 'Select Tag',
+                    _selectedTag != null ? '#$_selectedTag' : AppLocalizations.of(context)!.selectTag,
                   ),
                   onPressed: _showTagPicker,
                   avatar: const Icon(Icons.sell_outlined, size: 16),
@@ -303,7 +303,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Center(child: Text('Error: $err')),
+              error: (err, stack) => Center(child: Text(AppLocalizations.of(context)!.error(err.toString()))),
             ),
           ),
         ],
@@ -335,8 +335,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   const SizedBox(height: 16),
                   Text(
                     hasActiveFilters
-                        ? 'No results found'
-                        : 'Your lexicon is empty',
+                        ? AppLocalizations.of(context)!.noResultsFound
+                        : AppLocalizations.of(context)!.yourLexiconIsEmpty,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -344,8 +344,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   const SizedBox(height: 8),
                   Text(
                     hasActiveFilters
-                        ? 'Try adjusting your search terms or filter constraints.'
-                        : 'Start adding new entries using the add button.',
+                        ? AppLocalizations.of(context)!.tryAdjustingSearch
+                        : AppLocalizations.of(context)!.startAddingNewEntries,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: isDark

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/models/app_theme_preference.dart';
 import '../../../core/providers/display_preferences_provider.dart';
+import '../../../core/providers/locale_preference_provider.dart';
 import '../../../core/providers/theme_preference_provider.dart';
 import '../../../widgets/preference_picker_row.dart';
 import 'theme_settings_page.dart';
@@ -12,7 +13,7 @@ class AppearanceSettingsPage extends ConsumerWidget {
 
   Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+      padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
       child: Text(
         title.toUpperCase(),
         style: TextStyle(
@@ -36,6 +37,24 @@ class AppearanceSettingsPage extends ConsumerWidget {
     }
   }
 
+  String _getLanguageLabel(String locale, AppLocalizations l10n) {
+    switch (locale) {
+      case 'en':
+        return 'English';
+      case 'uk':
+        return 'Українська';
+      case 'ru':
+        return 'Русский';
+      case 'fa':
+        return 'فارسی';
+      case 'hi':
+        return 'हिन्दी';
+      case 'system':
+      default:
+        return l10n.systemDefault;
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
@@ -45,14 +64,15 @@ class AppearanceSettingsPage extends ConsumerWidget {
     final showTypeBadges = ref.watch(showTypeBadgesProvider);
     final fontFamilyPref = ref.watch(fontFamilyPreferenceProvider);
     final textScalePref = ref.watch(textScalePreferenceProvider);
+    final currentLocale = ref.watch(localePreferenceProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.appearance)),
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: EdgeInsets.symmetric(vertical: 8.0),
         children: [
           // ── THEME ─────────────────────────────────────────────────────────
-          _buildSectionHeader(context, 'Theme'),
+          _buildSectionHeader(context, l10n.theme),
           ListTile(
             key: const ValueKey('theme_settings_tile'),
             leading: const Icon(Icons.palette_outlined),
@@ -91,7 +111,7 @@ class AppearanceSettingsPage extends ConsumerWidget {
             key: const ValueKey('pure_black_switch'),
             secondary: const Icon(Icons.dark_mode_outlined),
             title: Text(l10n.pureBlack),
-            subtitle: const Text('Use pitch black for dark mode backgrounds'),
+            subtitle: Text(l10n.pureBlackSubtitle),
             value: themePref.isAmoled,
             onChanged: (val) {
               ref.read(appThemePreferenceProvider.notifier).setAmoled(val);
@@ -101,29 +121,29 @@ class AppearanceSettingsPage extends ConsumerWidget {
           const Divider(),
 
           // ── VIEW OPTIONS ──────────────────────────────────────────────────
-          _buildSectionHeader(context, 'View options'),
+          _buildSectionHeader(context, l10n.viewOptions),
           PreferencePickerRow<ListDensity>(
             key: const ValueKey('display_density_card'),
-            title: 'Display density',
+            title: l10n.displayDensity,
             icon: Icons.table_rows_outlined,
             currentValue: listDensity,
-            currentLabel: _getDensityLabel(listDensity),
-            sheetTitle: 'Display density',
-            options: const [
+            currentLabel: _getDensityLabel(listDensity, l10n),
+            sheetTitle: l10n.displayDensity,
+            options: [
               PreferencePickerOption(
                 value: ListDensity.compact,
-                label: 'Compact',
-                description: 'Show term only with minimal vertical padding',
+                label: l10n.compact,
+                description: l10n.compactDescription,
               ),
               PreferencePickerOption(
                 value: ListDensity.comfortable,
-                label: 'Comfortable',
-                description: 'Show term and a short one-line definition',
+                label: l10n.comfortable,
+                description: l10n.comfortableDescription,
               ),
               PreferencePickerOption(
                 value: ListDensity.detailed,
-                label: 'Detailed',
-                description: 'Show full details including examples and tags',
+                label: l10n.detailed,
+                description: l10n.detailedDescription,
               ),
             ],
             onChanged: (val) {
@@ -134,7 +154,7 @@ class AppearanceSettingsPage extends ConsumerWidget {
             key: const ValueKey('show_tags_switch'),
             secondary: const Icon(Icons.sell_outlined),
             title: Text(l10n.showTagsOnCards),
-            subtitle: const Text('Display tag chips on word cards'),
+            subtitle: Text(l10n.showTagsSubtitle),
             value: showTags,
             onChanged: (val) {
               ref.read(showCardTagsProvider.notifier).set(val);
@@ -144,9 +164,7 @@ class AppearanceSettingsPage extends ConsumerWidget {
             key: const ValueKey('show_type_badges_switch'),
             secondary: const Icon(Icons.label_outline_rounded),
             title: Text(l10n.showTypeBadges),
-            subtitle: const Text(
-              'Display Word, Phrase, Idiom, or Quote badges',
-            ),
+            subtitle: Text(l10n.showTypeBadgesSubtitle),
             value: showTypeBadges,
             onChanged: (val) {
               ref.read(showTypeBadgesProvider.notifier).set(val);
@@ -156,29 +174,29 @@ class AppearanceSettingsPage extends ConsumerWidget {
           const Divider(),
 
           // ── TYPOGRAPHY ────────────────────────────────────────────────────
-          _buildSectionHeader(context, 'Typography'),
+          _buildSectionHeader(context, l10n.typography),
           PreferencePickerRow<AppFontFamily>(
             key: const ValueKey('font_family_picker_row'),
-            title: 'Font style',
+            title: l10n.fontStyle,
             icon: Icons.font_download_outlined,
             currentValue: fontFamilyPref,
             currentLabel: fontFamilyPref.label,
-            sheetTitle: 'Font style',
-            options: const [
+            sheetTitle: l10n.fontStyle,
+            options: [
               PreferencePickerOption(
                 value: AppFontFamily.system,
-                label: 'System (Default)',
-                description: 'Clean, modern sans-serif typeface',
+                label: l10n.system,
+                description: l10n.systemFontDescription,
               ),
               PreferencePickerOption(
                 value: AppFontFamily.serif,
-                label: 'Serif (Literary)',
-                description: 'Classic editorial serif, great for reading',
+                label: l10n.serif,
+                description: l10n.serifDescription,
               ),
               PreferencePickerOption(
                 value: AppFontFamily.monospace,
-                label: 'Monospace',
-                description: 'Fixed-width technical font',
+                label: l10n.monospace,
+                description: l10n.monospaceDescription,
               ),
             ],
             onChanged: (val) {
@@ -187,51 +205,97 @@ class AppearanceSettingsPage extends ConsumerWidget {
           ),
           PreferencePickerRow<AppTextScale>(
             key: const ValueKey('text_scale_picker_row'),
-            title: 'Text size',
+            title: l10n.textSize,
             icon: Icons.format_size_rounded,
             currentValue: textScalePref,
             currentLabel: textScalePref.label,
-            sheetTitle: 'Text size',
-            options: const [
+            sheetTitle: l10n.textSize,
+            options: [
               PreferencePickerOption(
                 value: AppTextScale.small,
-                label: 'Small (85%)',
-                description: 'Fit more text on screen',
+                label: l10n.small,
+                description: l10n.smallDescription,
               ),
               PreferencePickerOption(
                 value: AppTextScale.normal,
-                label: 'Default (100%)',
-                description: 'Standard balanced readability',
+                label: l10n.defaultSize,
+                description: l10n.defaultSizeDescription,
               ),
               PreferencePickerOption(
                 value: AppTextScale.large,
-                label: 'Large (115%)',
-                description: 'Larger text for comfortable reading',
+                label: l10n.large,
+                description: l10n.largeDescription,
               ),
               PreferencePickerOption(
                 value: AppTextScale.extraLarge,
-                label: 'Extra Large (130%)',
-                description: 'Maximum legibility',
+                label: l10n.extraLarge,
+                description: l10n.extraLargeDescription,
               ),
             ],
             onChanged: (val) {
               ref.read(textScalePreferenceProvider.notifier).setScale(val);
             },
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
+          const Divider(),
+
+          // ── LANGUAGE ──────────────────────────────────────────────────────
+          _buildSectionHeader(context, l10n.language),
+          PreferencePickerRow<String>(
+            key: ValueKey('language_picker_row'),
+            title: l10n.language,
+            icon: Icons.translate,
+            currentValue: currentLocale,
+            currentLabel: _getLanguageLabel(currentLocale, l10n),
+            sheetTitle: l10n.selectLanguage,
+            options: [
+              PreferencePickerOption(
+                value: 'system',
+                label: l10n.systemDefault,
+              ),
+              PreferencePickerOption(
+                value: 'en',
+                label: 'English',
+              ),
+              PreferencePickerOption(
+                value: 'uk',
+                label: 'Українська',
+                description: 'Ukrainian',
+              ),
+              PreferencePickerOption(
+                value: 'ru',
+                label: 'Русский',
+                description: 'Russian',
+              ),
+              PreferencePickerOption(
+                value: 'fa',
+                label: 'فارسی',
+                description: 'Persian',
+              ),
+              PreferencePickerOption(
+                value: 'hi',
+                label: 'हिन्दी',
+                description: 'Hindi',
+              ),
+            ],
+            onChanged: (val) {
+              ref.read(localePreferenceProvider.notifier).setLocale(val);
+            },
+          ),
+          SizedBox(height: 16),
         ],
       ),
     );
   }
 }
 
-String _getDensityLabel(ListDensity density) {
+String _getDensityLabel(ListDensity density, AppLocalizations l10n) {
   switch (density) {
     case ListDensity.compact:
-      return 'Compact';
+      return l10n.compact;
     case ListDensity.comfortable:
-      return 'Comfortable';
+      return l10n.comfortable;
     case ListDensity.detailed:
-      return 'Detailed';
+      return l10n.detailed;
   }
 }

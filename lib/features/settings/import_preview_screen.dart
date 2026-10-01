@@ -61,7 +61,7 @@ class _ImportPreviewScreenState extends ConsumerState<ImportPreviewScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.importPreview)),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         children: [
           Text(
             previewData.fileName,
@@ -69,7 +69,7 @@ class _ImportPreviewScreenState extends ConsumerState<ImportPreviewScreen> {
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           _SummaryCard(
             label: l10n.entriesDetected,
             value: previewData.totalEntries.toString(),
@@ -82,14 +82,14 @@ class _ImportPreviewScreenState extends ConsumerState<ImportPreviewScreen> {
             label: l10n.potentialDuplicates,
             value: previewData.duplicateCount.toString(),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           Text(
             l10n.resolutionStrategy,
             style: Theme.of(
               context,
             ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           SegmentedButton<ImportConflictStrategy>(
             segments: [
               ButtonSegment(
@@ -112,7 +112,7 @@ class _ImportPreviewScreenState extends ConsumerState<ImportPreviewScreen> {
               });
             },
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           if (previewData.duplicates.isNotEmpty) ...[
             Text(
               l10n.duplicateMatches,
@@ -120,7 +120,7 @@ class _ImportPreviewScreenState extends ConsumerState<ImportPreviewScreen> {
                 context,
               ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             ...previewData.duplicates.map((duplicate) {
               return Card(
                 child: ListTile(
@@ -134,7 +134,7 @@ class _ImportPreviewScreenState extends ConsumerState<ImportPreviewScreen> {
                 ),
               );
             }),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
           ],
           Text(
             l10n.previewContent,
@@ -142,22 +142,22 @@ class _ImportPreviewScreenState extends ConsumerState<ImportPreviewScreen> {
               context,
             ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Text(
             l10n.rawContentLength(previewData.rawContent.length),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: _isImporting ? null : _runImport,
               icon: _isImporting
-                  ? const SizedBox(
+                  ? SizedBox(
                       width: 16,
                       height: 16,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Icon(Icons.file_download_outlined),
+                  : Icon(Icons.file_download_outlined),
               label: Text(_isImporting ? l10n.importing : l10n.importNow),
             ),
           ),

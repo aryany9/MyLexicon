@@ -60,7 +60,7 @@ class WordsCard extends ConsumerWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
         color: typeColor.withValues(alpha: isDark ? 0.2 : 0.1),
         borderRadius: BorderRadius.circular(4),
@@ -90,7 +90,7 @@ class WordsCard extends ConsumerWidget {
                 .primaryContainer
                 .withValues(alpha: 0.25)
             : null,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Row(
           children: [
             if (isSelectionMode) ...[
@@ -101,10 +101,10 @@ class WordsCard extends ConsumerWidget {
                   value: isSelected,
                   onChanged: (_) => onSelect?.call(),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
             ],
             Expanded(
               child: Text(
@@ -117,7 +117,7 @@ class WordsCard extends ConsumerWidget {
               ),
             ),
             if (showTypeBadges) ...[
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               _buildTypeBadge(context, entry.type, isDark),
             ],
           ],
@@ -144,7 +144,7 @@ class WordsCard extends ConsumerWidget {
                   value: isSelected,
                   onChanged: (_) => onSelect?.call(),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                 ),
               )
             : null,
@@ -166,7 +166,7 @@ class WordsCard extends ConsumerWidget {
               ),
             ),
             if (showTypeBadges) ...[
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               _buildTypeBadge(context, entry.type, isDark),
             ],
           ],
@@ -209,7 +209,7 @@ class WordsCard extends ConsumerWidget {
                   value: isSelected,
                   onChanged: (_) => onSelect?.call(),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
                 ),
               )
             : null,
@@ -231,7 +231,7 @@ class WordsCard extends ConsumerWidget {
             ),
           ),
           if (showTypeBadges) ...[
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             _buildTypeBadge(context, entry.type, isDark),
           ],
         ],
@@ -251,7 +251,7 @@ class WordsCard extends ConsumerWidget {
             ),
           ),
           if (entry.examples.isNotEmpty) ...[
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Text(
               entry.type == LexiconType.quote
                   ? entry.examples.first
@@ -268,13 +268,13 @@ class WordsCard extends ConsumerWidget {
             ),
           ],
           if (hasTags) ...[
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Wrap(
               spacing: 6,
               runSpacing: 6,
               children: entry.tags.map((tag) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 2,
                   ),

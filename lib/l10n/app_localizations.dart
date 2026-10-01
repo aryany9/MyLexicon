@@ -731,7 +731,7 @@ abstract class AppLocalizations {
   /// No description provided for @entriesCount.
   ///
   /// In en, this message translates to:
-  /// **'{count} entries'**
+  /// **'{count, plural, =1{1 entry} other{{count} entries}}'**
   String entriesCount(int count);
 
   /// No description provided for @noCollections.
@@ -1657,6 +1657,467 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save Entry'**
   String get saveEntry;
+
+  /// No description provided for @themeMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme Mode'**
+  String get themeMode;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @lightModeTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'☀ Light Mode Theme'**
+  String get lightModeTheme;
+
+  /// No description provided for @darkModeTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'🌙 Dark Mode Theme'**
+  String get darkModeTheme;
+
+  /// No description provided for @dataImportExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Import & Export'**
+  String get dataImportExport;
+
+  /// No description provided for @exportDataDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a JSON backup or CSV export of your lexicon to a location you choose'**
+  String get exportDataDescription;
+
+  /// No description provided for @dataStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Storage'**
+  String get dataStorage;
+
+  /// No description provided for @clearAllLocalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All Local Data'**
+  String get clearAllLocalData;
+
+  /// No description provided for @clearAllLocalDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Irreversibly delete all words, quotes, collections, and tags'**
+  String get clearAllLocalDataSubtitle;
+
+  /// No description provided for @developerDebugMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer (Debug Mode)'**
+  String get developerDebugMode;
+
+  /// No description provided for @loadSampleDataSubtitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Populate 10 items in each category (40 entries)'**
+  String get loadSampleDataSubtitle2;
+
+  /// No description provided for @deleteSampleDataSubtitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove only the sample loaded entries and collections'**
+  String get deleteSampleDataSubtitle2;
+
+  /// No description provided for @unableToReadFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to read the selected file.'**
+  String get unableToReadFile;
+
+  /// No description provided for @exportSavedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Export saved to {path}'**
+  String exportSavedTo(String path);
+
+  /// No description provided for @saveLexiconExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Lexicon Export'**
+  String get saveLexiconExport;
+
+  /// No description provided for @chooseExportFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the export format for your lexicon backup.'**
+  String get chooseExportFormat;
+
+  /// No description provided for @renameTagTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename Tag #{tag}'**
+  String renameTagTitle(String tag);
+
+  /// No description provided for @tagRenamedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag #{oldTag} renamed to #{newTag}'**
+  String tagRenamedSuccess(String oldTag, String newTag);
+
+  /// No description provided for @deleteTagTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Tag #{tag}?'**
+  String deleteTagTitle(String tag);
+
+  /// No description provided for @deleteTagContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove the tag #{tag} from all entries? The entries themselves will NOT be deleted.'**
+  String deleteTagContent(String tag);
+
+  /// No description provided for @tagDeletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag #{tag} deleted from all entries'**
+  String tagDeletedSuccess(String tag);
+
+  /// No description provided for @manageTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Tags ({count})'**
+  String manageTags(int count);
+
+  /// No description provided for @noTagsFoundDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'No tags found in the database. Tags can be added when creating or editing lexicon entries.'**
+  String get noTagsFoundDatabase;
+
+  /// No description provided for @chooseColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Color'**
+  String get chooseColor;
+
+  /// No description provided for @collectionNameCannotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection name cannot be empty'**
+  String get collectionNameCannotBeEmpty;
+
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @failedToDeleteCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete collection: {error}'**
+  String failedToDeleteCollection(String error);
+
+  /// No description provided for @noCollectionsCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'No collections created'**
+  String get noCollectionsCreated;
+
+  /// No description provided for @noCollectionsCreatedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Create custom folders/collections to group your lexicon entries for organized revision.'**
+  String get noCollectionsCreatedDesc;
+
+  /// No description provided for @createFirstCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Create First Collection'**
+  String get createFirstCollection;
+
+  /// No description provided for @noDescriptionProvided.
+  ///
+  /// In en, this message translates to:
+  /// **'No description provided'**
+  String get noDescriptionProvided;
+
+  /// No description provided for @noDescriptionProvidedDetailed.
+  ///
+  /// In en, this message translates to:
+  /// **'No description provided for this collection.'**
+  String get noDescriptionProvidedDetailed;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @collectionIsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection is empty'**
+  String get collectionIsEmpty;
+
+  /// No description provided for @collectionIsEmptyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries are assigned to this collection yet. You can assign them when creating or editing an entry.'**
+  String get collectionIsEmptyDesc;
+
+  /// No description provided for @selectATag.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a Tag'**
+  String get selectATag;
+
+  /// No description provided for @noTagsFoundInDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'No tags found in database'**
+  String get noTagsFoundInDatabase;
+
+  /// No description provided for @selectTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Tag'**
+  String get selectTag;
+
+  /// No description provided for @noResultsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get noResultsFound;
+
+  /// No description provided for @tryAdjustingSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Try adjusting your search terms or filter constraints.'**
+  String get tryAdjustingSearch;
+
+  /// No description provided for @startAddingNewEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Start adding new entries using the add button.'**
+  String get startAddingNewEntries;
+
+  /// No description provided for @alreadyExistsInCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Already exists in \"{collection}\"'**
+  String alreadyExistsInCollection(String collection);
+
+  /// No description provided for @alreadyExistsUnassigned.
+  ///
+  /// In en, this message translates to:
+  /// **'Already exists as an unassigned entry'**
+  String get alreadyExistsUnassigned;
+
+  /// No description provided for @duplicateIfDifferentCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'If this entry belongs to a different collection, change the Collection field below and tap Save again.'**
+  String get duplicateIfDifferentCollection;
+
+  /// No description provided for @duplicateIfDifferentUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'If this is a different usage, assign it to a specific collection using the Collection field below and tap Save again.'**
+  String get duplicateIfDifferentUsage;
+
+  /// No description provided for @duplicateEntryDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate entry detected'**
+  String get duplicateEntryDetected;
+
+  /// No description provided for @viewExistingEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'View Existing Entry'**
+  String get viewExistingEntry;
+
+  /// No description provided for @appTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal knowledge companion'**
+  String get appTagline;
+
+  /// No description provided for @links.
+  ///
+  /// In en, this message translates to:
+  /// **'Links'**
+  String get links;
+
+  /// No description provided for @githubUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'github.com/aryany9/MyLexicon'**
+  String get githubUrl;
+
+  /// No description provided for @ifYouFindUseful.
+  ///
+  /// In en, this message translates to:
+  /// **'If you find My Lexicon useful'**
+  String get ifYouFindUseful;
+
+  /// No description provided for @legal.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get legal;
+
+  /// No description provided for @madeWith.
+  ///
+  /// In en, this message translates to:
+  /// **'Made with '**
+  String get madeWith;
+
+  /// No description provided for @inIndia.
+  ///
+  /// In en, this message translates to:
+  /// **' in India'**
+  String get inIndia;
+
+  /// No description provided for @byAuthor.
+  ///
+  /// In en, this message translates to:
+  /// **'by Aryan Yadav'**
+  String get byAuthor;
+
+  /// No description provided for @clearAllDataQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All Data?'**
+  String get clearAllDataQuestion;
+
+  /// No description provided for @clearAllDataWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This action will permanently delete all your stored words, quotes, phrases, idioms, and collections.\n\nThis is irreversible. Are you sure you want to continue?'**
+  String get clearAllDataWarning;
+
+  /// No description provided for @allDataCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'All data cleared successfully'**
+  String get allDataCleared;
+
+  /// No description provided for @errorClearingData.
+  ///
+  /// In en, this message translates to:
+  /// **'Error clearing data: {error}'**
+  String errorClearingData(String error);
+
+  /// No description provided for @clearEverything.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Everything'**
+  String get clearEverything;
+
+  /// No description provided for @loadSampleDataWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This will populate 10 curated entries for each category (10 Words, 10 Phrases, 10 Idioms, and 10 Quotes) along with sample collections.\n\n• Existing sample entries will be refreshed.\n• Any custom entries you created with matching terms will be preserved.'**
+  String get loadSampleDataWarning;
+
+  /// No description provided for @loadedSampleEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Loaded {count} sample entries across all categories!'**
+  String loadedSampleEntries(int count);
+
+  /// No description provided for @loadedSampleEntriesSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Loaded {added} sample entries ({skipped} skipped as existing custom duplicates).'**
+  String loadedSampleEntriesSkipped(int added, int skipped);
+
+  /// No description provided for @refreshedSampleEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Refreshed {count} sample entries.'**
+  String refreshedSampleEntries(int count);
+
+  /// No description provided for @refreshedSampleEntriesSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Refreshed {updated} sample entries ({skipped} custom duplicates preserved).'**
+  String refreshedSampleEntriesSkipped(int updated, int skipped);
+
+  /// No description provided for @allSampleTermsExist.
+  ///
+  /// In en, this message translates to:
+  /// **'All {skipped} sample terms already exist in your lexicon as custom entries.'**
+  String allSampleTermsExist(int skipped);
+
+  /// No description provided for @errorLoadingSampleData.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading sample data: {error}'**
+  String errorLoadingSampleData(String error);
+
+  /// No description provided for @deleteSampleDataQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Sample Data?'**
+  String get deleteSampleDataQuestion;
+
+  /// No description provided for @deleteSampleDataWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This will remove all sample loaded entries and sample collections.\n\nYour own custom entries and collections will remain untouched.'**
+  String get deleteSampleDataWarning;
+
+  /// No description provided for @deletedSampleEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted {count} sample entries and sample collections.'**
+  String deletedSampleEntries(int count);
+
+  /// No description provided for @noSampleEntriesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No sample entries found to delete.'**
+  String get noSampleEntriesFound;
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed: {error}'**
+  String exportFailed(String error);
+
+  /// No description provided for @importedEntriesDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported {added} new, {skipped} skipped, {overwritten} overwritten, {merged} merged entries.'**
+  String importedEntriesDetails(
+    int added,
+    int skipped,
+    int overwritten,
+    int merged,
+  );
+
+  /// No description provided for @aboutSubtitleWithVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'v{version} · Licenses and links'**
+  String aboutSubtitleWithVersion(String version);
 }
 
 class _AppLocalizationsDelegate

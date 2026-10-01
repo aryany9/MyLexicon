@@ -161,7 +161,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
             if (ctx != null) {
               Scrollable.ensureVisible(
                 ctx,
-                duration: const Duration(milliseconds: 350),
+                duration: Duration(milliseconds: 350),
                 curve: Curves.easeOut,
                 alignment: 0.15,
               );
@@ -174,11 +174,11 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
     }
 
     final db = ref.read(databaseServiceProvider);
-    final id = _isEditMode ? widget.entryId! : const Uuid().v4();
+    final id = _isEditMode ? widget.entryId! : Uuid().v4();
     final createdAt = _createdAt ?? DateTime.now();
 
     final effectiveCollectionIds = _selectedCollectionId == null
-        ? const <String>[]
+        ? <String>[]
         : [_selectedCollectionId!];
 
     // Save-time collection-aware duplicate check
@@ -196,7 +196,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateTo(
           0,
-          duration: const Duration(milliseconds: 350),
+          duration: Duration(milliseconds: 350),
           curve: Curves.easeOut,
         );
       });
@@ -292,7 +292,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
         title: Text(_isEditMode ? l10n.editEntry : l10n.addNewEntry),
         actions: [
           IconButton(
-            icon: const Icon(Icons.check),
+            icon: Icon(Icons.check),
             onPressed: _save,
             tooltip: l10n.saveTooltip,
           ),
@@ -301,7 +301,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
             child: Column(
@@ -323,10 +323,10 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                         onViewEntry: () => context.push('/entry/${_duplicateEntry!.id}'),
                       );
                     },
-                    loading: () => const SizedBox.shrink(),
-                    error: (_, _) => const SizedBox.shrink(),
+                    loading: () => SizedBox.shrink(),
+                    error: (_, _) => SizedBox.shrink(),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                 ],
 
                 // Type Selector (SegmentedButton) - only shown when not pre-selected
@@ -389,11 +389,11 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         SizedBox(
                           width: double.infinity,
                           child: SegmentedButton<LexiconType>(
-                            style: const ButtonStyle(
+                            style: ButtonStyle(
                               minimumSize: WidgetStatePropertyAll(Size(0, 56)),
                               padding: WidgetStatePropertyAll(
                                 EdgeInsets.symmetric(horizontal: 3, vertical: 0),
@@ -409,7 +409,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                             },
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
                       ],
                     );
                   },
@@ -422,7 +422,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 TextFormField(
                   key: _termFieldKey,
                   controller: _termController,
@@ -436,7 +436,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Definition Field
                 Text(
@@ -445,7 +445,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 TextFormField(
                   key: _definitionFieldKey,
                   controller: _definitionController,
@@ -461,7 +461,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Multiple Examples Section
                 Row(
@@ -478,15 +478,15 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     if (_exampleControllers.length < 5)
                       TextButton.icon(
                         onPressed: _addExampleField,
-                        icon: const Icon(Icons.add, size: 18),
+                        icon: Icon(Icons.add, size: 18),
                         label: Text(l10n.addExample),
                       ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 ...List.generate(_exampleControllers.length, (index) {
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
+                    padding: EdgeInsets.only(bottom: 10.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -502,9 +502,9 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         IconButton(
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.remove_circle_outline,
                             color: Colors.redAccent,
                           ),
@@ -515,7 +515,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     ),
                   );
                 }),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Notes Field
                 Text(
@@ -524,7 +524,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 TextFormField(
                   controller: _notesController,
                   maxLines: 3,
@@ -533,7 +533,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     hintText: l10n.personalNotesHint,
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Collection selector
                 Text(
@@ -542,7 +542,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 collectionsAsync.when(
                   data: (collections) {
                     return Column(
@@ -550,7 +550,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                       children: [
                         DropdownButtonFormField<String>(
                           initialValue: _selectedCollectionId,
-                          decoration: const InputDecoration(),
+                          decoration: InputDecoration(),
                           hint: Text(l10n.selectCollectionHint),
                           items: [
                             DropdownMenuItem<String>(
@@ -567,7 +567,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                                       color: Color(c.colorValue),
                                       size: 18,
                                     ),
-                                    const SizedBox(width: 8),
+                                    SizedBox(width: 8),
                                     Text(c.name),
                                   ],
                                 ),
@@ -585,11 +585,11 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                       ],
                     );
                   },
-                  loading: () => const LinearProgressIndicator(),
+                  loading: () => LinearProgressIndicator(),
                   error: (err, stack) =>
                       Text(l10n.errorLoadingCollections(err.toString())),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Tag Input with Autocomplete
                 Text(
@@ -598,11 +598,11 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Autocomplete<String>(
                   optionsBuilder: (TextEditingValue textEditingValue) {
                     if (textEditingValue.text.isEmpty) {
-                      return const Iterable<String>.empty();
+                      return Iterable<String>.empty();
                     }
                     return allTags.where((String option) {
                       return option.contains(
@@ -622,7 +622,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                           decoration: InputDecoration(
                             hintText: l10n.tagInputHint,
                             suffixIcon: IconButton(
-                              icon: const Icon(Icons.add),
+                              icon: Icon(Icons.add),
                               onPressed: () {
                                 _addTag(controller.text);
                                 controller.clear();
@@ -636,7 +636,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                         );
                       },
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
 
                 // Tags Chips
                 if (_tags.isNotEmpty)
@@ -661,7 +661,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                       fontStyle: FontStyle.italic,
                     ),
                   ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Favorite Switch List Tile
                 SwitchListTile.adaptive(
@@ -674,18 +674,18 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     });
                   },
                 ),
-                const SizedBox(height: 40),
+                SizedBox(height: 40),
 
                 // Save Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    key: const Key('saveEntryButton'),
+                    key: Key('saveEntryButton'),
                     onPressed: _save,
                     child: Text(_isEditMode ? l10n.updateEntry : l10n.saveEntry),
                   ),
                 ),
-                const SizedBox(height: 40),
+                SizedBox(height: 40),
               ],
             ),
           ),

@@ -57,8 +57,8 @@ class DataSettingsPage extends ConsumerWidget {
                   ref.invalidate(collectionsProvider);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('All data cleared successfully'),
+                      SnackBar(
+ content: Text(AppLocalizations.of(context)!.allDataCleared),
                         backgroundColor: Colors.green,
                       ),
                     );
@@ -67,7 +67,7 @@ class DataSettingsPage extends ConsumerWidget {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Error clearing data: $e'),
+                        content: Text(AppLocalizations.of(context)!.errorClearingData(e.toString())),
                         backgroundColor: Colors.redAccent,
                       ),
                     );
@@ -145,14 +145,14 @@ class DataSettingsPage extends ConsumerWidget {
                     ScaffoldMessenger.of(context).removeCurrentSnackBar();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Error loading sample data: $e'),
+                        content: Text(AppLocalizations.of(context)!.errorLoadingSampleData(e.toString())),
                         backgroundColor: Colors.redAccent,
                       ),
                     );
                   }
                 }
               },
-              child: const Text('Load Sample Data'),
+              child: Text(AppLocalizations.of(context)!.loadSampleData),
             ),
           ],
         );
@@ -199,7 +199,7 @@ class DataSettingsPage extends ConsumerWidget {
                         content: Text(
                           deleted > 0
                               ? 'Deleted $deleted sample entries and sample collections.'
-                              : 'No sample entries found to delete.',
+                              : AppLocalizations.of(context)!.noSampleEntriesFound,
                         ),
                         backgroundColor: Colors.orange,
                       ),
@@ -217,7 +217,7 @@ class DataSettingsPage extends ConsumerWidget {
                   }
                 }
               },
-              child: const Text('Delete Sample Data'),
+              child: Text(AppLocalizations.of(context)!.deleteSampleData),
             ),
           ],
         );
@@ -237,22 +237,22 @@ class DataSettingsPage extends ConsumerWidget {
     WidgetRef ref,
   ) async {
     final l10n = AppLocalizations.of(context)!;
+    // Cache localized strings before any async gap.
+    final saveDialogTitle = l10n.saveLexiconExport;
     final format = await showDialog<ExportFormat>(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text(l10n.exportData),
-          content: const Text(
-            'Choose the export format for your lexicon backup.',
-          ),
+          content: Text(l10n.chooseExportFormat),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(ExportFormat.json),
-              child: const Text('JSON Backup'),
+              child: Text(AppLocalizations.of(context)!.exportJson),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(ExportFormat.csv),
-              child: const Text('CSV Spreadsheet'),
+              child: Text(AppLocalizations.of(context)!.exportCsv),
             ),
           ],
         );
@@ -278,7 +278,7 @@ class DataSettingsPage extends ConsumerWidget {
 
       // Ask the user where to save the file locally.
       final Uri? savedUri = await FilePicker.saveFile(
-        dialogTitle: 'Save Lexicon Export',
+        dialogTitle: saveDialogTitle,
         fileName: fileName,
         type: FileType.custom,
         allowedExtensions: [format.name],
@@ -299,7 +299,7 @@ class DataSettingsPage extends ConsumerWidget {
         final path = savedUri.path;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Export saved to $path'),
+            content: Text(AppLocalizations.of(context)!.exportSavedTo(path)),
             backgroundColor: Colors.green,
           ),
         );
@@ -308,7 +308,7 @@ class DataSettingsPage extends ConsumerWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Export failed: $e'),
+            content: Text(AppLocalizations.of(context)!.exportFailed(e.toString())),
             backgroundColor: Colors.redAccent,
           ),
         );
@@ -329,8 +329,8 @@ class DataSettingsPage extends ConsumerWidget {
     if (path == null) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Unable to read the selected file.'),
+          SnackBar(
+ content: Text(AppLocalizations.of(context)!.unableToReadFile),
             backgroundColor: Colors.redAccent,
           ),
         );
@@ -376,7 +376,7 @@ class DataSettingsPage extends ConsumerWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Import failed: $e'),
+            content: Text(AppLocalizations.of(context)!.importFailed(e.toString())),
             backgroundColor: Colors.redAccent,
           ),
         );

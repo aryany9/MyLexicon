@@ -33,9 +33,9 @@ To expand accessibility to international audiences, we are introducing localized
 - **Decision**: Implement `appLocalePreferenceProvider` with `SharedPreferences` storing locale code (`'system'`, `'en'`, `'uk'`, `'ru'`, `'fa'`, `'hi'`).
 - **Rationale**: When `'system'` is selected, `MaterialApp.router` omits explicit `locale` or sets `null` so Flutter automatically matches the device's system locale. When a specific language is picked, it overrides the system locale immediately.
 
-### 3. Settings Navigation
-- **Decision**: Add a dedicated "Language" tile on `SettingsScreen` leading to `LanguageSettingsPage`.
-- **Rationale**: Language affects the entire UI presentation, typography, and directionality. Grouping it under its own top-level settings tile matches user expectations and aligns with the app's modular sub-page architecture. Uses `Navigator.of(context).push(MaterialPageRoute(...))` per repository convention.
+### 3. Language Picker in Appearance Settings
+- **Decision**: Integrate the Language option directly inside `AppearanceSettingsPage` as a `PreferencePickerRow<String>` utilizing the same Reddit-style modal bottom sheet as Typography and Display Density.
+- **Rationale**: Avoids unnecessary page navigation for a single setting, preserves a compact Settings root screen conforming to `AGENTS.md` sub-page architecture, and provides an immediate, cohesive sheet experience matching the rest of the visual customization options.
 
 ### 4. Native Endonym Display in Picker
 - **Decision**: Display each language option in its native script alongside its English name (e.g. `Українська (Ukrainian)`, `Русский (Russian)`, `فارسی (Persian)`, `हिन्दी (Hindi)`).
@@ -77,9 +77,9 @@ To expand accessibility to international audiences, we are introducing localized
   - Creation timestamp: `storedOn` ("Stored on {date}")
 - **Rationale**: Gives users a polished, natural reading experience tailored to each lexicon item type across all languages.
 
-### 12. Modern Flutter RadioGroup Pattern
-- **Decision**: Wrap the language options list in `RadioGroup<String>` in `LanguageSettingsPage` rather than setting `groupValue` and `onChanged` individually on each `RadioListTile`.
-- **Rationale**: Conforms to modern Flutter SDK requirements (v3.32+) where `RadioListTile.groupValue` is deprecated in favor of `RadioGroup` ancestors, preventing analyzer deprecation warnings.
+### 12. Modal Bottom Sheet Preference Picker Pattern
+- **Decision**: Use `PreferencePickerRow<String>` for language selection in `AppearanceSettingsPage`, opening a modal bottom sheet with a circular close button and clean selection checkmarks.
+- **Rationale**: Eliminates nested navigation hops, provides quick single-tap language switching, and guarantees consistency with Display Density, Font Family, and Text Scale selection sheets.
 
 ### 13. Dynamic Term & Form Localization in Entry Form Screen
 - **Decision**: Dynamically resolve term and definition field labels based on the currently selected `LexiconType` using dedicated ARB keys:

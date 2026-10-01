@@ -7,7 +7,7 @@ void main() {
   group('DashboardTagsSection Tests', () {
     testWidgets('Renders nothing when tags list is empty', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(
@@ -23,7 +23,7 @@ void main() {
     testWidgets('Restricts to 1 row when 3 or fewer tags exist',
         (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(
@@ -48,7 +48,7 @@ void main() {
 
     testWidgets('Restricts to 2 rows when 4 to 7 tags exist', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(

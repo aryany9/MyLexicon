@@ -6,9 +6,11 @@ import 'package:mylexicon/features/settings/sub_pages/navigation_settings_page.d
 
 void main() {
   Widget buildTestApp() {
-    return const ProviderScope(
-      child: MaterialApp(localizationsDelegates: AppLocalizations.localizationsDelegates, supportedLocales: AppLocalizations.supportedLocales,
-        home: NavigationSettingsPage(),
+    return ProviderScope(
+      child: MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: const NavigationSettingsPage(),
       ),
     );
   }
@@ -82,4 +84,31 @@ void main() {
     );
     expect(preferenceRowValue, findsOneWidget);
   });
+
+  testWidgets('Features tab renders localized feature titles in Ukrainian',
+      (tester) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(
+          locale: Locale('uk'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: NavigationSettingsPage(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    // Switch to Features segment
+    await tester.tap(find.text('Функції'));
+    await tester.pumpAndSettle();
+
+    // Verify localized feature titles
+    expect(find.text('Слова'), findsOneWidget);
+    expect(find.text('Фрази'), findsOneWidget);
+    expect(find.text('Ідіоми'), findsOneWidget);
+    expect(find.text('Цитати'), findsOneWidget);
+    expect(find.text('Колекції'), findsOneWidget);
+  });
 }
+

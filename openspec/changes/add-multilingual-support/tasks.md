@@ -29,11 +29,11 @@
 - [x] 3.4 Create `lib/l10n/app_hi.arb` containing complete Hindi translations for all keys defined in `app_en.arb`
 - [x] 3.5 Run `flutter gen-l10n` to compile ARB files; verify `l10n_untranslated.txt` is empty (zero missing keys across all locales)
 
-## 4. Language Settings Screen
+## 4. Language Selection in Appearance Settings
 
-- [x] 4.1 Create `lib/features/settings/sub_pages/language_settings_page.dart` using `RadioGroup<String>` ancestor for deprecation-free radio selection, showing each language by its native endonym: `"English"`, `"Українська (Ukrainian)"`, `"Русский (Russian)"`, `"فارسی (Persian)"`, `"हिन्दी (Hindi)"`; selecting an option writes to `localePreferenceProvider` and updates the app locale immediately without requiring an app restart
-- [x] 4.2 Add `"Language"` list tile with `Icons.translate` to `lib/features/settings/settings_screen.dart`, pushing `LanguageSettingsPage` via `Navigator.of(context).push(MaterialPageRoute(...))`
-- [x] 4.3 Wrap `LanguageSettingsPage` in `PopScope(canPop: false)` checking `Navigator.of(context).canPop()` before falling back to `context.go('/')`, per repository back-navigation rules
+- [x] 4.1 Integrate Language preference into `AppearanceSettingsPage` (`lib/features/settings/sub_pages/appearance_settings_page.dart`) using `PreferencePickerRow<String>` matching the Reddit-style modal bottom sheet used by Typography and Display Density, displaying native endonyms and English subtitles: System Default, English, Українська (Ukrainian), Русский (Russian), فارسی (Persian), हिन्दी (Hindi)
+- [x] 4.2 On language selection from the bottom sheet, persist to `localePreferenceProvider`, updating the app language dynamically across the application
+- [x] 4.3 Remove the standalone `LanguageSettingsPage` nested sub-page and its navigation tile from `SettingsScreen`, streamlining the settings navigation hierarchy per repository conventions
 
 ## 5. Right-to-Left (RTL) Layout Polish
 

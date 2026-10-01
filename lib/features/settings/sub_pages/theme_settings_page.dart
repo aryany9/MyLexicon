@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/providers/theme_preference_provider.dart';
 import '../../../core/theme/app_theme_name.dart';
@@ -9,7 +10,7 @@ class ThemeSettingsPage extends ConsumerWidget {
 
   Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       child: Text(
         title,
         style: TextStyle(
@@ -23,37 +24,38 @@ class ThemeSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final themePref = ref.watch(appThemePreferenceProvider);
     final themeNotifier = ref.read(appThemePreferenceProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Theme')),
+      appBar: AppBar(title: Text(l10n.theme)),
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: EdgeInsets.symmetric(vertical: 8.0),
         children: [
           // ── Theme Mode ────────────────────────────────────────────────────
-          _buildSectionHeader(context, 'Theme Mode'),
+          _buildSectionHeader(context, l10n.themeMode),
           Padding(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               horizontal: 16.0,
               vertical: 4.0,
             ),
             child: SegmentedButton<ThemeMode>(
-              key: const ValueKey('theme_mode_segmented_button'),
-              segments: const [
+              key: ValueKey('theme_mode_segmented_button'),
+              segments: [
                 ButtonSegment(
                   value: ThemeMode.system,
-                  label: Text('System'),
+                  label: Text(l10n.themeSystem),
                   icon: Icon(Icons.brightness_auto, size: 18),
                 ),
                 ButtonSegment(
                   value: ThemeMode.light,
-                  label: Text('Light'),
+                  label: Text(l10n.themeLight),
                   icon: Icon(Icons.light_mode_outlined, size: 18),
                 ),
                 ButtonSegment(
                   value: ThemeMode.dark,
-                  label: Text('Dark'),
+                  label: Text(l10n.themeDark),
                   icon: Icon(Icons.dark_mode_outlined, size: 18),
                 ),
               ],
@@ -65,21 +67,21 @@ class ThemeSettingsPage extends ConsumerWidget {
               },
             ),
           ),
-          const SizedBox(height: 12),
-          const Divider(),
+          SizedBox(height: 12),
+          Divider(),
 
           // ── Light Mode Palette ───────────────────────────────────────────
-          _buildSectionHeader(context, '☀ Light Mode Theme'),
+          _buildSectionHeader(context, l10n.lightModeTheme),
           SizedBox(
             height: 110,
             child: ListView.separated(
-              padding: const EdgeInsets.symmetric(
+              padding: EdgeInsets.symmetric(
                 horizontal: 16.0,
                 vertical: 4.0,
               ),
               scrollDirection: Axis.horizontal,
               itemCount: AppThemeRegistry.lightPalettes.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 12),
+              separatorBuilder: (_, _) => SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final palette = AppThemeRegistry.lightPalettes[index];
                 final isSelected = themePref.lightThemeName == palette;
@@ -91,21 +93,21 @@ class ThemeSettingsPage extends ConsumerWidget {
               },
             ),
           ),
-          const SizedBox(height: 8),
-          const Divider(),
+          SizedBox(height: 8),
+          Divider(),
 
           // ── Dark Mode Palette ────────────────────────────────────────────
-          _buildSectionHeader(context, '🌙 Dark Mode Theme'),
+          _buildSectionHeader(context, l10n.darkModeTheme),
           SizedBox(
             height: 110,
             child: ListView.separated(
-              padding: const EdgeInsets.symmetric(
+              padding: EdgeInsets.symmetric(
                 horizontal: 16.0,
                 vertical: 4.0,
               ),
               scrollDirection: Axis.horizontal,
               itemCount: AppThemeRegistry.darkPalettes.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 12),
+              separatorBuilder: (_, _) => SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final palette = AppThemeRegistry.darkPalettes[index];
                 final isSelected = themePref.darkThemeName == palette;
@@ -117,7 +119,7 @@ class ThemeSettingsPage extends ConsumerWidget {
               },
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
         ],
       ),
     );
@@ -163,11 +165,11 @@ class _ThemeSwatchCard extends StatelessWidget {
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.06),
                     blurRadius: 4,
-                    offset: const Offset(0, 2),
+                    offset: Offset(0, 2),
                   ),
                 ],
               ),
-              padding: const EdgeInsets.all(6),
+              padding: EdgeInsets.all(6),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -201,7 +203,7 @@ class _ThemeSwatchCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6),
             Text(
               themeName.displayName,
               textAlign: TextAlign.center,

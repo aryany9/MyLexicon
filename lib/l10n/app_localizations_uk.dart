@@ -341,7 +341,15 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String entriesCount(int count) {
-    return '$count записів';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count записів',
+      many: '$count записів',
+      few: '$count записи',
+      one: '$count запис',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -846,4 +854,294 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get saveEntry => 'Зберегти запис';
+
+  @override
+  String get themeMode => 'Режим теми';
+
+  @override
+  String get themeSystem => 'Системна';
+
+  @override
+  String get themeLight => 'Світла';
+
+  @override
+  String get themeDark => 'Темна';
+
+  @override
+  String get lightModeTheme => '☀ Світла тема';
+
+  @override
+  String get darkModeTheme => '🌙 Темна тема';
+
+  @override
+  String get dataImportExport => 'Імпорт та експорт даних';
+
+  @override
+  String get exportDataDescription =>
+      'Збережіть резервну копію JSON або експорт CSV вашого лексикону у вибране місце';
+
+  @override
+  String get dataStorage => 'Сховище даних';
+
+  @override
+  String get clearAllLocalData => 'Очистити всі локальні дані';
+
+  @override
+  String get clearAllLocalDataSubtitle =>
+      'Безповоротно видалити всі слова, цитати, колекції та теги';
+
+  @override
+  String get developerDebugMode => 'Розробник (Режим налагодження)';
+
+  @override
+  String get loadSampleDataSubtitle2 =>
+      'Додати по 10 елементів у кожну категорію (40 записів)';
+
+  @override
+  String get deleteSampleDataSubtitle2 =>
+      'Видалити лише завантажені зразкові записи та колекції';
+
+  @override
+  String get unableToReadFile => 'Не вдалося прочитати вибраний файл.';
+
+  @override
+  String exportSavedTo(String path) {
+    return 'Експорт збережено до $path';
+  }
+
+  @override
+  String get saveLexiconExport => 'Зберегти експорт лексикону';
+
+  @override
+  String get chooseExportFormat =>
+      'Виберіть формат експорту для резервної копії лексикону.';
+
+  @override
+  String renameTagTitle(String tag) {
+    return 'Перейменувати тег #$tag';
+  }
+
+  @override
+  String tagRenamedSuccess(String oldTag, String newTag) {
+    return 'Тег #$oldTag перейменовано на #$newTag';
+  }
+
+  @override
+  String deleteTagTitle(String tag) {
+    return 'Видалити тег #$tag?';
+  }
+
+  @override
+  String deleteTagContent(String tag) {
+    return 'Ви впевнені, що хочете видалити тег #$tag з усіх записів? Самі записи НЕ будуть видалені.';
+  }
+
+  @override
+  String tagDeletedSuccess(String tag) {
+    return 'Тег #$tag видалено з усіх записів';
+  }
+
+  @override
+  String manageTags(int count) {
+    return 'Керування тегами ($count)';
+  }
+
+  @override
+  String get noTagsFoundDatabase =>
+      'У базі даних не знайдено тегів. Теги можна додавати під час створення або редагування записів.';
+
+  @override
+  String get chooseColor => 'Вибрати колір';
+
+  @override
+  String get collectionNameCannotBeEmpty =>
+      'Назва колекції не може бути порожньою';
+
+  @override
+  String get create => 'Створити';
+
+  @override
+  String failedToDeleteCollection(String error) {
+    return 'Не вдалося видалити колекцію: $error';
+  }
+
+  @override
+  String get noCollectionsCreated => 'Колекцій не створено';
+
+  @override
+  String get noCollectionsCreatedDesc =>
+      'Створюйте власні папки/колекції для групування записів та зручного повторення.';
+
+  @override
+  String get createFirstCollection => 'Створити першу колекцію';
+
+  @override
+  String get noDescriptionProvided => 'Опис відсутній';
+
+  @override
+  String get noDescriptionProvidedDetailed => 'Для цієї колекції немає опису.';
+
+  @override
+  String get close => 'Закрити';
+
+  @override
+  String get collectionIsEmpty => 'Колекція порожня';
+
+  @override
+  String get collectionIsEmptyDesc =>
+      'До цієї колекції ще не додано жодного запису. Ви можете призначити їх під час створення або редагування запису.';
+
+  @override
+  String get selectATag => 'Вибрати тег';
+
+  @override
+  String get noTagsFoundInDatabase => 'У базі даних не знайдено тегів';
+
+  @override
+  String get selectTag => 'Вибрати тег';
+
+  @override
+  String get noResultsFound => 'Нічого не знайдено';
+
+  @override
+  String get tryAdjustingSearch =>
+      'Спробуйте змінити пошуковий запит або параметри фільтра.';
+
+  @override
+  String get startAddingNewEntries =>
+      'Почніть додавати нові записи за допомогою кнопки додавання.';
+
+  @override
+  String alreadyExistsInCollection(String collection) {
+    return 'Вже існує в \"$collection\"';
+  }
+
+  @override
+  String get alreadyExistsUnassigned => 'Вже існує як запис без колекції';
+
+  @override
+  String get duplicateIfDifferentCollection =>
+      'Якщо цей запис належить до іншої колекції, змініть поле «Колекція» нижче та знову натисніть «Зберегти».';
+
+  @override
+  String get duplicateIfDifferentUsage =>
+      'Якщо це інше значення, призначте його певній колекції за допомогою поля «Колекція» нижче та знову натисніть «Зберегти».';
+
+  @override
+  String get duplicateEntryDetected => 'Виявлено дублікат запису';
+
+  @override
+  String get viewExistingEntry => 'Переглянути наявний запис';
+
+  @override
+  String get appTagline => 'Ваш персональний компаньйон для знань';
+
+  @override
+  String get links => 'Посилання';
+
+  @override
+  String get githubUrl => 'github.com/aryany9/MyLexicon';
+
+  @override
+  String get ifYouFindUseful => 'Якщо My Lexicon вам корисний';
+
+  @override
+  String get legal => 'Правова інформація';
+
+  @override
+  String get madeWith => 'Зроблено з ';
+
+  @override
+  String get inIndia => ' в Індії';
+
+  @override
+  String get byAuthor => 'від Aryan Yadav';
+
+  @override
+  String get clearAllDataQuestion => 'Очистити всі дані?';
+
+  @override
+  String get clearAllDataWarning =>
+      'Ця дія назавжди видалить усі збережені слова, цитати, фрази, ідіоми та колекції.\n\nЦе безповоротно. Ви впевнені, що хочете продовжити?';
+
+  @override
+  String get allDataCleared => 'Усі дані успішно очищено';
+
+  @override
+  String errorClearingData(String error) {
+    return 'Помилка очищення даних: $error';
+  }
+
+  @override
+  String get clearEverything => 'Очистити все';
+
+  @override
+  String get loadSampleDataWarning =>
+      'Буде додано по 10 підібраних записів для кожної категорії (10 слів, 10 фраз, 10 ідіом і 10 цитат) разом зі зразковими колекціями.\n\n• Наявні зразкові записи буде оновлено.\n• Усі створені вами власні записи зі схожими термінами буде збережено.';
+
+  @override
+  String loadedSampleEntries(int count) {
+    return 'Завантажено $count зразкових записів у всіх категоріях!';
+  }
+
+  @override
+  String loadedSampleEntriesSkipped(int added, int skipped) {
+    return 'Завантажено $added зразкових записів ($skipped пропущено через наявність власних дублікатів).';
+  }
+
+  @override
+  String refreshedSampleEntries(int count) {
+    return 'Оновлено $count зразкових записів.';
+  }
+
+  @override
+  String refreshedSampleEntriesSkipped(int updated, int skipped) {
+    return 'Оновлено $updated зразкових записів ($skipped власних дублікатів збережено).';
+  }
+
+  @override
+  String allSampleTermsExist(int skipped) {
+    return 'Усі $skipped зразкових термінів уже є у вашому лексиконі як власні записи.';
+  }
+
+  @override
+  String errorLoadingSampleData(String error) {
+    return 'Помилка завантаження зразкових даних: $error';
+  }
+
+  @override
+  String get deleteSampleDataQuestion => 'Видалити зразкові дані?';
+
+  @override
+  String get deleteSampleDataWarning =>
+      'Це видалить усі завантажені зразкові записи та зразкові колекції.\n\nВаші власні записи та колекції залишаться недоторканими.';
+
+  @override
+  String deletedSampleEntries(int count) {
+    return 'Видалено $count зразкових записів і зразкових колекцій.';
+  }
+
+  @override
+  String get noSampleEntriesFound =>
+      'Зразкових записів для видалення не знайдено.';
+
+  @override
+  String exportFailed(String error) {
+    return 'Помилка експорту: $error';
+  }
+
+  @override
+  String importedEntriesDetails(
+    int added,
+    int skipped,
+    int overwritten,
+    int merged,
+  ) {
+    return 'Імпортовано: $added нових, $skipped пропущено, $overwritten перезаписано, $merged об\'єднано.';
+  }
+
+  @override
+  String aboutSubtitleWithVersion(String version) {
+    return 'v$version · Ліцензії та посилання';
+  }
 }

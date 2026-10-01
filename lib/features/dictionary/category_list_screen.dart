@@ -114,7 +114,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
       SystemNavigator.setFrameworkHandlesBack(true);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && _isSelectionMode) {
-          const NavigationNotification(canHandlePop: true).dispatch(context);
+          NavigationNotification(canHandlePop: true).dispatch(context);
         }
       });
     }
@@ -144,7 +144,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
         appBar: AppBar(
           leading: _isSelectionMode
               ? IconButton(
-                  icon: const Icon(Icons.close),
+                  icon: Icon(Icons.close),
                   tooltip: l10n.cancelTooltip,
                   onPressed: _exitSelectionMode,
                 )
@@ -156,7 +156,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
           actions: _isSelectionMode
               ? [
                   IconButton(
-                    icon: const Icon(Icons.select_all_rounded),
+                    icon: Icon(Icons.select_all_rounded),
                     tooltip: l10n.toggleSelectAllTooltip,
                     onPressed: () {
                       final entries = db.searchAndFilter(
@@ -173,7 +173,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
                     },
                   ),
                   IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.delete_outline,
                       color: Colors.redAccent,
                     ),
@@ -185,7 +185,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
                 ]
               : [
                   IconButton(
-                    icon: const Icon(Icons.checklist_rounded),
+                    icon: Icon(Icons.checklist_rounded),
                     tooltip: l10n.selectItemsTooltip,
                     onPressed: () {
                       final entries = db.searchAndFilter(
@@ -198,7 +198,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
                     },
                   ),
                   PopupMenuButton<SortOrder>(
-                    icon: const Icon(Icons.swap_vert),
+                    icon: Icon(Icons.swap_vert),
                     tooltip: l10n.sortOrderTooltip,
                     onSelected: (order) {
                       ref
@@ -211,10 +211,10 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
                         child: Row(
                           children: [
                             if (order == currentSortOrder)
-                              const Icon(Icons.check, size: 18)
+                              Icon(Icons.check, size: 18)
                             else
-                              const SizedBox(width: 18),
-                            const SizedBox(width: 8),
+                              SizedBox(width: 18),
+                            SizedBox(width: 8),
                             Text(_sortOrderLabel(order, l10n)),
                           ],
                         ),
@@ -237,7 +237,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
             return ListView.separated(
               itemCount: entries.length,
               separatorBuilder: (context, index) =>
-                  const SizedBox(height: SizeConstants.space10),
+                  SizedBox(height: SizeConstants.space10),
               itemBuilder: (context, index) {
                 final entry = entries[index];
                 return WordsCard(
@@ -255,7 +255,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
               },
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => Center(child: CircularProgressIndicator()),
           error: (err, stack) =>
               Center(child: Text(l10n.errorLoadingEntries(err.toString()))),
         ),
@@ -264,7 +264,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
             : FloatingActionButton.extended(
                 onPressed: () =>
                     context.push('/entry-form?type=${widget.type.name}'),
-                icon: const Icon(Icons.add),
+                icon: Icon(Icons.add),
                 label: Text(widget.type.localizedAdd(l10n)),
               ),
       ),
@@ -275,7 +275,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: EdgeInsets.all(32.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -284,14 +284,14 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
               size: 72,
               color: Colors.grey.shade400,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             Text(
               l10n.yourLexiconIsEmpty,
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Text(
               l10n.emptyStateDescription,
               textAlign: TextAlign.center,
@@ -300,11 +300,11 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
                 fontSize: 14,
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () =>
                   context.push('/entry-form?type=${widget.type.name}'),
-              icon: const Icon(Icons.add),
+              icon: Icon(Icons.add),
               label: Text(l10n.addFirstEntry),
             ),
           ],

@@ -84,7 +84,7 @@ class EntryDetailScreen extends ConsumerWidget {
               },
               child: Text(
                 l10n.delete,
-                style: const TextStyle(color: Colors.redAccent),
+                style: TextStyle(color: Colors.redAccent),
               ),
             ),
           ],
@@ -159,12 +159,12 @@ class EntryDetailScreen extends ConsumerWidget {
                 tooltip: entry.isFavorite ? l10n.unfavoriteTooltip : l10n.favoriteTooltip,
               ),
               IconButton(
-                icon: const Icon(Icons.edit_outlined),
+                icon: Icon(Icons.edit_outlined),
                 onPressed: () => context.push('/entry-form?id=${entry.id}'),
                 tooltip: l10n.editTooltip,
               ),
               IconButton(
-                icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                icon: Icon(Icons.delete_outline, color: Colors.redAccent),
                 onPressed: () => _confirmDelete(context, ref, entry),
                 tooltip: l10n.deleteTooltip,
               ),
@@ -172,7 +172,7 @@ class EntryDetailScreen extends ConsumerWidget {
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -180,7 +180,7 @@ class EntryDetailScreen extends ConsumerWidget {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 10,
                           vertical: 6,
                         ),
@@ -200,9 +200,9 @@ class EntryDetailScreen extends ConsumerWidget {
                       if (collection != null &&
                           (ref.watch(featureFlagsProvider)[AppFeature.collections] ??
                               true)) ...[
-                        const SizedBox(width: 10),
+                        SizedBox(width: 10),
                         Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: 10,
                             vertical: 6,
                           ),
@@ -220,7 +220,7 @@ class EntryDetailScreen extends ConsumerWidget {
                                 color: Color(collection.colorValue),
                                 size: 14,
                               ),
-                              const SizedBox(width: 6),
+                              SizedBox(width: 6),
                               Text(
                                 collection.name,
                                 style: TextStyle(
@@ -235,7 +235,7 @@ class EntryDetailScreen extends ConsumerWidget {
                       ],
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // The Term/Text Display Card
                   Card(
@@ -249,7 +249,7 @@ class EntryDetailScreen extends ConsumerWidget {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.all(20.0),
                       child: SizedBox(
                         width: double.infinity,
                         child: SelectionArea(
@@ -268,7 +268,7 @@ class EntryDetailScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Definition / Meaning Section
                   Text(
@@ -282,17 +282,17 @@ class EntryDetailScreen extends ConsumerWidget {
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    padding: EdgeInsets.symmetric(horizontal: 4.0),
                     child: SelectionArea(
                       child: Text(
                         entry.definition,
-                        style: const TextStyle(fontSize: 16, height: 1.5),
+                        style: TextStyle(fontSize: 16, height: 1.5),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Example Sentences Section
                   if (entry.examples.isNotEmpty) ...[
@@ -307,13 +307,13 @@ class EntryDetailScreen extends ConsumerWidget {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     ...List.generate(entry.examples.length, (index) {
                       final ex = entry.examples[index];
                       return Container(
                         width: double.infinity,
-                        margin: const EdgeInsets.only(bottom: 8),
-                        padding: const EdgeInsets.all(16),
+                        margin: EdgeInsets.only(bottom: 8),
+                        padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardTheme.color,
                           borderRadius: BorderRadius.circular(12),
@@ -329,7 +329,7 @@ class EntryDetailScreen extends ConsumerWidget {
                             children: [
                               if (entry.examples.length > 1)
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
+                                  padding: EdgeInsets.only(right: 8.0),
                                   child: Text(
                                     '${index + 1}.',
                                     style: TextStyle(
@@ -359,7 +359,7 @@ class EntryDetailScreen extends ConsumerWidget {
                         ),
                       );
                     }),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                   ],
 
                   // Notes Section
@@ -371,10 +371,10 @@ class EntryDetailScreen extends ConsumerWidget {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: Colors.amber.withValues(alpha: isDark ? 0.05 : 0.08),
                         borderRadius: BorderRadius.circular(12),
@@ -385,11 +385,11 @@ class EntryDetailScreen extends ConsumerWidget {
                       child: SelectionArea(
                         child: Text(
                           entry.notes!,
-                          style: const TextStyle(fontSize: 15, height: 1.4),
+                          style: TextStyle(fontSize: 15, height: 1.4),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                   ],
 
                   // Tags Section
@@ -400,7 +400,7 @@ class EntryDetailScreen extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10),
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
@@ -413,11 +413,11 @@ class EntryDetailScreen extends ConsumerWidget {
                         );
                       }).toList(),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                   ],
 
-                  const Divider(),
-                  const SizedBox(height: 8),
+                  Divider(),
+                  SizedBox(height: 8),
 
                   // Metadata section
                   Text(
@@ -428,7 +428,7 @@ class EntryDetailScreen extends ConsumerWidget {
                           : Colors.grey.shade400,
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  SizedBox(height: 40),
                 ],
               ),
             ),
@@ -436,7 +436,7 @@ class EntryDetailScreen extends ConsumerWidget {
         );
       },
       loading: () =>
-          const Scaffold(body: Center(child: CircularProgressIndicator())),
+          Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (err, stack) => Scaffold(body: Center(child: Text(l10n.error(err.toString())))),
     );
   }

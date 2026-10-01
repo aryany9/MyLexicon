@@ -30,7 +30,7 @@ class HomeScreen extends ConsumerWidget {
         centerTitle: false,
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: Icon(Icons.search),
             onPressed: () => context.push(PathConstants.search),
             tooltip: l10n.searchTitle,
           ),
@@ -46,15 +46,15 @@ class HomeScreen extends ConsumerWidget {
               ref.invalidate(entriesProvider);
             },
             child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics: AlwaysScrollableScrollPhysics(),
               child: Padding(
-                padding: const EdgeInsets.all(SizeConstants.pagePadding),
+                padding: EdgeInsets.all(SizeConstants.pagePadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Welcome & Search Box shortcut
                     // _buildSearchBar(context),
-                    // const SizedBox(height: 24),
+                    // SizedBox(height: 24),
 
                     // Stats Grid Section
                     Text(
@@ -63,9 +63,9 @@ class HomeScreen extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const Gap.vertical(SizeConstants.lg),
+                    Gap.vertical(SizeConstants.lg),
                     _buildStatsGrid(context, ref, stats),
-                    const Gap.vertical(SizeConstants.lg),
+                    Gap.vertical(SizeConstants.lg),
 
                     // Quick Actions
                     Text(
@@ -74,13 +74,13 @@ class HomeScreen extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const Gap.vertical(SizeConstants.lg),
+                    Gap.vertical(SizeConstants.lg),
                     _buildQuickActions(context, ref),
-                    const Gap.vertical(SizeConstants.lg),
+                    Gap.vertical(SizeConstants.lg),
 
                     // Tags Index
                     _buildTagsSection(context, ref),
-                    const Gap.vertical(SizeConstants.lg),
+                    Gap.vertical(SizeConstants.lg),
 
                     // Recent Items Section
                     Row(
@@ -98,7 +98,7 @@ class HomeScreen extends ConsumerWidget {
                           ),
                       ],
                     ),
-                    const Gap.vertical(SizeConstants.sm),
+                    Gap.vertical(SizeConstants.sm),
 
                     entriesAsync.when(
                       data: (entries) {
@@ -111,21 +111,21 @@ class HomeScreen extends ConsumerWidget {
                         final recent = sorted.take(5).toList();
                         return ListView.separated(
                           shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: recent.length,
                           separatorBuilder: (context, index) =>
-                              const Gap.vertical(SizeConstants.space10),
+                              Gap.vertical(SizeConstants.space10),
                           itemBuilder: (context, index) {
                             return _buildEntryCard(context, ref, recent[index]);
                           },
                         );
                       },
                       loading: () =>
-                          const Center(child: CircularProgressIndicator()),
+                          Center(child: CircularProgressIndicator()),
                       error: (err, stack) =>
                           Text(l10n.errorLoadingEntries(err.toString())),
                     ),
-                    const Gap.vertical(
+                    Gap.vertical(
                       SizeConstants.fabSpacer,
                     ), // Space for FAB
                   ],
@@ -135,11 +135,11 @@ class HomeScreen extends ConsumerWidget {
           );
         },
         loading: () =>
-            const Scaffold(body: Center(child: CircularProgressIndicator())),
+            Scaffold(body: Center(child: CircularProgressIndicator())),
         error: (err, stack) =>
             Scaffold(body: Center(child: Text(l10n.error(err.toString())))),
       ),
-      floatingActionButton: const FanOutFab(),
+      floatingActionButton: FanOutFab(),
     );
   }
 
@@ -148,7 +148,7 @@ class HomeScreen extends ConsumerWidget {
     final tags = db.getAllTags();
 
     if (tags.isEmpty) {
-      return const SizedBox.shrink();
+      return SizedBox.shrink();
     }
 
     return DashboardTagsSection(tags: tags);
@@ -202,12 +202,12 @@ class HomeScreen extends ConsumerWidget {
     ];
 
     if (cards.isEmpty) {
-      return const SizedBox.shrink();
+      return SizedBox.shrink();
     }
 
     return GridView.count(
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      physics: NeverScrollableScrollPhysics(),
       crossAxisCount: cards.length == 1 ? 1 : 2,
       childAspectRatio: cards.length == 1 ? 3.0 : 1.6,
       mainAxisSpacing: 12,
@@ -233,7 +233,7 @@ class HomeScreen extends ConsumerWidget {
             onTap: () => context.push(PathConstants.searchFavorites()),
           ),
           if (showCollections) ...[
-            const Gap.horizontal(SizeConstants.md),
+            Gap.horizontal(SizeConstants.md),
             _buildActionButton(
               context,
               label: l10n.navCollections,
@@ -242,7 +242,7 @@ class HomeScreen extends ConsumerWidget {
               onTap: () => context.push(PathConstants.collections),
             ),
           ],
-          const Gap.horizontal(SizeConstants.md),
+          Gap.horizontal(SizeConstants.md),
           _buildActionButton(
             context,
             label: l10n.searchTags,
@@ -263,13 +263,13 @@ class HomeScreen extends ConsumerWidget {
     required VoidCallback onTap,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 4),
+      margin: EdgeInsets.only(bottom: 4),
       child: Card(
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(16),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               horizontal: 16.0,
               vertical: 12.0,
             ),
@@ -277,10 +277,10 @@ class HomeScreen extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(icon, color: color, size: 18),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Text(
                   label,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ],
             ),
@@ -302,7 +302,7 @@ class HomeScreen extends ConsumerWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 36.0),
+        padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 36.0),
         child: Column(
           children: [
             Icon(
@@ -312,14 +312,14 @@ class HomeScreen extends ConsumerWidget {
                 context,
               ).colorScheme.primary.withValues(alpha: 0.5),
             ),
-            const Gap.vertical(SizeConstants.lg),
+            Gap.vertical(SizeConstants.lg),
             Text(
               l10n.yourLexiconIsEmpty,
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
-            const Gap.vertical(SizeConstants.sm),
+            Gap.vertical(SizeConstants.sm),
             Text(
               l10n.emptyStateDescription,
               textAlign: TextAlign.center,
@@ -328,10 +328,10 @@ class HomeScreen extends ConsumerWidget {
                 fontSize: 14,
               ),
             ),
-            const Gap.vertical(SizeConstants.xl),
+            Gap.vertical(SizeConstants.xl),
             ElevatedButton.icon(
               onPressed: () => context.push(PathConstants.entryForm),
-              icon: const Icon(Icons.add),
+              icon: Icon(Icons.add),
               label: Text(l10n.addFirstEntry),
             ),
           ],
@@ -367,7 +367,7 @@ class HomeScreen extends ConsumerWidget {
         onTap: () => context.push(PathConstants.entryDetail(entry.id)),
         borderRadius: BorderRadius.circular(16),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -386,9 +386,9 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const Gap.horizontal(SizeConstants.sm),
+                  Gap.horizontal(SizeConstants.sm),
                   IconButton(
-                    constraints: const BoxConstraints(),
+                    constraints: BoxConstraints(),
                     padding: EdgeInsets.zero,
                     visualDensity: VisualDensity.compact,
                     icon: Icon(
@@ -409,9 +409,9 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
               if (ref.watch(showTypeBadgesProvider)) ...[
-                const Gap.vertical(SizeConstants.xs),
+                Gap.vertical(SizeConstants.xs),
                 Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 3,
                   ),
@@ -431,7 +431,7 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ),
               ],
-              const Gap.vertical(SizeConstants.sm),
+              Gap.vertical(SizeConstants.sm),
               Text(
                 entry.definition,
                 maxLines: 2,
@@ -442,13 +442,13 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
               if (entry.tags.isNotEmpty) ...[
-                const Gap.vertical(SizeConstants.md),
+                Gap.vertical(SizeConstants.md),
                 Wrap(
                   spacing: 6,
                   runSpacing: 6,
                   children: entry.tags.take(3).map((tag) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 8,
                         vertical: 2,
                       ),
@@ -502,7 +502,7 @@ class _DashboardTagsSectionState extends State<DashboardTagsSection> {
     final l10n = AppLocalizations.of(context)!;
     final tags = widget.tags;
     if (tags.isEmpty) {
-      return const SizedBox.shrink();
+      return SizedBox.shrink();
     }
 
     // Restrict to up to 2 or 3 rows max (1 row for <=3, 2 rows for <=7, 3 rows max).
@@ -530,25 +530,25 @@ class _DashboardTagsSectionState extends State<DashboardTagsSection> {
             context,
           ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
         ),
-        const Gap.vertical(SizeConstants.space10),
+        Gap.vertical(SizeConstants.space10),
         Scrollbar(
           controller: _scrollController,
           thumbVisibility: false,
           child: SingleChildScrollView(
             controller: _scrollController,
             scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.only(bottom: 6),
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.only(bottom: 6),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 for (int r = 0; r < rowCount; r++) ...[
-                  if (r > 0) const SizedBox(height: 8),
+                  if (r > 0) SizedBox(height: 8),
                   Row(
                     children: [
                       for (final tag in rows[r])
                         Padding(
-                          padding: const EdgeInsetsDirectional.only(end: 8.0),
+                          padding: EdgeInsetsDirectional.only(end: 8.0),
                           child: ActionChip(
                             label: Text('#$tag'),
                             onPressed: () =>

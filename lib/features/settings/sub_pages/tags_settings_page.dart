@@ -8,7 +8,7 @@ class TagsSettingsPage extends ConsumerWidget {
 
   Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       child: Text(
         title,
         style: TextStyle(
@@ -31,7 +31,7 @@ class TagsSettingsPage extends ConsumerWidget {
       builder: (context) {
         final l10n = AppLocalizations.of(context)!;
         return AlertDialog(
-          title: Text('Rename Tag #$oldTag'),
+          title: Text(l10n.renameTagTitle(oldTag)),
           content: TextField(
             controller: controller,
             textCapitalization: TextCapitalization.none,
@@ -55,7 +55,7 @@ class TagsSettingsPage extends ConsumerWidget {
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Tag #$oldTag renamed to #$newTag'),
+                        content: Text(l10n.tagRenamedSuccess(oldTag, newTag)),
                       ),
                     );
                   }
@@ -84,9 +84,9 @@ class TagsSettingsPage extends ConsumerWidget {
       builder: (context) {
         final l10n = AppLocalizations.of(context)!;
         return AlertDialog(
-          title: Text('Delete Tag #$tag?'),
+          title: Text(l10n.deleteTagTitle(tag)),
           content: Text(
-            'Are you sure you want to remove the tag #$tag from all entries? The entries themselves will NOT be deleted.',
+            l10n.deleteTagContent(tag),
           ),
           actions: [
             TextButton(
@@ -103,7 +103,7 @@ class TagsSettingsPage extends ConsumerWidget {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Tag #$tag deleted from all entries'),
+                        content: Text(l10n.tagDeletedSuccess(tag)),
                       ),
                     );
                   }
@@ -118,8 +118,8 @@ class TagsSettingsPage extends ConsumerWidget {
                   }
                 }
               },
-              child: const Text(
-                'Delete',
+              child: Text(
+                l10n.delete,
                 style: TextStyle(color: Colors.redAccent),
               ),
             ),
@@ -141,14 +141,14 @@ class TagsSettingsPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.tags)),
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: EdgeInsets.symmetric(vertical: 8.0),
         children: [
-          _buildSectionHeader(context, 'Manage Tags (${allTags.length})'),
+          _buildSectionHeader(context, l10n.manageTags(allTags.length)),
           if (allTags.isEmpty)
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                'No tags found in the database. Tags can be added when creating or editing lexicon entries.',
+                l10n.noTagsFoundDatabase,
                 style: TextStyle(
                   fontStyle: FontStyle.italic,
                   color: Colors.grey,
@@ -158,7 +158,7 @@ class TagsSettingsPage extends ConsumerWidget {
           else
             ListView.builder(
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+              physics: NeverScrollableScrollPhysics(),
               itemCount: allTags.length,
               itemBuilder: (context, index) {
                 final tag = allTags[index];
@@ -168,13 +168,13 @@ class TagsSettingsPage extends ConsumerWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.edit_outlined, size: 18),
+                        icon: Icon(Icons.edit_outlined, size: 18),
                         onPressed: () =>
                             _showRenameTagDialog(context, ref, tag),
                         tooltip: l10n.renameTagTooltip,
                       ),
                       IconButton(
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.delete_outline,
                           color: Colors.redAccent,
                           size: 18,

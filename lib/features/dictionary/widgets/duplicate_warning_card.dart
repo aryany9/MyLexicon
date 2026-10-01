@@ -20,6 +20,7 @@ class DuplicateWarningCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final existsLine = collectionName != null
         ? 'Already exists in "$collectionName"'
         : 'Already exists as an unassigned entry';
@@ -35,31 +36,31 @@ class DuplicateWarningCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(Icons.warning_amber_outlined, color: Colors.orange),
-            const SizedBox(width: 12),
+            Icon(Icons.warning_amber_outlined, color: Colors.orange),
+            SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Duplicate entry detected',
+                  Text(
+                    l10n.duplicateEntryDetected,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     '${duplicateEntry.term} • ${duplicateEntry.type.localizedSingular(AppLocalizations.of(context)!)}',
-                    style: const TextStyle(fontSize: 13),
+                    style: TextStyle(fontSize: 13),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     existsLine,
-                    style: const TextStyle(fontSize: 13),
+                    style: TextStyle(fontSize: 13),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Text(
                     hintLine,
                     style: TextStyle(
@@ -68,12 +69,12 @@ class DuplicateWarningCard extends StatelessWidget {
                       height: 1.4,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: OutlinedButton(
                       onPressed: onViewEntry,
-                      child: const Text('View Existing Entry'),
+                      child: Text(l10n.viewExistingEntry),
                     ),
                   ),
                 ],

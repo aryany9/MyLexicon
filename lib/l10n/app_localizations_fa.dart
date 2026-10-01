@@ -846,4 +846,293 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get saveEntry => 'ذخیره ورودی';
+
+  @override
+  String get themeMode => 'حالت تم';
+
+  @override
+  String get themeSystem => 'سیستمی';
+
+  @override
+  String get themeLight => 'روشن';
+
+  @override
+  String get themeDark => 'تاریک';
+
+  @override
+  String get lightModeTheme => '☀ تم حالت روشن';
+
+  @override
+  String get darkModeTheme => '🌙 تم حالت تاریک';
+
+  @override
+  String get dataImportExport => 'صادر کردن و وارد کردن داده';
+
+  @override
+  String get exportDataDescription =>
+      'ذخیره نسخه پشتیبان JSON یا جدول CSV از لغت‌نامه در مکان انتخابی شما';
+
+  @override
+  String get dataStorage => 'ذخیره‌سازی داده';
+
+  @override
+  String get clearAllLocalData => 'پاک کردن تمام داده‌های محلی';
+
+  @override
+  String get clearAllLocalDataSubtitle =>
+      'حذف دائمی تمام کلمات، نقل‌قول‌ها، مجموعه‌ها و برچسب‌ها';
+
+  @override
+  String get developerDebugMode => 'توسعه‌دهنده (حالت اشکال‌زدایی)';
+
+  @override
+  String get loadSampleDataSubtitle2 =>
+      'افزودن ۱۰ مورد در هر دسته‌بندی (۴۰ ورودی)';
+
+  @override
+  String get deleteSampleDataSubtitle2 =>
+      'فقط حذف ورودی‌ها و مجموعه‌های نمونه بارگذاری‌شده';
+
+  @override
+  String get unableToReadFile => 'خواندن فایل انتخاب‌شده امکان‌پذیر نیست.';
+
+  @override
+  String exportSavedTo(String path) {
+    return 'صادرات در $path ذخیره شد';
+  }
+
+  @override
+  String get saveLexiconExport => 'ذخیره صادرات لغت‌نامه';
+
+  @override
+  String get chooseExportFormat =>
+      'فرمت صادر کردن نسخه پشتیبان لغت‌نامه را انتخاب کنید.';
+
+  @override
+  String renameTagTitle(String tag) {
+    return 'تغییر نام برچسب #$tag';
+  }
+
+  @override
+  String tagRenamedSuccess(String oldTag, String newTag) {
+    return 'برچسب #$oldTag به #$newTag تغییر نام یافت';
+  }
+
+  @override
+  String deleteTagTitle(String tag) {
+    return 'حذف برچسب #$tag؟';
+  }
+
+  @override
+  String deleteTagContent(String tag) {
+    return 'آیا مطمئن هستید که می‌خواهید برچسب #$tag را از تمام ورودی‌ها حذف کنید؟ خود ورودی‌ها حذف نخواهند شد.';
+  }
+
+  @override
+  String tagDeletedSuccess(String tag) {
+    return 'برچسب #$tag از تمام ورودی‌ها حذف شد';
+  }
+
+  @override
+  String manageTags(int count) {
+    return 'مدیریت برچسب‌ها ($count)';
+  }
+
+  @override
+  String get noTagsFoundDatabase =>
+      'هیچ برچسبی در پایگاه داده یافت نشد. برچسب‌ها را می‌توان هنگام ایجاد یا ویرایش ورودی‌ها اضافه کرد.';
+
+  @override
+  String get chooseColor => 'انتخاب رنگ';
+
+  @override
+  String get collectionNameCannotBeEmpty => 'نام مجموعه نمی‌تواند خالی باشد';
+
+  @override
+  String get create => 'ایجاد';
+
+  @override
+  String failedToDeleteCollection(String error) {
+    return 'خطا در حذف مجموعه: $error';
+  }
+
+  @override
+  String get noCollectionsCreated => 'هیچ مجموعه‌ای ایجاد نشده است';
+
+  @override
+  String get noCollectionsCreatedDesc =>
+      'پوشه‌ها/مجموعه‌های سفارشی ایجاد کنید تا ورودی‌های لغت‌نامه خود را برای مرور سازماندهی کنید.';
+
+  @override
+  String get createFirstCollection => 'ایجاد اولین مجموعه';
+
+  @override
+  String get noDescriptionProvided => 'توضیحاتی ارائه نشده است';
+
+  @override
+  String get noDescriptionProvidedDetailed =>
+      'هیچ توضیحی برای این مجموعه ارائه نشده است.';
+
+  @override
+  String get close => 'بستن';
+
+  @override
+  String get collectionIsEmpty => 'مجموعه خالی است';
+
+  @override
+  String get collectionIsEmptyDesc =>
+      'هنوز هیچ ورودی به این مجموعه اختصاص نیافته است. می‌توانید هنگام ایجاد یا ویرایش ورودی آنها را اختصاص دهید.';
+
+  @override
+  String get selectATag => 'انتخاب یک برچسب';
+
+  @override
+  String get noTagsFoundInDatabase => 'هیچ برچسبی در پایگاه داده یافت نشد';
+
+  @override
+  String get selectTag => 'انتخاب برچسب';
+
+  @override
+  String get noResultsFound => 'نتیجه‌ای یافت نشد';
+
+  @override
+  String get tryAdjustingSearch => 'عبارت جستجو یا فیلترها را تغییر دهید.';
+
+  @override
+  String get startAddingNewEntries =>
+      'با استفاده از دکمه افزودن، ورودی‌های جدید اضافه کنید.';
+
+  @override
+  String alreadyExistsInCollection(String collection) {
+    return 'از قبل در «$collection» وجود دارد';
+  }
+
+  @override
+  String get alreadyExistsUnassigned =>
+      'از قبل به عنوان ورودی بدون مجموعه وجود دارد';
+
+  @override
+  String get duplicateIfDifferentCollection =>
+      'اگر این ورودی متعلق به مجموعه دیگری است، فیلد مجموعه را در زیر تغییر دهید و دوباره روی ذخیره ضربه بزنید.';
+
+  @override
+  String get duplicateIfDifferentUsage =>
+      'اگر این یک کاربرد متفاوت است، آن را با استفاده از فیلد مجموعه در زیر به یک مجموعه خاص اختصاص دهید و دوباره ذخیره کنید.';
+
+  @override
+  String get duplicateEntryDetected => 'ورودی تکراری شناسایی شد';
+
+  @override
+  String get viewExistingEntry => 'مشاهده ورودی موجود';
+
+  @override
+  String get appTagline => 'همراه دانش شخصی شما';
+
+  @override
+  String get links => 'پیوندها';
+
+  @override
+  String get githubUrl => 'github.com/aryany9/MyLexicon';
+
+  @override
+  String get ifYouFindUseful => 'اگر My Lexicon برای شما مفید است';
+
+  @override
+  String get legal => 'قوانین و مجوزها';
+
+  @override
+  String get madeWith => 'ساخته شده با ';
+
+  @override
+  String get inIndia => ' در هند';
+
+  @override
+  String get byAuthor => 'توسط Aryan Yadav';
+
+  @override
+  String get clearAllDataQuestion => 'پاک کردن تمام داده‌ها؟';
+
+  @override
+  String get clearAllDataWarning =>
+      'این عمل تمام کلمات، نقل‌قول‌ها، عبارات، اصطلاحات و مجموعه‌های ذخیره‌شده شما را برای همیشه حذف می‌کند.\n\nاین عمل غیرقابل بازگشت است. آیا مطمئن هستید؟';
+
+  @override
+  String get allDataCleared => 'تمام داده‌ها با موفقیت پاک شدند';
+
+  @override
+  String errorClearingData(String error) {
+    return 'خطا در پاک کردن داده‌ها: $error';
+  }
+
+  @override
+  String get clearEverything => 'پاک کردن همه‌چیز';
+
+  @override
+  String get loadSampleDataWarning =>
+      'این عمل ۱۰ ورودی منتخب برای هر دسته‌بندی (۱۰ کلمه، ۱۰ عبارت، ۱۰ اصطلاح و ۱۰ نقل‌قول) به همراه مجموعه‌های نمونه اضافه می‌کند.\n\n• ورودی‌های نمونه موجود به‌روزرسانی می‌شوند.\n• هرگونه ورودی سفارشی که با اصطلاحات منطبق ایجاد کرده‌اید حفظ می‌شود.';
+
+  @override
+  String loadedSampleEntries(int count) {
+    return '$count ورودی نمونه در تمام دسته‌بندی‌ها بارگذاری شد!';
+  }
+
+  @override
+  String loadedSampleEntriesSkipped(int added, int skipped) {
+    return '$added ورودی نمونه بارگذاری شد ($skipped مورد به عنوان ورودی تکراری سفارشی نادیده گرفته شد).';
+  }
+
+  @override
+  String refreshedSampleEntries(int count) {
+    return '$count ورودی نمونه بازنشانی شد.';
+  }
+
+  @override
+  String refreshedSampleEntriesSkipped(int updated, int skipped) {
+    return '$updated ورودی نمونه بازنشانی شد ($skipped ورودی سفارشی حفظ شد).';
+  }
+
+  @override
+  String allSampleTermsExist(int skipped) {
+    return 'تمام $skipped اصطلاح نمونه از قبل در لغت‌نامه شما به عنوان ورودی سفارشی وجود دارند.';
+  }
+
+  @override
+  String errorLoadingSampleData(String error) {
+    return 'خطا در بارگذاری داده‌های نمونه: $error';
+  }
+
+  @override
+  String get deleteSampleDataQuestion => 'حذف داده‌های نمونه؟';
+
+  @override
+  String get deleteSampleDataWarning =>
+      'این عمل تمام ورودی‌ها و مجموعه‌های نمونه را حذف خواهد کرد.\n\nورودی‌ها و مجموعه‌های سفارشی خودتان دست‌نخورده باقی می‌مانند.';
+
+  @override
+  String deletedSampleEntries(int count) {
+    return '$count ورودی و مجموعه نمونه حذف شدند.';
+  }
+
+  @override
+  String get noSampleEntriesFound => 'هیچ ورودی نمونه‌ای برای حذف یافت نشد.';
+
+  @override
+  String exportFailed(String error) {
+    return 'خطا در صدور: $error';
+  }
+
+  @override
+  String importedEntriesDetails(
+    int added,
+    int skipped,
+    int overwritten,
+    int merged,
+  ) {
+    return '$added مورد جدید وارد شد، $skipped مورد رد شد، $overwritten مورد بازنویسی شد، $merged مورد ادغام شد.';
+  }
+
+  @override
+  String aboutSubtitleWithVersion(String version) {
+    return 'نسخه $version · مجوزها و پیوندها';
+  }
 }

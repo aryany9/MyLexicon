@@ -76,7 +76,7 @@ void main() {
             return notifier;
           }),
         ],
-        child: const MaterialApp(localizationsDelegates: AppLocalizations.localizationsDelegates, supportedLocales: AppLocalizations.supportedLocales,home: HomeScreen()),
+        child: MaterialApp(localizationsDelegates: AppLocalizations.localizationsDelegates, supportedLocales: AppLocalizations.supportedLocales,home: HomeScreen()),
       ),
     );
     await tester.pumpAndSettle();
@@ -119,7 +119,7 @@ void main() {
             return notifier;
           }),
         ],
-        child: const MaterialApp(localizationsDelegates: AppLocalizations.localizationsDelegates, supportedLocales: AppLocalizations.supportedLocales,home: HomeScreen()),
+        child: MaterialApp(localizationsDelegates: AppLocalizations.localizationsDelegates, supportedLocales: AppLocalizations.supportedLocales,home: HomeScreen()),
       ),
     );
     await tester.pumpAndSettle();

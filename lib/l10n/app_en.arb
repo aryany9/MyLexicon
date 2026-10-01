@@ -173,7 +173,7 @@
   "deleteCollectionContent": "Are you sure you want to delete this collection? Its entries will not be deleted, but they will be removed from this collection.",
   "editCollectionTooltip": "Edit Collection",
   "deleteCollectionTooltip": "Delete Collection",
-  "entriesCount": "{count} entries",
+  "entriesCount": "{count, plural, =1{1 entry} other{{count} entries}}",
   "@entriesCount": {
     "placeholders": {
       "count": {
@@ -459,5 +459,239 @@
   },
   "noTagsAddedYet": "No tags added yet",
   "updateEntry": "Update Entry",
-  "saveEntry": "Save Entry"
+  "saveEntry": "Save Entry",
+  "themeMode": "Theme Mode",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "lightModeTheme": "☀ Light Mode Theme",
+  "darkModeTheme": "🌙 Dark Mode Theme",
+  "dataImportExport": "Data Import & Export",
+  "exportDataDescription": "Save a JSON backup or CSV export of your lexicon to a location you choose",
+  "dataStorage": "Data Storage",
+  "clearAllLocalData": "Clear All Local Data",
+  "clearAllLocalDataSubtitle": "Irreversibly delete all words, quotes, collections, and tags",
+  "developerDebugMode": "Developer (Debug Mode)",
+  "loadSampleDataSubtitle2": "Populate 10 items in each category (40 entries)",
+  "deleteSampleDataSubtitle2": "Remove only the sample loaded entries and collections",
+  "unableToReadFile": "Unable to read the selected file.",
+  "exportSavedTo": "Export saved to {path}",
+  "@exportSavedTo": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "saveLexiconExport": "Save Lexicon Export",
+  "chooseExportFormat": "Choose the export format for your lexicon backup.",
+  "renameTagTitle": "Rename Tag #{tag}",
+  "@renameTagTitle": {
+    "placeholders": {
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "tagRenamedSuccess": "Tag #{oldTag} renamed to #{newTag}",
+  "@tagRenamedSuccess": {
+    "placeholders": {
+      "oldTag": {
+        "type": "String"
+      },
+      "newTag": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteTagTitle": "Delete Tag #{tag}?",
+  "@deleteTagTitle": {
+    "placeholders": {
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteTagContent": "Are you sure you want to remove the tag #{tag} from all entries? The entries themselves will NOT be deleted.",
+  "@deleteTagContent": {
+    "placeholders": {
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "tagDeletedSuccess": "Tag #{tag} deleted from all entries",
+  "@tagDeletedSuccess": {
+    "placeholders": {
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "manageTags": "Manage Tags ({count})",
+  "@manageTags": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noTagsFoundDatabase": "No tags found in the database. Tags can be added when creating or editing lexicon entries.",
+  "chooseColor": "Choose Color",
+  "collectionNameCannotBeEmpty": "Collection name cannot be empty",
+  "create": "Create",
+  "failedToDeleteCollection": "Failed to delete collection: {error}",
+  "@failedToDeleteCollection": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noCollectionsCreated": "No collections created",
+  "noCollectionsCreatedDesc": "Create custom folders/collections to group your lexicon entries for organized revision.",
+  "createFirstCollection": "Create First Collection",
+  "noDescriptionProvided": "No description provided",
+  "noDescriptionProvidedDetailed": "No description provided for this collection.",
+  "close": "Close",
+  "collectionIsEmpty": "Collection is empty",
+  "collectionIsEmptyDesc": "No entries are assigned to this collection yet. You can assign them when creating or editing an entry.",
+  "selectATag": "Select a Tag",
+  "noTagsFoundInDatabase": "No tags found in database",
+  "selectTag": "Select Tag",
+  "noResultsFound": "No results found",
+  "tryAdjustingSearch": "Try adjusting your search terms or filter constraints.",
+  "startAddingNewEntries": "Start adding new entries using the add button.",
+  "alreadyExistsInCollection": "Already exists in \"{collection}\"",
+  "@alreadyExistsInCollection": {
+    "placeholders": {
+      "collection": {
+        "type": "String"
+      }
+    }
+  },
+  "alreadyExistsUnassigned": "Already exists as an unassigned entry",
+  "duplicateIfDifferentCollection": "If this entry belongs to a different collection, change the Collection field below and tap Save again.",
+  "duplicateIfDifferentUsage": "If this is a different usage, assign it to a specific collection using the Collection field below and tap Save again.",
+  "duplicateEntryDetected": "Duplicate entry detected",
+  "viewExistingEntry": "View Existing Entry",
+  "appTagline": "Your personal knowledge companion",
+  "links": "Links",
+  "githubUrl": "github.com/aryany9/MyLexicon",
+  "ifYouFindUseful": "If you find My Lexicon useful",
+  "legal": "Legal",
+  "madeWith": "Made with ",
+  "inIndia": " in India",
+  "byAuthor": "by Aryan Yadav",
+  "clearAllDataQuestion": "Clear All Data?",
+  "clearAllDataWarning": "This action will permanently delete all your stored words, quotes, phrases, idioms, and collections.\n\nThis is irreversible. Are you sure you want to continue?",
+  "allDataCleared": "All data cleared successfully",
+  "errorClearingData": "Error clearing data: {error}",
+  "@errorClearingData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "clearEverything": "Clear Everything",
+  "loadSampleDataWarning": "This will populate 10 curated entries for each category (10 Words, 10 Phrases, 10 Idioms, and 10 Quotes) along with sample collections.\n\n• Existing sample entries will be refreshed.\n• Any custom entries you created with matching terms will be preserved.",
+  "loadedSampleEntries": "Loaded {count} sample entries across all categories!",
+  "@loadedSampleEntries": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadedSampleEntriesSkipped": "Loaded {added} sample entries ({skipped} skipped as existing custom duplicates).",
+  "@loadedSampleEntriesSkipped": {
+    "placeholders": {
+      "added": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "refreshedSampleEntries": "Refreshed {count} sample entries.",
+  "@refreshedSampleEntries": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "refreshedSampleEntriesSkipped": "Refreshed {updated} sample entries ({skipped} custom duplicates preserved).",
+  "@refreshedSampleEntriesSkipped": {
+    "placeholders": {
+      "updated": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "allSampleTermsExist": "All {skipped} sample terms already exist in your lexicon as custom entries.",
+  "@allSampleTermsExist": {
+    "placeholders": {
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "errorLoadingSampleData": "Error loading sample data: {error}",
+  "@errorLoadingSampleData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteSampleDataQuestion": "Delete Sample Data?",
+  "deleteSampleDataWarning": "This will remove all sample loaded entries and sample collections.\n\nYour own custom entries and collections will remain untouched.",
+  "deletedSampleEntries": "Deleted {count} sample entries and sample collections.",
+  "@deletedSampleEntries": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noSampleEntriesFound": "No sample entries found to delete.",
+  "exportFailed": "Export failed: {error}",
+  "@exportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "importedEntriesDetails": "Imported {added} new, {skipped} skipped, {overwritten} overwritten, {merged} merged entries.",
+  "@importedEntriesDetails": {
+    "placeholders": {
+      "added": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      },
+      "overwritten": {
+        "type": "int"
+      },
+      "merged": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutSubtitleWithVersion": "v{version} · Licenses and links",
+  "@aboutSubtitleWithVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -9,7 +9,6 @@ import 'sub_pages/navigation_settings_page.dart';
 import 'sub_pages/tags_settings_page.dart';
 import 'sub_pages/data_settings_page.dart';
 import 'sub_pages/about_settings_page.dart';
-import 'sub_pages/language_settings_page.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -45,26 +44,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       child: Scaffold(
         appBar: AppBar(title: Text(l10n.settings)),
         body: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: EdgeInsets.symmetric(vertical: 8.0),
           children: [
             ListTile(
-              leading: const Icon(Icons.palette_outlined),
+              leading: Icon(Icons.palette_outlined),
               title: Text(l10n.appearance),
               subtitle: Text(l10n.appearanceSubtitle),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const AppearanceSettingsPage(),
+                    builder: (context) => AppearanceSettingsPage(),
                   ),
                 );
               },
             ),
-            const Divider(),
+            Divider(),
             ListTile(
               leading: const Icon(Icons.tune_outlined),
               title: Text(l10n.navigationAndFeatures),
-              subtitle: const Text('Startup tab, sort tabs or toggle features'),
+              subtitle: Text(l10n.navigationSubtitle),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.of(context).push(
@@ -92,7 +91,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ListTile(
               leading: const Icon(Icons.storage_outlined),
               title: Text(l10n.data),
-              subtitle: const Text('Export, import, and clear data'),
+              subtitle: Text(l10n.dataSubtitle),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.of(context).push(
@@ -104,32 +103,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
             const Divider(),
             ListTile(
-              leading: const Icon(Icons.translate),
-              title: Text(l10n.language),
-              subtitle: Text(l10n.languageSubtitle),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const LanguageSettingsPage(),
-                  ),
-                );
-              },
-            ),
-            const Divider(),
-            ListTile(
               leading: const Icon(Icons.info_outline_rounded),
               title: Text(l10n.about),
               subtitle: Text(
                 _version != null
-                    ? 'v$_version · Licenses and links'
-                    : 'Version, licenses, and links',
+                    ? l10n.aboutSubtitleWithVersion(_version!)
+                    : l10n.aboutSubtitle,
               ),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const AboutSettingsPage(),
+                    builder: (context) => AboutSettingsPage(),
                   ),
                 );
               },

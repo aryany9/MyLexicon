@@ -342,7 +342,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String entriesCount(int count) {
-    return '$count entries';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entries',
+      one: '1 entry',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -849,4 +855,293 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveEntry => 'Save Entry';
+
+  @override
+  String get themeMode => 'Theme Mode';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get lightModeTheme => '☀ Light Mode Theme';
+
+  @override
+  String get darkModeTheme => '🌙 Dark Mode Theme';
+
+  @override
+  String get dataImportExport => 'Data Import & Export';
+
+  @override
+  String get exportDataDescription =>
+      'Save a JSON backup or CSV export of your lexicon to a location you choose';
+
+  @override
+  String get dataStorage => 'Data Storage';
+
+  @override
+  String get clearAllLocalData => 'Clear All Local Data';
+
+  @override
+  String get clearAllLocalDataSubtitle =>
+      'Irreversibly delete all words, quotes, collections, and tags';
+
+  @override
+  String get developerDebugMode => 'Developer (Debug Mode)';
+
+  @override
+  String get loadSampleDataSubtitle2 =>
+      'Populate 10 items in each category (40 entries)';
+
+  @override
+  String get deleteSampleDataSubtitle2 =>
+      'Remove only the sample loaded entries and collections';
+
+  @override
+  String get unableToReadFile => 'Unable to read the selected file.';
+
+  @override
+  String exportSavedTo(String path) {
+    return 'Export saved to $path';
+  }
+
+  @override
+  String get saveLexiconExport => 'Save Lexicon Export';
+
+  @override
+  String get chooseExportFormat =>
+      'Choose the export format for your lexicon backup.';
+
+  @override
+  String renameTagTitle(String tag) {
+    return 'Rename Tag #$tag';
+  }
+
+  @override
+  String tagRenamedSuccess(String oldTag, String newTag) {
+    return 'Tag #$oldTag renamed to #$newTag';
+  }
+
+  @override
+  String deleteTagTitle(String tag) {
+    return 'Delete Tag #$tag?';
+  }
+
+  @override
+  String deleteTagContent(String tag) {
+    return 'Are you sure you want to remove the tag #$tag from all entries? The entries themselves will NOT be deleted.';
+  }
+
+  @override
+  String tagDeletedSuccess(String tag) {
+    return 'Tag #$tag deleted from all entries';
+  }
+
+  @override
+  String manageTags(int count) {
+    return 'Manage Tags ($count)';
+  }
+
+  @override
+  String get noTagsFoundDatabase =>
+      'No tags found in the database. Tags can be added when creating or editing lexicon entries.';
+
+  @override
+  String get chooseColor => 'Choose Color';
+
+  @override
+  String get collectionNameCannotBeEmpty => 'Collection name cannot be empty';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String failedToDeleteCollection(String error) {
+    return 'Failed to delete collection: $error';
+  }
+
+  @override
+  String get noCollectionsCreated => 'No collections created';
+
+  @override
+  String get noCollectionsCreatedDesc =>
+      'Create custom folders/collections to group your lexicon entries for organized revision.';
+
+  @override
+  String get createFirstCollection => 'Create First Collection';
+
+  @override
+  String get noDescriptionProvided => 'No description provided';
+
+  @override
+  String get noDescriptionProvidedDetailed =>
+      'No description provided for this collection.';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get collectionIsEmpty => 'Collection is empty';
+
+  @override
+  String get collectionIsEmptyDesc =>
+      'No entries are assigned to this collection yet. You can assign them when creating or editing an entry.';
+
+  @override
+  String get selectATag => 'Select a Tag';
+
+  @override
+  String get noTagsFoundInDatabase => 'No tags found in database';
+
+  @override
+  String get selectTag => 'Select Tag';
+
+  @override
+  String get noResultsFound => 'No results found';
+
+  @override
+  String get tryAdjustingSearch =>
+      'Try adjusting your search terms or filter constraints.';
+
+  @override
+  String get startAddingNewEntries =>
+      'Start adding new entries using the add button.';
+
+  @override
+  String alreadyExistsInCollection(String collection) {
+    return 'Already exists in \"$collection\"';
+  }
+
+  @override
+  String get alreadyExistsUnassigned => 'Already exists as an unassigned entry';
+
+  @override
+  String get duplicateIfDifferentCollection =>
+      'If this entry belongs to a different collection, change the Collection field below and tap Save again.';
+
+  @override
+  String get duplicateIfDifferentUsage =>
+      'If this is a different usage, assign it to a specific collection using the Collection field below and tap Save again.';
+
+  @override
+  String get duplicateEntryDetected => 'Duplicate entry detected';
+
+  @override
+  String get viewExistingEntry => 'View Existing Entry';
+
+  @override
+  String get appTagline => 'Your personal knowledge companion';
+
+  @override
+  String get links => 'Links';
+
+  @override
+  String get githubUrl => 'github.com/aryany9/MyLexicon';
+
+  @override
+  String get ifYouFindUseful => 'If you find My Lexicon useful';
+
+  @override
+  String get legal => 'Legal';
+
+  @override
+  String get madeWith => 'Made with ';
+
+  @override
+  String get inIndia => ' in India';
+
+  @override
+  String get byAuthor => 'by Aryan Yadav';
+
+  @override
+  String get clearAllDataQuestion => 'Clear All Data?';
+
+  @override
+  String get clearAllDataWarning =>
+      'This action will permanently delete all your stored words, quotes, phrases, idioms, and collections.\n\nThis is irreversible. Are you sure you want to continue?';
+
+  @override
+  String get allDataCleared => 'All data cleared successfully';
+
+  @override
+  String errorClearingData(String error) {
+    return 'Error clearing data: $error';
+  }
+
+  @override
+  String get clearEverything => 'Clear Everything';
+
+  @override
+  String get loadSampleDataWarning =>
+      'This will populate 10 curated entries for each category (10 Words, 10 Phrases, 10 Idioms, and 10 Quotes) along with sample collections.\n\n• Existing sample entries will be refreshed.\n• Any custom entries you created with matching terms will be preserved.';
+
+  @override
+  String loadedSampleEntries(int count) {
+    return 'Loaded $count sample entries across all categories!';
+  }
+
+  @override
+  String loadedSampleEntriesSkipped(int added, int skipped) {
+    return 'Loaded $added sample entries ($skipped skipped as existing custom duplicates).';
+  }
+
+  @override
+  String refreshedSampleEntries(int count) {
+    return 'Refreshed $count sample entries.';
+  }
+
+  @override
+  String refreshedSampleEntriesSkipped(int updated, int skipped) {
+    return 'Refreshed $updated sample entries ($skipped custom duplicates preserved).';
+  }
+
+  @override
+  String allSampleTermsExist(int skipped) {
+    return 'All $skipped sample terms already exist in your lexicon as custom entries.';
+  }
+
+  @override
+  String errorLoadingSampleData(String error) {
+    return 'Error loading sample data: $error';
+  }
+
+  @override
+  String get deleteSampleDataQuestion => 'Delete Sample Data?';
+
+  @override
+  String get deleteSampleDataWarning =>
+      'This will remove all sample loaded entries and sample collections.\n\nYour own custom entries and collections will remain untouched.';
+
+  @override
+  String deletedSampleEntries(int count) {
+    return 'Deleted $count sample entries and sample collections.';
+  }
+
+  @override
+  String get noSampleEntriesFound => 'No sample entries found to delete.';
+
+  @override
+  String exportFailed(String error) {
+    return 'Export failed: $error';
+  }
+
+  @override
+  String importedEntriesDetails(
+    int added,
+    int skipped,
+    int overwritten,
+    int merged,
+  ) {
+    return 'Imported $added new, $skipped skipped, $overwritten overwritten, $merged merged entries.';
+  }
+
+  @override
+  String aboutSubtitleWithVersion(String version) {
+    return 'v$version · Licenses and links';
+  }
 }

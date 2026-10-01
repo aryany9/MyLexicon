@@ -126,8 +126,8 @@ class CollectionsScreen extends ConsumerWidget {
                     final name = nameController.text.trim();
                     if (name.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Collection name cannot be empty'),
+                        SnackBar(
+ content: Text(AppLocalizations.of(context)!.collectionNameCannotBeEmpty),
                           backgroundColor: Colors.redAccent,
                         ),
                       );
@@ -154,8 +154,8 @@ class CollectionsScreen extends ConsumerWidget {
                           SnackBar(
                             content: Text(
                               isEdit
-                                  ? 'Collection updated'
-                                  : 'Collection created',
+                                  ? AppLocalizations.of(context)!.collectionUpdated
+                                  : AppLocalizations.of(context)!.collectionCreated,
                             ),
                             backgroundColor: Colors.green,
                           ),
@@ -165,7 +165,7 @@ class CollectionsScreen extends ConsumerWidget {
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Error: $e'),
+                            content: Text(AppLocalizations.of(context)!.error(e.toString())),
                             backgroundColor: Colors.redAccent,
                           ),
                         );
@@ -210,8 +210,8 @@ class CollectionsScreen extends ConsumerWidget {
                   ref.invalidate(statsProvider);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Collection deleted successfully'),
+                      SnackBar(
+ content: Text(AppLocalizations.of(context)!.collectionDeleted),
                         backgroundColor: Colors.green,
                       ),
                     );
@@ -220,7 +220,7 @@ class CollectionsScreen extends ConsumerWidget {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Failed to delete collection: $e'),
+                        content: Text(AppLocalizations.of(context)!.failedToDeleteCollection(e.toString())),
                         backgroundColor: Colors.redAccent,
                       ),
                     );
@@ -286,12 +286,12 @@ class CollectionsScreen extends ConsumerWidget {
             },
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (err, stack) =>
-                Center(child: Text('Error loading entries: $err')),
+                Center(child: Text(AppLocalizations.of(context)!.errorLoadingEntries(err.toString()))),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) =>
-            Center(child: Text('Error loading collections: $err')),
+            Center(child: Text(AppLocalizations.of(context)!.errorLoadingCollections(err.toString()))),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showCollectionForm(context, ref),
@@ -334,7 +334,7 @@ class CollectionsScreen extends ConsumerWidget {
             ElevatedButton.icon(
               onPressed: () => _showCollectionForm(context, ref),
               icon: const Icon(Icons.add),
-              label: const Text('Create First Collection'),
+              label: Text(AppLocalizations.of(context)!.createFirstCollection),
             ),
           ],
         ),
@@ -391,7 +391,7 @@ class CollectionsScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      collection.description ?? 'No description provided',
+                      collection.description ?? AppLocalizations.of(context)!.noDescriptionProvided,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -403,7 +403,7 @@ class CollectionsScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      '$count ${count == 1 ? 'entry' : 'entries'}',
+                      l10n.entriesCount(count),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -474,7 +474,7 @@ class _CollectionDetailSubpage extends ConsumerWidget {
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('Close'),
+                      child: Text(AppLocalizations.of(context)!.close),
                     ),
                   ],
                 ),
@@ -640,7 +640,7 @@ class _CollectionDetailSubpage extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) => Center(child: Text(AppLocalizations.of(context)!.error(err.toString()))),
       ),
     );
   }

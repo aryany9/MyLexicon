@@ -1,4 +1,5 @@
 import 'package:mylexicon/l10n/app_localizations.dart';
+import 'package:mylexicon/l10n/app_feature_l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/models/app_feature.dart';
@@ -93,7 +94,7 @@ class _NavigationSettingsPageState
 
   Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
       child: Text(
         title,
         style: TextStyle(
@@ -132,19 +133,19 @@ class _NavigationSettingsPageState
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+            padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
             child: SizedBox(
               width: double.infinity,
               child: SegmentedButton<_NavigationSection>(
-                segments: const [
+                segments: [
                   ButtonSegment(
                     value: _NavigationSection.navigation,
-                    label: Text('Navigation'),
+                    label: Text(l10n.navigationSegment),
                     icon: Icon(Icons.explore_outlined, size: 18),
                   ),
                   ButtonSegment(
                     value: _NavigationSection.features,
-                    label: Text('Features'),
+                    label: Text(l10n.featuresSegment),
                     icon: Icon(Icons.tune_outlined, size: 18),
                   ),
                 ],
@@ -161,7 +162,7 @@ class _NavigationSettingsPageState
           ),
           Expanded(
             child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 200),
+              duration: Duration(milliseconds: 200),
               child: _currentSection == _NavigationSection.navigation
                   ? _buildNavigationSection(
                       context,
@@ -189,15 +190,15 @@ class _NavigationSettingsPageState
     final theme = Theme.of(context);
 
     return ListView(
-      key: const ValueKey('navigation_section'),
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      key: ValueKey('navigation_section'),
+      padding: EdgeInsets.symmetric(vertical: 4.0),
       children: [
         // ── Default Launch Screen Preference Row ──────────────────────────
         _buildSectionHeader(context, l10n.defaultLaunchScreen),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: PreferencePickerCard<String>(
-            key: const ValueKey('default_launch_screen_card'),
+            key: ValueKey('default_launch_screen_card'),
             title: l10n.defaultLaunchScreen,
             subtitle: l10n.defaultLaunchScreenSubtitle,
             icon: Icons.rocket_launch_outlined,
@@ -217,20 +218,20 @@ class _NavigationSettingsPageState
             },
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
 
         // ── Bottom Navigation Tab Order ───────────────────────────────────
         _buildSectionHeader(context, l10n.navigationTabOrder),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             l10n.dragToReorder,
             style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Card(
             elevation: 0,
             color: theme.colorScheme.surfaceContainerHighest.withValues(
@@ -247,7 +248,7 @@ class _NavigationSettingsPageState
             clipBehavior: Clip.antiAlias,
             child: ReorderableListView.builder(
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+              physics: NeverScrollableScrollPhysics(),
               buildDefaultDragHandles: false,
               itemCount: tabOrder.length,
               onReorderItem: (oldIndex, newIndex) {
@@ -288,7 +289,7 @@ class _NavigationSettingsPageState
                   subtitle: isEnabled
                       ? null
                       : Text(
-                          'Disabled (Hidden from bar)',
+                          l10n.disabled,
                           style: TextStyle(
                             color: theme.disabledColor,
                             fontSize: 12,
@@ -297,7 +298,7 @@ class _NavigationSettingsPageState
                   trailing: ReorderableDragStartListener(
                     index: index,
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Icon(
                         Icons.drag_handle_rounded,
                         color: theme.hintColor,
@@ -309,7 +310,7 @@ class _NavigationSettingsPageState
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
       ],
     );
   }
@@ -326,20 +327,20 @@ class _NavigationSettingsPageState
     final totalCount = AppFeature.values.length;
 
     return ListView(
-      key: const ValueKey('features_section'),
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      key: ValueKey('features_section'),
+      padding: EdgeInsets.symmetric(vertical: 4.0),
       children: [
         _buildSectionHeader(context, l10n.categoryAndFeatureToggles),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             l10n.activeFeatures(enabledCount, totalCount),
             style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Card(
             elevation: 0,
             color: theme.colorScheme.surfaceContainerHighest.withValues(
@@ -368,7 +369,7 @@ class _NavigationSettingsPageState
                             : theme.disabledColor,
                       ),
                       title: Text(
-                        feature.label,
+                        feature.localizedLabel(l10n),
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
                       subtitle: Text(
@@ -387,9 +388,9 @@ class _NavigationSettingsPageState
                             .toggle(feature);
                         if (!success && context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
+                            SnackBar(
                               content: Text(
-                                'At least one category must remain enabled',
+                                l10n.atLeastOneCategory,
                               ),
                             ),
                           );
@@ -410,7 +411,7 @@ class _NavigationSettingsPageState
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
       ],
     );
   }

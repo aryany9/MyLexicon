@@ -341,7 +341,13 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String entriesCount(int count) {
-    return '$count प्रविष्टियां';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count प्रविष्टियां',
+      one: '1 प्रविष्टि',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -845,4 +851,294 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get saveEntry => 'प्रविष्टि सहेजें';
+
+  @override
+  String get themeMode => 'थीम मोड';
+
+  @override
+  String get themeSystem => 'सिस्टम';
+
+  @override
+  String get themeLight => 'लाइट';
+
+  @override
+  String get themeDark => 'डार्क';
+
+  @override
+  String get lightModeTheme => '☀ लाइट मोड थीम';
+
+  @override
+  String get darkModeTheme => '🌙 डार्क मोड थीम';
+
+  @override
+  String get dataImportExport => 'डेटा आयात और निर्यात';
+
+  @override
+  String get exportDataDescription =>
+      'अपने लेक्सिकॉन का JSON बैकअप या CSV निर्यात अपने पसंदीदा स्थान पर सहेजें';
+
+  @override
+  String get dataStorage => 'डेटा संग्रहण';
+
+  @override
+  String get clearAllLocalData => 'सभी स्थानीय डेटा साफ़ करें';
+
+  @override
+  String get clearAllLocalDataSubtitle =>
+      'सभी शब्द, उद्धरण, संग्रह और टैग स्थायी रूप से हटाएं';
+
+  @override
+  String get developerDebugMode => 'डेवलपर (डीबग मोड)';
+
+  @override
+  String get loadSampleDataSubtitle2 =>
+      'प्रत्येक श्रेणी में 10 प्रविष्टियां जोड़ें (40 प्रविष्टियां)';
+
+  @override
+  String get deleteSampleDataSubtitle2 =>
+      'केवल लोड की गई नमूना प्रविष्टियां और संग्रह हटाएं';
+
+  @override
+  String get unableToReadFile => 'चयनित फ़ाइल पढ़ने में असमर्थ।';
+
+  @override
+  String exportSavedTo(String path) {
+    return 'निर्यात $path पर सहेजा गया';
+  }
+
+  @override
+  String get saveLexiconExport => 'लेक्सिकॉन निर्यात सहेजें';
+
+  @override
+  String get chooseExportFormat =>
+      'लेक्सिकॉन बैकअप के लिए निर्यात प्रारूप चुनें।';
+
+  @override
+  String renameTagTitle(String tag) {
+    return 'टैग #$tag का नाम बदलें';
+  }
+
+  @override
+  String tagRenamedSuccess(String oldTag, String newTag) {
+    return 'टैग #$oldTag का नाम बदलकर #$newTag कर दिया गया';
+  }
+
+  @override
+  String deleteTagTitle(String tag) {
+    return 'टैग #$tag हटाएं?';
+  }
+
+  @override
+  String deleteTagContent(String tag) {
+    return 'क्या आप वाकई सभी प्रविष्टियों से टैग #$tag हटाना चाहते हैं? प्रविष्टियां स्वयं नहीं हटाई जाएंगी।';
+  }
+
+  @override
+  String tagDeletedSuccess(String tag) {
+    return 'टैग #$tag सभी प्रविष्टियों से हटा दिया गया';
+  }
+
+  @override
+  String manageTags(int count) {
+    return 'टैग प्रबंधित करें ($count)';
+  }
+
+  @override
+  String get noTagsFoundDatabase =>
+      'डेटाबेस में कोई टैग नहीं मिला। प्रविष्टियां बनाते या संपादित करते समय टैग जोड़े जा सकते हैं।';
+
+  @override
+  String get chooseColor => 'रंग चुनें';
+
+  @override
+  String get collectionNameCannotBeEmpty => 'संग्रह का नाम खाली नहीं हो सकता';
+
+  @override
+  String get create => 'बनाएं';
+
+  @override
+  String failedToDeleteCollection(String error) {
+    return 'संग्रह हटाने में विफल: $error';
+  }
+
+  @override
+  String get noCollectionsCreated => 'कोई संग्रह नहीं बनाया गया';
+
+  @override
+  String get noCollectionsCreatedDesc =>
+      'पुनरीक्षण के लिए अपनी लेक्सिकॉन प्रविष्टियों को समूहित करने हेतु कस्टम फ़ोल्डर/संग्रह बनाएं।';
+
+  @override
+  String get createFirstCollection => 'पहला संग्रह बनाएं';
+
+  @override
+  String get noDescriptionProvided => 'कोई विवरण नहीं दिया गया';
+
+  @override
+  String get noDescriptionProvidedDetailed =>
+      'इस संग्रह के लिए कोई विवरण नहीं दिया गया है।';
+
+  @override
+  String get close => 'बंद करें';
+
+  @override
+  String get collectionIsEmpty => 'संग्रह खाली है';
+
+  @override
+  String get collectionIsEmptyDesc =>
+      'इस संग्रह में अभी तक कोई प्रविष्टि नहीं जोड़ी गई है। आप प्रविष्टि बनाते या संपादित करते समय इन्हें जोड़ सकते हैं।';
+
+  @override
+  String get selectATag => 'एक टैग चुनें';
+
+  @override
+  String get noTagsFoundInDatabase => 'डेटाबेस में कोई टैग नहीं मिला';
+
+  @override
+  String get selectTag => 'टैग चुनें';
+
+  @override
+  String get noResultsFound => 'कोई परिणाम नहीं मिला';
+
+  @override
+  String get tryAdjustingSearch => 'अपने खोज शब्द या फ़िल्टर बदलकर देखें।';
+
+  @override
+  String get startAddingNewEntries =>
+      'जोड़ें बटन का उपयोग करके नई प्रविष्टियां जोड़ना प्रारंभ करें।';
+
+  @override
+  String alreadyExistsInCollection(String collection) {
+    return 'पहले से ही \"$collection\" में मौजूद है';
+  }
+
+  @override
+  String get alreadyExistsUnassigned =>
+      'पहले से ही बिना संग्रह वाली प्रविष्टि के रूप में मौजूद है';
+
+  @override
+  String get duplicateIfDifferentCollection =>
+      'यदि यह प्रविष्टि किसी अन्य संग्रह की है, तो नीचे संग्रह फ़ील्ड बदलें और पुनः सहेजें।';
+
+  @override
+  String get duplicateIfDifferentUsage =>
+      'यदि यह एक अलग उपयोग है, तो नीचे दिए गए संग्रह फ़ील्ड का उपयोग करके इसे किसी विशिष्ट संग्रह में असाइन करें और पुनः सहेजें।';
+
+  @override
+  String get duplicateEntryDetected => 'डुप्लिकेट प्रविष्टि पाई गई';
+
+  @override
+  String get viewExistingEntry => 'मौजूदा प्रविष्टि देखें';
+
+  @override
+  String get appTagline => 'आपका व्यक्तिगत ज्ञान साथी';
+
+  @override
+  String get links => 'लिंक्स';
+
+  @override
+  String get githubUrl => 'github.com/aryany9/MyLexicon';
+
+  @override
+  String get ifYouFindUseful => 'यदि My Lexicon आपके लिए उपयोगी है';
+
+  @override
+  String get legal => 'कानूनी जानकारी';
+
+  @override
+  String get madeWith => 'के साथ निर्मित ';
+
+  @override
+  String get inIndia => ' भारत में';
+
+  @override
+  String get byAuthor => 'Aryan Yadav द्वारा';
+
+  @override
+  String get clearAllDataQuestion => 'सभी डेटा साफ़ करें?';
+
+  @override
+  String get clearAllDataWarning =>
+      'यह क्रिया आपके सभी संग्रहीत शब्दों, उद्धरणों, वाक्यांशों, मुहावरों और संग्रहों को स्थायी रूप से हटा देगी।\n\nयह क्रिया वापस नहीं ली जा सकती। क्या आप जारी रखना चाहते हैं?';
+
+  @override
+  String get allDataCleared => 'सभी डेटा सफलतापूर्वक साफ़ कर दिया गया';
+
+  @override
+  String errorClearingData(String error) {
+    return 'डेटा साफ़ करने में त्रुटि: $error';
+  }
+
+  @override
+  String get clearEverything => 'सब कुछ साफ़ करें';
+
+  @override
+  String get loadSampleDataWarning =>
+      'यह नमूना संग्रहों के साथ प्रत्येक श्रेणी के लिए 10 चयनित प्रविष्टियां (10 शब्द, 10 वाक्यांश, 10 मुहावरे और 10 उद्धरण) जोड़ेगा।\n\n• मौजूदा नमूना प्रविष्टियां अपडेट हो जाएंगी।\n• मेल खाने वाले शब्दों के साथ आपके द्वारा बनाई गई कोई भी कस्टम प्रविष्टि सुरक्षित रहेगी।';
+
+  @override
+  String loadedSampleEntries(int count) {
+    return 'सभी श्रेणियों में $count नमूना प्रविष्टियां लोड की गईं!';
+  }
+
+  @override
+  String loadedSampleEntriesSkipped(int added, int skipped) {
+    return '$added नमूना प्रविष्टियां लोड की गईं ($skipped मौजूदा कस्टम डुप्लिकेट के रूप में छोड़ दी गईं)।';
+  }
+
+  @override
+  String refreshedSampleEntries(int count) {
+    return '$count नमूना प्रविष्टियां अपडेट की गईं।';
+  }
+
+  @override
+  String refreshedSampleEntriesSkipped(int updated, int skipped) {
+    return '$updated नमूना प्रविष्टियां अपडेट की गईं ($skipped कस्टम प्रविष्टियां सुरक्षित रखी गईं)।';
+  }
+
+  @override
+  String allSampleTermsExist(int skipped) {
+    return 'सभी $skipped नमूना शब्द पहले से ही आपके लेक्सिकॉन में कस्टम प्रविष्टियों के रूप में मौजूद हैं।';
+  }
+
+  @override
+  String errorLoadingSampleData(String error) {
+    return 'नमूना डेटा लोड करने में त्रुटि: $error';
+  }
+
+  @override
+  String get deleteSampleDataQuestion => 'नमूना डेटा हटाएं?';
+
+  @override
+  String get deleteSampleDataWarning =>
+      'यह सभी लोड की गई नमूना प्रविष्टियों और संग्रहों को हटा देगा।\n\nआपकी अपनी प्रविष्टियां और संग्रह सुरक्षित रहेंगे।';
+
+  @override
+  String deletedSampleEntries(int count) {
+    return '$count नमूना प्रविष्टियां और संग्रह हटाए गए।';
+  }
+
+  @override
+  String get noSampleEntriesFound =>
+      'हटाने के लिए कोई नमूना प्रविष्टि नहीं मिली।';
+
+  @override
+  String exportFailed(String error) {
+    return 'निर्यात विफल: $error';
+  }
+
+  @override
+  String importedEntriesDetails(
+    int added,
+    int skipped,
+    int overwritten,
+    int merged,
+  ) {
+    return '$added नई आयात की गईं, $skipped छोड़ी गईं, $overwritten ओवरराइट की गईं, $merged मर्ज की गईं।';
+  }
+
+  @override
+  String aboutSubtitleWithVersion(String version) {
+    return 'v$version · लाइसेंस और लिंक';
+  }
 }

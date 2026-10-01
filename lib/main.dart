@@ -40,7 +40,7 @@ void main() async {
       overrides: [
         databaseServiceProvider.overrideWithValue(databaseService),
       ],
-      child: const MyLexiconApp(),
+      child: MyLexiconApp(),
     ),
   );
 }
@@ -84,7 +84,7 @@ class MyLexiconApp extends ConsumerWidget {
           data: mediaQuery.copyWith(
             textScaler: TextScaler.linear(textScalePref.scaleFactor),
           ),
-          child: child ?? const SizedBox.shrink(),
+          child: child ?? SizedBox.shrink(),
         );
       },
     );
