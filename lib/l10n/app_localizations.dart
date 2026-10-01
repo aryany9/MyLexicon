@@ -9,6 +9,8 @@ import 'app_localizations_en.dart';
 import 'app_localizations_fa.dart';
 import 'app_localizations_hi.dart';
 import 'app_localizations_ru.dart';
+import 'app_localizations_ta.dart';
+import 'app_localizations_te.dart';
 import 'app_localizations_uk.dart';
 
 // ignore_for_file: type=lint
@@ -101,6 +103,8 @@ abstract class AppLocalizations {
     Locale('fa'),
     Locale('hi'),
     Locale('ru'),
+    Locale('ta'),
+    Locale('te'),
     Locale('uk'),
   ];
 
@@ -2118,6 +2122,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'v{version} · Licenses and links'**
   String aboutSubtitleWithVersion(String version);
+
+  /// No description provided for @tamil.
+  ///
+  /// In en, this message translates to:
+  /// **'தமிழ் (Tamil)'**
+  String get tamil;
+
+  /// No description provided for @telugu.
+  ///
+  /// In en, this message translates to:
+  /// **'తెలుగు (Telugu)'**
+  String get telugu;
 }
 
 class _AppLocalizationsDelegate
@@ -2130,8 +2146,15 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'fa', 'hi', 'ru', 'uk'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+    'en',
+    'fa',
+    'hi',
+    'ru',
+    'ta',
+    'te',
+    'uk',
+  ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -2148,6 +2171,10 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsHi();
     case 'ru':
       return AppLocalizationsRu();
+    case 'ta':
+      return AppLocalizationsTa();
+    case 'te':
+      return AppLocalizationsTe();
     case 'uk':
       return AppLocalizationsUk();
   }

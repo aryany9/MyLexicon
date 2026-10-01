@@ -1146,4 +1146,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String aboutSubtitleWithVersion(String version) {
     return 'v$version · Лицензии и ссылки';
   }
+
+  @override
+  String get tamil => 'தமிழ் (Tamil)';
+
+  @override
+  String get telugu => 'తెలుగు (Telugu)';
 }

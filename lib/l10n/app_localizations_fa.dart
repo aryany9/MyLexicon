@@ -1135,4 +1135,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String aboutSubtitleWithVersion(String version) {
     return 'نسخه $version · مجوزها و پیوندها';
   }
+
+  @override
+  String get tamil => 'தமிழ் (Tamil)';
+
+  @override
+  String get telugu => 'తెలుగు (Telugu)';
 }

@@ -334,5 +334,7 @@
   "noSampleEntriesFound": "हटाने के लिए कोई नमूना प्रविष्टि नहीं मिली।",
   "exportFailed": "निर्यात विफल: {error}",
   "importedEntriesDetails": "{added} नई आयात की गईं, {skipped} छोड़ी गईं, {overwritten} ओवरराइट की गईं, {merged} मर्ज की गईं।",
-  "aboutSubtitleWithVersion": "v{version} · लाइसेंस और लिंक"
+  "aboutSubtitleWithVersion": "v{version} · लाइसेंस और लिंक",
+  "tamil": "தமிழ் (Tamil)",
+  "telugu": "తెలుగు (Telugu)"
 }

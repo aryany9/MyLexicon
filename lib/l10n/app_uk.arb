@@ -334,5 +334,7 @@
   "noSampleEntriesFound": "Зразкових записів для видалення не знайдено.",
   "exportFailed": "Помилка експорту: {error}",
   "importedEntriesDetails": "Імпортовано: {added} нових, {skipped} пропущено, {overwritten} перезаписано, {merged} об'єднано.",
-  "aboutSubtitleWithVersion": "v{version} · Ліцензії та посилання"
+  "aboutSubtitleWithVersion": "v{version} · Ліцензії та посилання",
+  "tamil": "தமிழ் (Tamil)",
+  "telugu": "తెలుగు (Telugu)"
 }

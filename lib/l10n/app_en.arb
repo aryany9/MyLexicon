@@ -693,5 +693,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "tamil": "தமிழ் (Tamil)",
+  "telugu": "తెలుగు (Telugu)"
 }

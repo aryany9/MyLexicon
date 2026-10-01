@@ -334,5 +334,7 @@
   "noSampleEntriesFound": "Примеров записей для удаления не найдено.",
   "exportFailed": "Ошибка экспорта: {error}",
   "importedEntriesDetails": "Импортировано: {added} новых, {skipped} пропущено, {overwritten} перезаписано, {merged} объединено.",
-  "aboutSubtitleWithVersion": "v{version} · Лицензии и ссылки"
+  "aboutSubtitleWithVersion": "v{version} · Лицензии и ссылки",
+  "tamil": "தமிழ் (Tamil)",
+  "telugu": "తెలుగు (Telugu)"
 }

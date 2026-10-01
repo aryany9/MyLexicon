@@ -334,5 +334,7 @@
   "noSampleEntriesFound": "هیچ ورودی نمونه‌ای برای حذف یافت نشد.",
   "exportFailed": "خطا در صدور: {error}",
   "importedEntriesDetails": "{added} مورد جدید وارد شد، {skipped} مورد رد شد، {overwritten} مورد بازنویسی شد، {merged} مورد ادغام شد.",
-  "aboutSubtitleWithVersion": "نسخه {version} · مجوزها و پیوندها"
+  "aboutSubtitleWithVersion": "نسخه {version} · مجوزها و پیوندها",
+  "tamil": "தமிழ் (Tamil)",
+  "telugu": "తెలుగు (Telugu)"
 }

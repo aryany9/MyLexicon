@@ -49,6 +49,10 @@ class AppearanceSettingsPage extends ConsumerWidget {
         return 'فارسی';
       case 'hi':
         return 'हिन्दी';
+      case 'ta':
+        return 'தமிழ்';
+      case 'te':
+        return 'తెలుగు';
       case 'system':
       default:
         return l10n.systemDefault;
@@ -276,6 +280,16 @@ class AppearanceSettingsPage extends ConsumerWidget {
                 value: 'hi',
                 label: 'हिन्दी',
                 description: 'Hindi',
+              ),
+              PreferencePickerOption(
+                value: 'ta',
+                label: 'தமிழ்',
+                description: 'Tamil',
+              ),
+              PreferencePickerOption(
+                value: 'te',
+                label: 'తెలుగు',
+                description: 'Telugu',
               ),
             ],
             onChanged: (val) {
