@@ -11,6 +11,8 @@ import 'models/lexicon_type.dart';
 import 'routes/app_router.dart';
 import 'core/providers/tab_provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mylexicon/l10n/app_localizations.dart';
+import 'core/providers/locale_preference_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +40,7 @@ void main() async {
       overrides: [
         databaseServiceProvider.overrideWithValue(databaseService),
       ],
-      child: const MyLexiconApp(),
+      child: MyLexiconApp(),
     ),
   );
 }
@@ -53,6 +55,7 @@ class MyLexiconApp extends ConsumerWidget {
     final themePref = ref.watch(appThemePreferenceProvider);
     final fontFamilyPref = ref.watch(fontFamilyPreferenceProvider);
     final textScalePref = ref.watch(textScalePreferenceProvider);
+    final localePref = ref.watch(localePreferenceProvider);
 
     final lightTheme = AppThemeRegistry.getTheme(
       themePref.lightThemeName,
@@ -71,6 +74,9 @@ class MyLexiconApp extends ConsumerWidget {
       darkTheme: darkTheme,
       themeMode: themePref.mode,
       routerConfig: router,
+      locale: localePref == 'system' ? null : Locale(localePref),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
         final mediaQuery = MediaQuery.of(context);
@@ -78,7 +84,7 @@ class MyLexiconApp extends ConsumerWidget {
           data: mediaQuery.copyWith(
             textScaler: TextScaler.linear(textScalePref.scaleFactor),
           ),
-          child: child ?? const SizedBox.shrink(),
+          child: child ?? SizedBox.shrink(),
         );
       },
     );

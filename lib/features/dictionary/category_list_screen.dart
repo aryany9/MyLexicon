@@ -1,3 +1,5 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
+import 'package:mylexicon/l10n/lexicon_type_l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,42 +23,16 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
   bool _isSelectionMode = false;
   final Set<String> _selectedIds = {};
 
-  String _getCategoryTitle() {
-    switch (widget.type) {
-      case LexiconType.word:
-        return 'Words';
-      case LexiconType.quote:
-        return 'Quotes';
-      case LexiconType.phrase:
-        return 'Phrases';
-      case LexiconType.idiom:
-        return 'Idioms';
-    }
-  }
-
-  String _getSingleTypeName() {
-    switch (widget.type) {
-      case LexiconType.word:
-        return 'Word';
-      case LexiconType.quote:
-        return 'Quote';
-      case LexiconType.phrase:
-        return 'Phrase';
-      case LexiconType.idiom:
-        return 'Idiom';
-    }
-  }
-
-  String _sortOrderLabel(SortOrder order) {
+  String _sortOrderLabel(SortOrder order, AppLocalizations l10n) {
     switch (order) {
       case SortOrder.newestFirst:
-        return 'Newest First';
+        return l10n.sortNewestFirst;
       case SortOrder.oldestFirst:
-        return 'Oldest First';
+        return l10n.sortOldestFirst;
       case SortOrder.aToZ:
-        return 'A → Z';
+        return l10n.sortAtoZ;
       case SortOrder.zToA:
-        return 'Z → A';
+        return l10n.sortZtoA;
     }
   }
 
@@ -86,24 +62,19 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
     });
   }
 
-  Future<void> _confirmDeleteSelected(int count) async {
+  Future<void> _confirmDeleteSelected(int count, AppLocalizations l10n) async {
     await showDialog<void>(
       context: context,
       useRootNavigator: false,
       builder: (dialogContext) {
-        final itemLabel = count == 1
-            ? _getSingleTypeName().toLowerCase()
-            : _getCategoryTitle().toLowerCase();
+        final itemLabel = count == 1 ? widget.type.localizedSingular(l10n).toLowerCase() : widget.type.localizedPlural(l10n).toLowerCase();
         return AlertDialog(
-          title: Text('Delete $count $itemLabel?'),
-          content: Text(
-            'Are you sure you want to permanently delete $count selected $itemLabel? '
-            'This action cannot be undone.',
-          ),
+          title: Text(l10n.deleteItemsTitle(count, itemLabel)),
+          content: Text(l10n.deleteItemsContent(count, itemLabel)),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             FilledButton(
               style: FilledButton.styleFrom(
@@ -121,18 +92,15 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
                 ref.invalidate(entriesProvider);
                 _exitSelectionMode();
                 if (mounted) {
-                  final itemLabel = count == 1
-                      ? _getSingleTypeName().toLowerCase()
-                      : _getCategoryTitle().toLowerCase();
                   ScaffoldMessenger.of(context).removeCurrentSnackBar();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Deleted $count $itemLabel.'),
+                      content: Text(l10n.deletedSuccess(count)),
                     ),
                   );
                 }
               },
-              child: const Text('Delete'),
+              child: Text(l10n.delete),
             ),
           ],
         );
@@ -146,7 +114,7 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
       SystemNavigator.setFrameworkHandlesBack(true);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && _isSelectionMode) {
-          const NavigationNotification(canHandlePop: true).dispatch(context);
+          NavigationNotification(canHandlePop: true).dispatch(context);
         }
       });
     }
@@ -154,11 +122,12 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final db = ref.watch(databaseServiceProvider);
     final entriesAsync = ref.watch(entriesProvider);
     final sortOrderMap = ref.watch(sortOrderProvider);
     final currentSortOrder = sortOrderMap[widget.type] ?? SortOrder.newestFirst;
-    final title = _getCategoryTitle();
+    final title = widget.type.localizedPlural(l10n);
 
     return PopScope(
       canPop: false,
@@ -175,8 +144,8 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
         appBar: AppBar(
           leading: _isSelectionMode
               ? IconButton(
-                  icon: const Icon(Icons.close),
-                  tooltip: 'Cancel',
+                  icon: Icon(Icons.close),
+                  tooltip: l10n.cancelTooltip,
                   onPressed: _exitSelectionMode,
                 )
               : null,
@@ -187,8 +156,8 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
           actions: _isSelectionMode
               ? [
                   IconButton(
-                    icon: const Icon(Icons.select_all_rounded),
-                    tooltip: 'Toggle select all',
+                    icon: Icon(Icons.select_all_rounded),
+                    tooltip: l10n.toggleSelectAllTooltip,
                     onPressed: () {
                       final entries = db.searchAndFilter(
                         type: widget.type,
@@ -204,20 +173,20 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
                     },
                   ),
                   IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.delete_outline,
                       color: Colors.redAccent,
                     ),
-                    tooltip: 'Delete selected',
+                    tooltip: l10n.deleteSelectedTooltip,
                     onPressed: _selectedIds.isEmpty
                         ? null
-                        : () => _confirmDeleteSelected(_selectedIds.length),
+                        : () => _confirmDeleteSelected(_selectedIds.length, l10n),
                   ),
                 ]
               : [
                   IconButton(
-                    icon: const Icon(Icons.checklist_rounded),
-                    tooltip: 'Select items',
+                    icon: Icon(Icons.checklist_rounded),
+                    tooltip: l10n.selectItemsTooltip,
                     onPressed: () {
                       final entries = db.searchAndFilter(
                         type: widget.type,
@@ -229,8 +198,8 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
                     },
                   ),
                   PopupMenuButton<SortOrder>(
-                    icon: const Icon(Icons.swap_vert),
-                    tooltip: 'Sort order',
+                    icon: Icon(Icons.swap_vert),
+                    tooltip: l10n.sortOrderTooltip,
                     onSelected: (order) {
                       ref
                           .read(sortOrderProvider.notifier)
@@ -242,11 +211,11 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
                         child: Row(
                           children: [
                             if (order == currentSortOrder)
-                              const Icon(Icons.check, size: 18)
+                              Icon(Icons.check, size: 18)
                             else
-                              const SizedBox(width: 18),
-                            const SizedBox(width: 8),
-                            Text(_sortOrderLabel(order)),
+                              SizedBox(width: 18),
+                            SizedBox(width: 8),
+                            Text(_sortOrderLabel(order, l10n)),
                           ],
                         ),
                       );
@@ -262,13 +231,13 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
             );
 
             if (entries.isEmpty) {
-              return _buildEmptyState(context, title);
+              return _buildEmptyState(context, title, l10n);
             }
 
             return ListView.separated(
               itemCount: entries.length,
               separatorBuilder: (context, index) =>
-                  const SizedBox(height: SizeConstants.space10),
+                  SizedBox(height: SizeConstants.space10),
               itemBuilder: (context, index) {
                 final entry = entries[index];
                 return WordsCard(
@@ -286,27 +255,27 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
               },
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => Center(child: CircularProgressIndicator()),
           error: (err, stack) =>
-              Center(child: Text('Error loading entries: $err')),
+              Center(child: Text(l10n.errorLoadingEntries(err.toString()))),
         ),
         floatingActionButton: _isSelectionMode
             ? null
             : FloatingActionButton.extended(
                 onPressed: () =>
                     context.push('/entry-form?type=${widget.type.name}'),
-                icon: const Icon(Icons.add),
-                label: Text('Add ${_getSingleTypeName()}'),
+                icon: Icon(Icons.add),
+                label: Text(widget.type.localizedAdd(l10n)),
               ),
       ),
     );
   }
 
-  Widget _buildEmptyState(BuildContext context, String categoryTitle) {
+  Widget _buildEmptyState(BuildContext context, String categoryTitle, AppLocalizations l10n) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: EdgeInsets.all(32.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -315,28 +284,28 @@ class _CategoryListScreenState extends ConsumerState<CategoryListScreen> {
               size: 72,
               color: Colors.grey.shade400,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             Text(
-              'No $categoryTitle yet',
+              l10n.yourLexiconIsEmpty,
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Text(
-              'You haven\'t added any ${categoryTitle.toLowerCase()} to your lexicon yet.',
+              l10n.emptyStateDescription,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
                 fontSize: 14,
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () =>
                   context.push('/entry-form?type=${widget.type.name}'),
-              icon: const Icon(Icons.add),
-              label: Text('Add First $categoryTitle'),
+              icon: Icon(Icons.add),
+              label: Text(l10n.addFirstEntry),
             ),
           ],
         ),

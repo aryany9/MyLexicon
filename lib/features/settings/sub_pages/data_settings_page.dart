@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,6 +31,7 @@ class DataSettingsPage extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
         return AlertDialog(
           title: const Text(
             'Clear All Data?',
@@ -42,7 +44,7 @@ class DataSettingsPage extends ConsumerWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             TextButton(
               onPressed: () async {
@@ -55,8 +57,8 @@ class DataSettingsPage extends ConsumerWidget {
                   ref.invalidate(collectionsProvider);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('All data cleared successfully'),
+                      SnackBar(
+ content: Text(AppLocalizations.of(context)!.allDataCleared),
                         backgroundColor: Colors.green,
                       ),
                     );
@@ -65,7 +67,7 @@ class DataSettingsPage extends ConsumerWidget {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Error clearing data: $e'),
+                        content: Text(AppLocalizations.of(context)!.errorClearingData(e.toString())),
                         backgroundColor: Colors.redAccent,
                       ),
                     );
@@ -87,8 +89,9 @@ class DataSettingsPage extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (dialogContext) {
+        final l10n = AppLocalizations.of(dialogContext)!;
         return AlertDialog(
-          title: const Text('Load Sample Data?'),
+          title: Text(l10n.loadSampleDataTitle),
           content: const Text(
             'This will populate 10 curated entries for each category (10 Words, 10 Phrases, 10 Idioms, and 10 Quotes) along with sample collections.\n\n'
             '• Existing sample entries will be refreshed.\n'
@@ -97,7 +100,7 @@ class DataSettingsPage extends ConsumerWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             FilledButton(
               onPressed: () async {
@@ -142,14 +145,14 @@ class DataSettingsPage extends ConsumerWidget {
                     ScaffoldMessenger.of(context).removeCurrentSnackBar();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Error loading sample data: $e'),
+                        content: Text(AppLocalizations.of(context)!.errorLoadingSampleData(e.toString())),
                         backgroundColor: Colors.redAccent,
                       ),
                     );
                   }
                 }
               },
-              child: const Text('Load Sample Data'),
+              child: Text(AppLocalizations.of(context)!.loadSampleData),
             ),
           ],
         );
@@ -161,6 +164,7 @@ class DataSettingsPage extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (dialogContext) {
+        final l10n = AppLocalizations.of(dialogContext)!;
         return AlertDialog(
           title: const Text(
             'Delete Sample Data?',
@@ -173,7 +177,7 @@ class DataSettingsPage extends ConsumerWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             FilledButton(
               style: FilledButton.styleFrom(
@@ -195,7 +199,7 @@ class DataSettingsPage extends ConsumerWidget {
                         content: Text(
                           deleted > 0
                               ? 'Deleted $deleted sample entries and sample collections.'
-                              : 'No sample entries found to delete.',
+                              : AppLocalizations.of(context)!.noSampleEntriesFound,
                         ),
                         backgroundColor: Colors.orange,
                       ),
@@ -206,14 +210,14 @@ class DataSettingsPage extends ConsumerWidget {
                     ScaffoldMessenger.of(context).removeCurrentSnackBar();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Error deleting sample data: $e'),
+                        content: Text(l10n.sampleDataDeleteError(e.toString())),
                         backgroundColor: Colors.redAccent,
                       ),
                     );
                   }
                 }
               },
-              child: const Text('Delete Sample Data'),
+              child: Text(AppLocalizations.of(context)!.deleteSampleData),
             ),
           ],
         );
@@ -232,22 +236,23 @@ class DataSettingsPage extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
+    final l10n = AppLocalizations.of(context)!;
+    // Cache localized strings before any async gap.
+    final saveDialogTitle = l10n.saveLexiconExport;
     final format = await showDialog<ExportFormat>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Export Data'),
-          content: const Text(
-            'Choose the export format for your lexicon backup.',
-          ),
+          title: Text(l10n.exportData),
+          content: Text(l10n.chooseExportFormat),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(ExportFormat.json),
-              child: const Text('JSON Backup'),
+              child: Text(AppLocalizations.of(context)!.exportJson),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(ExportFormat.csv),
-              child: const Text('CSV Spreadsheet'),
+              child: Text(AppLocalizations.of(context)!.exportCsv),
             ),
           ],
         );
@@ -273,7 +278,7 @@ class DataSettingsPage extends ConsumerWidget {
 
       // Ask the user where to save the file locally.
       final Uri? savedUri = await FilePicker.saveFile(
-        dialogTitle: 'Save Lexicon Export',
+        dialogTitle: saveDialogTitle,
         fileName: fileName,
         type: FileType.custom,
         allowedExtensions: [format.name],
@@ -294,7 +299,7 @@ class DataSettingsPage extends ConsumerWidget {
         final path = savedUri.path;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Export saved to $path'),
+            content: Text(AppLocalizations.of(context)!.exportSavedTo(path)),
             backgroundColor: Colors.green,
           ),
         );
@@ -303,7 +308,7 @@ class DataSettingsPage extends ConsumerWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Export failed: $e'),
+            content: Text(AppLocalizations.of(context)!.exportFailed(e.toString())),
             backgroundColor: Colors.redAccent,
           ),
         );
@@ -324,8 +329,8 @@ class DataSettingsPage extends ConsumerWidget {
     if (path == null) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Unable to read the selected file.'),
+          SnackBar(
+ content: Text(AppLocalizations.of(context)!.unableToReadFile),
             backgroundColor: Colors.redAccent,
           ),
         );
@@ -371,7 +376,7 @@ class DataSettingsPage extends ConsumerWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Import failed: $e'),
+            content: Text(AppLocalizations.of(context)!.importFailed(e.toString())),
             backgroundColor: Colors.redAccent,
           ),
         );
@@ -381,8 +386,9 @@ class DataSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Data')),
+      appBar: AppBar(title: Text(l10n.data)),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         children: [
@@ -390,7 +396,7 @@ class DataSettingsPage extends ConsumerWidget {
           _buildSectionHeader(context, 'Data Import & Export'),
           ListTile(
             leading: const Icon(Icons.save_alt_outlined),
-            title: const Text('Export Data'),
+            title: Text(l10n.exportData),
             subtitle: const Text(
               'Save a JSON backup or CSV export of your lexicon to a location you choose',
             ),
@@ -398,7 +404,7 @@ class DataSettingsPage extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.download_outlined),
-            title: const Text('Import Data'),
+            title: Text(l10n.importData),
             subtitle: const Text(
               'Pick a JSON or CSV file and preview duplicates before import',
             ),
@@ -430,7 +436,7 @@ class DataSettingsPage extends ConsumerWidget {
             ListTile(
               key: const ValueKey('load_sample_data_tile'),
               leading: const Icon(Icons.auto_stories_outlined),
-              title: const Text('Load Sample Data'),
+              title: Text(l10n.loadSampleData),
               subtitle: const Text(
                 'Populate 10 items in each category (40 entries)',
               ),

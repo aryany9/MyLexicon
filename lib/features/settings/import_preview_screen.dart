@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mylexicon/l10n/app_localizations.dart';
 
 import '../../core/services/database_service.dart';
 import '../../core/services/export_import_service.dart';
+import '../../l10n/lexicon_type_l10n.dart';
 
 class ImportPreviewScreen extends ConsumerStatefulWidget {
   final ImportPreviewData previewData;
@@ -19,6 +21,7 @@ class _ImportPreviewScreenState extends ConsumerState<ImportPreviewScreen> {
   bool _isImporting = false;
 
   Future<void> _runImport() async {
+    final l10n = AppLocalizations.of(context)!;
     setState(() {
       _isImporting = true;
     });
@@ -36,7 +39,7 @@ class _ImportPreviewScreenState extends ConsumerState<ImportPreviewScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Import failed: $e'),
+            content: Text(l10n.importFailed(e.toString())),
             backgroundColor: Colors.redAccent,
           ),
         );
@@ -52,12 +55,13 @@ class _ImportPreviewScreenState extends ConsumerState<ImportPreviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final previewData = widget.previewData;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Import Preview')),
+      appBar: AppBar(title: Text(l10n.importPreview)),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         children: [
           Text(
             previewData.fileName,
@@ -65,40 +69,40 @@ class _ImportPreviewScreenState extends ConsumerState<ImportPreviewScreen> {
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           _SummaryCard(
-            label: 'Entries detected',
+            label: l10n.entriesDetected,
             value: previewData.totalEntries.toString(),
           ),
           _SummaryCard(
-            label: 'Collections detected',
+            label: l10n.collectionsDetected,
             value: previewData.totalCollections.toString(),
           ),
           _SummaryCard(
-            label: 'Potential duplicates',
+            label: l10n.potentialDuplicates,
             value: previewData.duplicateCount.toString(),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           Text(
-            'Resolution Strategy',
+            l10n.resolutionStrategy,
             style: Theme.of(
               context,
             ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           SegmentedButton<ImportConflictStrategy>(
-            segments: const [
+            segments: [
               ButtonSegment(
                 value: ImportConflictStrategy.skip,
-                label: Text('Skip'),
+                label: Text(l10n.skipDuplicates),
               ),
               ButtonSegment(
                 value: ImportConflictStrategy.overwrite,
-                label: Text('Overwrite'),
+                label: Text(l10n.overwriteDuplicates),
               ),
               ButtonSegment(
                 value: ImportConflictStrategy.merge,
-                label: Text('Merge'),
+                label: Text(l10n.mergeDuplicates),
               ),
             ],
             selected: {_strategy},
@@ -108,50 +112,53 @@ class _ImportPreviewScreenState extends ConsumerState<ImportPreviewScreen> {
               });
             },
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           if (previewData.duplicates.isNotEmpty) ...[
             Text(
-              'Duplicate Matches',
+              l10n.duplicateMatches,
               style: Theme.of(
                 context,
               ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             ...previewData.duplicates.map((duplicate) {
               return Card(
                 child: ListTile(
                   title: Text(duplicate.incomingEntry.term),
                   subtitle: Text(
-                    'Existing: ${duplicate.existingEntry.term} • ${duplicate.existingEntry.type.name}',
+                    l10n.existingEntry(
+                      duplicate.existingEntry.term,
+                      duplicate.existingEntry.type.localizedSingular(l10n),
+                    ),
                   ),
                 ),
               );
             }),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
           ],
           Text(
-            'Preview Content',
+            l10n.previewContent,
             style: Theme.of(
               context,
             ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Text(
-            'Raw content length: ${previewData.rawContent.length} characters',
+            l10n.rawContentLength(previewData.rawContent.length),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: _isImporting ? null : _runImport,
               icon: _isImporting
-                  ? const SizedBox(
+                  ? SizedBox(
                       width: 16,
                       height: 16,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Icon(Icons.file_download_outlined),
-              label: Text(_isImporting ? 'Importing...' : 'Import Now'),
+                  : Icon(Icons.file_download_outlined),
+              label: Text(_isImporting ? l10n.importing : l10n.importNow),
             ),
           ),
         ],

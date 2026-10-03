@@ -1,0 +1,6 @@
+Added multilingual support: Ukrainian, Russian, Persian (Farsi), and Hindi.
+All screens, dialogs, and messages are now fully localized.
+Persian support includes right-to-left (RTL) layout.
+Change language from Settings > Language.
+
+Coming soon: Marathi, Gujarati, Punjabi, Tamil, Telugu, Malayalam, Kannada, Bengali.

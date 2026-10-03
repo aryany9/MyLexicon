@@ -1,3 +1,4 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -81,6 +82,8 @@ void main() {
           databaseServiceProvider.overrideWithValue(dbService),
         ],
         child: MaterialApp.router(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           routerConfig: router,
         ),
       ),
@@ -96,7 +99,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.descendant(of: find.byType(AppBar), matching: find.text('MyLexicon')),
+      find.descendant(of: find.byType(AppBar), matching: find.text('My Lexicon')),
       findsOneWidget,
     );
   });
@@ -117,6 +120,8 @@ void main() {
           databaseServiceProvider.overrideWithValue(dbService),
         ],
         child: MaterialApp.router(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           routerConfig: router,
         ),
       ),
@@ -132,7 +137,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.descendant(of: find.byType(AppBar), matching: find.text('MyLexicon')),
+      find.descendant(of: find.byType(AppBar), matching: find.text('My Lexicon')),
       findsOneWidget,
     );
   });
@@ -153,6 +158,8 @@ void main() {
           databaseServiceProvider.overrideWithValue(dbService),
         ],
         child: MaterialApp.router(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           routerConfig: router,
         ),
       ),
@@ -168,7 +175,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.descendant(of: find.byType(AppBar), matching: find.text('MyLexicon')),
+      find.descendant(of: find.byType(AppBar), matching: find.text('My Lexicon')),
       findsOneWidget,
     );
   });
@@ -189,6 +196,8 @@ void main() {
           databaseServiceProvider.overrideWithValue(dbService),
         ],
         child: MaterialApp.router(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           routerConfig: router,
         ),
       ),
@@ -215,7 +224,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.descendant(of: find.byType(AppBar), matching: find.text('MyLexicon')),
+      find.descendant(of: find.byType(AppBar), matching: find.text('My Lexicon')),
       findsOneWidget,
     );
   });
@@ -236,6 +245,8 @@ void main() {
           databaseServiceProvider.overrideWithValue(dbService),
         ],
         child: MaterialApp.router(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           routerConfig: router,
         ),
       ),
@@ -262,7 +273,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.descendant(of: find.byType(AppBar), matching: find.text('MyLexicon')),
+      find.descendant(of: find.byType(AppBar), matching: find.text('My Lexicon')),
       findsOneWidget,
     );
   });

@@ -1,3 +1,4 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -29,6 +30,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
@@ -40,28 +42,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('Settings')),
+        appBar: AppBar(title: Text(l10n.settings)),
         body: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: EdgeInsets.symmetric(vertical: 8.0),
           children: [
             ListTile(
-              leading: const Icon(Icons.palette_outlined),
-              title: const Text('Appearance'),
-              subtitle: const Text('Theme, display density'),
-              trailing: const Icon(Icons.chevron_right),
+              leading: Icon(Icons.palette_outlined),
+              title: Text(l10n.appearance),
+              subtitle: Text(l10n.appearanceSubtitle),
+              trailing: Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const AppearanceSettingsPage(),
+                    builder: (context) => AppearanceSettingsPage(),
                   ),
                 );
               },
             ),
-            const Divider(),
+            Divider(),
             ListTile(
               leading: const Icon(Icons.tune_outlined),
-              title: const Text('Navigation & Features'),
-              subtitle: const Text('Startup tab, sort tabs or toggle features'),
+              title: Text(l10n.navigationAndFeatures),
+              subtitle: Text(l10n.navigationSubtitle),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.of(context).push(
@@ -74,8 +76,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.sell_outlined),
-              title: const Text('Tags'),
-              subtitle: const Text('Rename and delete tags'),
+              title: Text(l10n.tags),
+              subtitle: Text(l10n.tagsSubtitle),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.of(context).push(
@@ -88,8 +90,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.storage_outlined),
-              title: const Text('Data'),
-              subtitle: const Text('Export, import, and clear data'),
+              title: Text(l10n.data),
+              subtitle: Text(l10n.dataSubtitle),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.of(context).push(
@@ -102,17 +104,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.info_outline_rounded),
-              title: const Text('About'),
+              title: Text(l10n.about),
               subtitle: Text(
                 _version != null
-                    ? 'v$_version · Licenses and links'
-                    : 'Version, licenses, and links',
+                    ? l10n.aboutSubtitleWithVersion(_version!)
+                    : l10n.aboutSubtitle,
               ),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const AboutSettingsPage(),
+                    builder: (context) => AboutSettingsPage(),
                   ),
                 );
               },

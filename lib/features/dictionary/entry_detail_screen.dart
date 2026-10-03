@@ -1,3 +1,5 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
+import 'package:mylexicon/l10n/lexicon_type_l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +21,7 @@ class EntryDetailScreen extends ConsumerWidget {
     WidgetRef ref,
     LexiconEntry entry,
   ) async {
+    final l10n = AppLocalizations.of(context)!;
     final db = ref.read(databaseServiceProvider);
     entry.isFavorite = !entry.isFavorite;
     try {
@@ -29,7 +32,7 @@ class EntryDetailScreen extends ConsumerWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to update favorite status: $e'),
+            content: Text(l10n.failedToUpdateFavorite(e.toString())),
             backgroundColor: Colors.redAccent,
           ),
         );
@@ -40,16 +43,16 @@ class EntryDetailScreen extends ConsumerWidget {
   void _confirmDelete(BuildContext context, WidgetRef ref, LexiconEntry entry) {
     showDialog(
       context: context,
+      useRootNavigator: false,
       builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
         return AlertDialog(
-          title: const Text('Delete Entry?'),
-          content: Text(
-            'Are you sure you want to permanently delete "${entry.term}"? This action cannot be undone.',
-          ),
+          title: Text(l10n.deleteEntryTitle),
+          content: Text(l10n.deleteEntryContent(entry.term)),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             TextButton(
               onPressed: () async {
@@ -61,8 +64,8 @@ class EntryDetailScreen extends ConsumerWidget {
                   ref.invalidate(entriesProvider);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Entry deleted successfully'),
+                      SnackBar(
+                        content: Text(l10n.deleteSuccess),
                         backgroundColor: Colors.green,
                       ),
                     );
@@ -72,15 +75,15 @@ class EntryDetailScreen extends ConsumerWidget {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Failed to delete entry: $e'),
+                        content: Text(l10n.deleteError(e.toString())),
                         backgroundColor: Colors.redAccent,
                       ),
                     );
                   }
                 }
               },
-              child: const Text(
-                'Delete',
+              child: Text(
+                l10n.delete,
                 style: TextStyle(color: Colors.redAccent),
               ),
             ),
@@ -92,6 +95,7 @@ class EntryDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final entriesAsync = ref.watch(entriesProvider);
     final collectionsAsync = ref.watch(collectionsProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -101,12 +105,13 @@ class EntryDetailScreen extends ConsumerWidget {
         final entryIndex = entries.indexWhere((e) => e.id == entryId);
         if (entryIndex == -1) {
           // Entry not found (deleted)
-          return const Scaffold(body: Center(child: Text('Entry not found')));
+          return Scaffold(body: Center(child: Text(l10n.entryNotFound)));
         }
 
         final entry = entries[entryIndex];
         final formattedDate = DateFormat(
           'MMMM d, yyyy • hh:mm a',
+          Localizations.localeOf(context).languageCode,
         ).format(entry.createdAt);
 
         // Fetch collection details
@@ -117,7 +122,7 @@ class EntryDetailScreen extends ConsumerWidget {
                 entry.collectionIds.contains(c.id),
             orElse: () => LexiconCollection(
               id: '',
-              name: 'Uncategorized',
+              name: l10n.uncategorized,
               colorValue: Colors.grey.toARGB32(),
               createdAt: DateTime.now(),
             ),
@@ -143,7 +148,7 @@ class EntryDetailScreen extends ConsumerWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Entry Details'),
+            title: Text(l10n.entryDetails),
             actions: [
               IconButton(
                 icon: Icon(
@@ -151,23 +156,23 @@ class EntryDetailScreen extends ConsumerWidget {
                   color: entry.isFavorite ? Colors.redAccent : null,
                 ),
                 onPressed: () => _toggleFavorite(context, ref, entry),
-                tooltip: entry.isFavorite ? 'Unfavorite' : 'Favorite',
+                tooltip: entry.isFavorite ? l10n.unfavoriteTooltip : l10n.favoriteTooltip,
               ),
               IconButton(
-                icon: const Icon(Icons.edit_outlined),
+                icon: Icon(Icons.edit_outlined),
                 onPressed: () => context.push('/entry-form?id=${entry.id}'),
-                tooltip: 'Edit',
+                tooltip: l10n.editTooltip,
               ),
               IconButton(
-                icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                icon: Icon(Icons.delete_outline, color: Colors.redAccent),
                 onPressed: () => _confirmDelete(context, ref, entry),
-                tooltip: 'Delete',
+                tooltip: l10n.deleteTooltip,
               ),
             ],
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -175,7 +180,7 @@ class EntryDetailScreen extends ConsumerWidget {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 10,
                           vertical: 6,
                         ),
@@ -184,7 +189,7 @@ class EntryDetailScreen extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          entry.type.name.toUpperCase(),
+                          entry.type.localizedBadge(AppLocalizations.of(context)!),
                           style: TextStyle(
                             color: typeColor,
                             fontSize: 11,
@@ -195,9 +200,9 @@ class EntryDetailScreen extends ConsumerWidget {
                       if (collection != null &&
                           (ref.watch(featureFlagsProvider)[AppFeature.collections] ??
                               true)) ...[
-                        const SizedBox(width: 10),
+                        SizedBox(width: 10),
                         Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: 10,
                             vertical: 6,
                           ),
@@ -215,7 +220,7 @@ class EntryDetailScreen extends ConsumerWidget {
                                 color: Color(collection.colorValue),
                                 size: 14,
                               ),
-                              const SizedBox(width: 6),
+                              SizedBox(width: 6),
                               Text(
                                 collection.name,
                                 style: TextStyle(
@@ -230,7 +235,7 @@ class EntryDetailScreen extends ConsumerWidget {
                       ],
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // The Term/Text Display Card
                   Card(
@@ -244,7 +249,7 @@ class EntryDetailScreen extends ConsumerWidget {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.all(20.0),
                       child: SizedBox(
                         width: double.infinity,
                         child: SelectionArea(
@@ -263,52 +268,52 @@ class EntryDetailScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Definition / Meaning Section
                   Text(
                     entry.type == LexiconType.quote
-                        ? 'Context & Meaning'
+                        ? l10n.contextAndMeaning
                         : entry.type == LexiconType.idiom
-                        ? 'Meaning & Interpretation'
-                        : 'Definition',
+                        ? l10n.meaningAndInterpretation
+                        : l10n.definitionLabel,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    padding: EdgeInsets.symmetric(horizontal: 4.0),
                     child: SelectionArea(
                       child: Text(
                         entry.definition,
-                        style: const TextStyle(fontSize: 16, height: 1.5),
+                        style: TextStyle(fontSize: 16, height: 1.5),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Example Sentences Section
                   if (entry.examples.isNotEmpty) ...[
                     Text(
                       entry.type == LexiconType.quote
-                          ? 'Source Context'
+                          ? l10n.sourceContext
                           : entry.examples.length > 1
-                          ? 'Examples'
-                          : 'Example Usage',
+                          ? l10n.examples
+                          : l10n.exampleUsage,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     ...List.generate(entry.examples.length, (index) {
                       final ex = entry.examples[index];
                       return Container(
                         width: double.infinity,
-                        margin: const EdgeInsets.only(bottom: 8),
-                        padding: const EdgeInsets.all(16),
+                        margin: EdgeInsets.only(bottom: 8),
+                        padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardTheme.color,
                           borderRadius: BorderRadius.circular(12),
@@ -324,7 +329,7 @@ class EntryDetailScreen extends ConsumerWidget {
                             children: [
                               if (entry.examples.length > 1)
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
+                                  padding: EdgeInsets.only(right: 8.0),
                                   child: Text(
                                     '${index + 1}.',
                                     style: TextStyle(
@@ -354,22 +359,22 @@ class EntryDetailScreen extends ConsumerWidget {
                         ),
                       );
                     }),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                   ],
 
                   // Notes Section
                   if (entry.notes != null) ...[
                     Text(
-                      'Personal Notes',
+                      l10n.personalNotes,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: Colors.amber.withValues(alpha: isDark ? 0.05 : 0.08),
                         borderRadius: BorderRadius.circular(12),
@@ -380,22 +385,22 @@ class EntryDetailScreen extends ConsumerWidget {
                       child: SelectionArea(
                         child: Text(
                           entry.notes!,
-                          style: const TextStyle(fontSize: 15, height: 1.4),
+                          style: TextStyle(fontSize: 15, height: 1.4),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                   ],
 
                   // Tags Section
                   if (entry.tags.isNotEmpty) ...[
                     Text(
-                      'Tags',
+                      l10n.tags,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10),
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
@@ -408,22 +413,22 @@ class EntryDetailScreen extends ConsumerWidget {
                         );
                       }).toList(),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                   ],
 
-                  const Divider(),
-                  const SizedBox(height: 8),
+                  Divider(),
+                  SizedBox(height: 8),
 
                   // Metadata section
                   Text(
-                    'Stored on $formattedDate',
+                    l10n.storedOn(formattedDate),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: isDark
                           ? Colors.grey.shade500
                           : Colors.grey.shade400,
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  SizedBox(height: 40),
                 ],
               ),
             ),
@@ -431,8 +436,8 @@ class EntryDetailScreen extends ConsumerWidget {
         );
       },
       loading: () =>
-          const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (err, stack) => Scaffold(body: Center(child: Text('Error: $err'))),
+          Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (err, stack) => Scaffold(body: Center(child: Text(l10n.error(err.toString())))),
     );
   }
 }

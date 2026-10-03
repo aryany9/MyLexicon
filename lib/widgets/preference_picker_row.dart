@@ -82,74 +82,84 @@ class PreferencePickerRow<T> extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                // Options list (Reddit style: label on left, ✓ on right)
-                ...options.map((option) {
-                  final isSelected = option.value == currentValue;
+                // Options list (scrollable with scrollbar for large lists)
+                Flexible(
+                  child: Scrollbar(
+                    thumbVisibility: options.length > 5,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: options.map((option) {
+                          final isSelected = option.value == currentValue;
 
-                  return InkWell(
-                    key: ValueKey('preference_option_${option.value}'),
-                    onTap: () {
-                      onChanged(option.value);
-                      Navigator.of(bottomSheetContext).pop();
-                    },
-                    borderRadius: BorderRadius.circular(8),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 14.0,
-                        horizontal: 4.0,
-                      ),
-                      child: Row(
-                        children: [
-                          if (option.icon != null) ...[
-                            Icon(
-                              option.icon,
-                              size: 20,
-                              color: isSelected
-                                  ? theme.colorScheme.primary
-                                  : theme.colorScheme.onSurfaceVariant,
-                            ),
-                            const SizedBox(width: 12),
-                          ],
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  option.label,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: isSelected
-                                        ? FontWeight.w600
-                                        : FontWeight.normal,
-                                    color: isSelected
-                                        ? theme.colorScheme.primary
-                                        : theme.colorScheme.onSurface,
-                                  ),
-                                ),
-                                if (option.description != null) ...[
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    option.description!,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: theme.colorScheme.onSurfaceVariant,
+                          return InkWell(
+                            key: ValueKey('preference_option_${option.value}'),
+                            onTap: () {
+                              onChanged(option.value);
+                              Navigator.of(bottomSheetContext).pop();
+                            },
+                            borderRadius: BorderRadius.circular(8),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 14.0,
+                                horizontal: 4.0,
+                              ),
+                              child: Row(
+                                children: [
+                                  if (option.icon != null) ...[
+                                    Icon(
+                                      option.icon,
+                                      size: 20,
+                                      color: isSelected
+                                          ? theme.colorScheme.primary
+                                          : theme.colorScheme.onSurfaceVariant,
+                                    ),
+                                    const SizedBox(width: 12),
+                                  ],
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          option.label,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: isSelected
+                                                ? FontWeight.w600
+                                                : FontWeight.normal,
+                                            color: isSelected
+                                                ? theme.colorScheme.primary
+                                                : theme.colorScheme.onSurface,
+                                          ),
+                                        ),
+                                        if (option.description != null) ...[
+                                          const SizedBox(height: 2),
+                                          Text(
+                                            option.description!,
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: theme.colorScheme.onSurfaceVariant,
+                                            ),
+                                          ),
+                                        ],
+                                      ],
                                     ),
                                   ),
+                                  if (isSelected)
+                                    Icon(
+                                      Icons.check,
+                                      size: 22,
+                                      color: theme.colorScheme.primary,
+                                    ),
                                 ],
-                              ],
+                              ),
                             ),
-                          ),
-                          if (isSelected)
-                            Icon(
-                              Icons.check,
-                              size: 22,
-                              color: theme.colorScheme.primary,
-                            ),
-                        ],
+                          );
+                        }).toList(),
                       ),
                     ),
-                  );
-                }),
+                  ),
+                ),
               ],
             ),
           ),

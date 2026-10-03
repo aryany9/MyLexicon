@@ -1,3 +1,5 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
+import 'package:mylexicon/l10n/lexicon_type_l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -148,6 +150,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final db = ref.watch(databaseServiceProvider);
     final entriesAsync = ref.watch(entriesProvider);
 
@@ -160,10 +163,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search & Filter'),
+        title: Text(l10n.searchAndFilter),
         actions: [
           if (hasActiveFilters)
-            TextButton(onPressed: _clearFilters, child: const Text('Reset')),
+            TextButton(onPressed: _clearFilters, child: Text(l10n.reset)),
         ],
       ),
       body: Column(
@@ -178,7 +181,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               controller: _searchController,
               focusNode: _searchFocusNode,
               decoration: InputDecoration(
-                hintText: 'Search term or definition...',
+                hintText: l10n.searchHint,
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _query.isNotEmpty
                     ? IconButton(
@@ -201,7 +204,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               children: [
                 // Favorites Chip
                 FilterChip(
-                  label: const Text('Favorites'),
+                  label: Text(l10n.favorites),
                   selected: _isFavoriteOnly,
                   onSelected: (selected) {
                     setState(() {
@@ -216,7 +219,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 // Tags Chip
                 ActionChip(
                   label: Text(
-                    _selectedTag != null ? '#$_selectedTag' : 'Select Tag',
+                    _selectedTag != null ? '#$_selectedTag' : AppLocalizations.of(context)!.selectTag,
                   ),
                   onPressed: _showTagPicker,
                   avatar: const Icon(Icons.sell_outlined, size: 16),
@@ -253,9 +256,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       break;
                   }
                   return Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
+                    padding: const EdgeInsetsDirectional.only(end: 8.0),
                     child: FilterChip(
-                      label: Text(type.name),
+                      label: Text(type.localizedSingular(AppLocalizations.of(context)!)),
                       selected: isSelected,
                       onSelected: (selected) {
                         setState(() {
@@ -300,7 +303,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Center(child: Text('Error: $err')),
+              error: (err, stack) => Center(child: Text(AppLocalizations.of(context)!.error(err.toString()))),
             ),
           ),
         ],
@@ -309,6 +312,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   Widget _buildEmptyState(BuildContext context, bool hasActiveFilters) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return LayoutBuilder(
@@ -331,8 +335,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   const SizedBox(height: 16),
                   Text(
                     hasActiveFilters
-                        ? 'No results found'
-                        : 'Your lexicon is empty',
+                        ? AppLocalizations.of(context)!.noResultsFound
+                        : AppLocalizations.of(context)!.yourLexiconIsEmpty,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -340,8 +344,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   const SizedBox(height: 8),
                   Text(
                     hasActiveFilters
-                        ? 'Try adjusting your search terms or filter constraints.'
-                        : 'Start adding new entries using the add button.',
+                        ? AppLocalizations.of(context)!.tryAdjustingSearch
+                        : AppLocalizations.of(context)!.startAddingNewEntries,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: isDark
@@ -355,7 +359,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     OutlinedButton.icon(
                       onPressed: _clearFilters,
                       icon: const Icon(Icons.refresh),
-                      label: const Text('Clear Filters'),
+                      label: Text(l10n.clearFilters),
                     ),
                   ],
                 ],
@@ -449,7 +453,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    entry.type.name.toUpperCase(),
+                    entry.type.localizedBadge(AppLocalizations.of(context)!),
                     style: TextStyle(
                       color: typeColor,
                       fontSize: 10,

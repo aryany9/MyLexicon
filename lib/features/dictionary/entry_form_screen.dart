@@ -1,3 +1,5 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
+import 'package:mylexicon/l10n/lexicon_type_l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -159,7 +161,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
             if (ctx != null) {
               Scrollable.ensureVisible(
                 ctx,
-                duration: const Duration(milliseconds: 350),
+                duration: Duration(milliseconds: 350),
                 curve: Curves.easeOut,
                 alignment: 0.15,
               );
@@ -172,11 +174,11 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
     }
 
     final db = ref.read(databaseServiceProvider);
-    final id = _isEditMode ? widget.entryId! : const Uuid().v4();
+    final id = _isEditMode ? widget.entryId! : Uuid().v4();
     final createdAt = _createdAt ?? DateTime.now();
 
     final effectiveCollectionIds = _selectedCollectionId == null
-        ? const <String>[]
+        ? <String>[]
         : [_selectedCollectionId!];
 
     // Save-time collection-aware duplicate check
@@ -194,7 +196,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateTo(
           0,
-          duration: const Duration(milliseconds: 350),
+          duration: Duration(milliseconds: 350),
           curve: Curves.easeOut,
         );
       });
@@ -227,12 +229,13 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
       ref.invalidate(entriesProvider);
 
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
               _isEditMode
-                  ? 'Entry updated successfully'
-                  : 'Entry created successfully',
+                  ? l10n.entryUpdatedSuccess
+                  : l10n.entryCreatedSuccess,
             ),
             backgroundColor: Colors.green,
           ),
@@ -241,9 +244,13 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
       }
     } catch (e) {
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        final errorMessage = e is ArgumentError && e.message.toString().contains('already exists')
+            ? l10n.duplicateTermError(_selectedType.localizedSingular(l10n))
+            : l10n.error(e.toString().replaceAll('ArgumentError: ', ''));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(e.toString().replaceAll('ArgumentError: ', '')),
+            content: Text(errorMessage),
             backgroundColor: Colors.redAccent,
           ),
         );
@@ -253,47 +260,48 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final collectionsAsync = ref.watch(collectionsProvider);
     final allTags = ref.read(databaseServiceProvider).getAllTags();
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     // Set labels depending on type
-    String termLabel = 'Term';
-    String definitionLabel = 'Meaning / Definition';
+    String termLabel = l10n.termLabel;
+    String definitionLabel = l10n.definitionLabel;
     switch (_selectedType) {
       case LexiconType.word:
-        termLabel = 'Word';
-        definitionLabel = 'Meaning / Definition';
+        termLabel = l10n.typeWord;
+        definitionLabel = l10n.meaningOrDefinition;
         break;
       case LexiconType.quote:
-        termLabel = 'Quote Text';
-        definitionLabel = 'Context / Meaning / Author Notes';
+        termLabel = l10n.quoteText;
+        definitionLabel = l10n.quoteContextMeaningNotes;
         break;
       case LexiconType.phrase:
-        termLabel = 'Phrase';
-        definitionLabel = 'Meaning / Translation';
+        termLabel = l10n.typePhrase;
+        definitionLabel = l10n.meaningOrTranslation;
         break;
       case LexiconType.idiom:
-        termLabel = 'Idiom';
-        definitionLabel = 'Meaning / Origin';
+        termLabel = l10n.typeIdiom;
+        definitionLabel = l10n.meaningOrOrigin;
         break;
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditMode ? 'Edit Entry' : 'Add New Entry'),
+        title: Text(_isEditMode ? l10n.editEntry : l10n.addNewEntry),
         actions: [
           IconButton(
-            icon: const Icon(Icons.check),
+            icon: Icon(Icons.check),
             onPressed: _save,
-            tooltip: 'Save',
+            tooltip: l10n.saveTooltip,
           ),
         ],
       ),
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
             child: Column(
@@ -315,10 +323,10 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                         onViewEntry: () => context.push('/entry/${_duplicateEntry!.id}'),
                       );
                     },
-                    loading: () => const SizedBox.shrink(),
-                    error: (_, _) => const SizedBox.shrink(),
+                    loading: () => SizedBox.shrink(),
+                    error: (_, _) => SizedBox.shrink(),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                 ],
 
                 // Type Selector (SegmentedButton) - only shown when not pre-selected
@@ -327,35 +335,35 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     final flags = ref.watch(featureFlagsProvider);
                     final availableSegments = <ButtonSegment<LexiconType>>[
                       if (flags[AppFeature.word] ?? true)
-                        const ButtonSegment(
+                        ButtonSegment(
                           value: LexiconType.word,
                           label: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Text('Word'),
+                            child: Text(l10n.typeWord),
                           ),
                         ),
                       if (flags[AppFeature.quote] ?? true)
-                        const ButtonSegment(
+                        ButtonSegment(
                           value: LexiconType.quote,
                           label: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Text('Quote'),
+                            child: Text(l10n.typeQuote),
                           ),
                         ),
                       if (flags[AppFeature.phrase] ?? true)
-                        const ButtonSegment(
+                        ButtonSegment(
                           value: LexiconType.phrase,
                           label: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Text('Phrase'),
+                            child: Text(l10n.typePhrase),
                           ),
                         ),
                       if (flags[AppFeature.idiom] ?? true)
-                        const ButtonSegment(
+                        ButtonSegment(
                           value: LexiconType.idiom,
                           label: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Text('Idiom'),
+                            child: Text(l10n.typeIdiom),
                           ),
                         ),
                     ];
@@ -376,16 +384,16 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Select Entry Type',
+                          l10n.selectEntryType,
                           style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         SizedBox(
                           width: double.infinity,
                           child: SegmentedButton<LexiconType>(
-                            style: const ButtonStyle(
+                            style: ButtonStyle(
                               minimumSize: WidgetStatePropertyAll(Size(0, 56)),
                               padding: WidgetStatePropertyAll(
                                 EdgeInsets.symmetric(horizontal: 3, vertical: 0),
@@ -401,7 +409,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                             },
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
                       ],
                     );
                   },
@@ -414,21 +422,21 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 TextFormField(
                   key: _termFieldKey,
                   controller: _termController,
                   maxLines: _selectedType == LexiconType.quote ? 3 : 1,
                   textCapitalization: TextCapitalization.sentences,
-                  decoration: InputDecoration(hintText: 'Enter $termLabel...'),
+                  decoration: InputDecoration(hintText: l10n.enterFieldHint(termLabel)),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return '$termLabel cannot be empty';
+                      return l10n.fieldCannotBeEmpty(termLabel);
                     }
                     return null;
                   },
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Definition Field
                 Text(
@@ -437,23 +445,23 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 TextFormField(
                   key: _definitionFieldKey,
                   controller: _definitionController,
                   maxLines: 3,
                   textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(
-                    hintText: 'Enter $definitionLabel...',
+                    hintText: l10n.enterFieldHint(definitionLabel),
                   ),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return '$definitionLabel cannot be empty';
+                      return l10n.fieldCannotBeEmpty(definitionLabel);
                     }
                     return null;
                   },
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Multiple Examples Section
                 Row(
@@ -461,8 +469,8 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                   children: [
                     Text(
                       _selectedType == LexiconType.quote
-                          ? 'Source Context'
-                          : 'Example Sentences',
+                          ? l10n.sourceContext
+                          : l10n.exampleSentences,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -470,15 +478,15 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     if (_exampleControllers.length < 5)
                       TextButton.icon(
                         onPressed: _addExampleField,
-                        icon: const Icon(Icons.add, size: 18),
-                        label: const Text('Add Example'),
+                        icon: Icon(Icons.add, size: 18),
+                        label: Text(l10n.addExample),
                       ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 ...List.generate(_exampleControllers.length, (index) {
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
+                    padding: EdgeInsets.only(bottom: 10.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -489,53 +497,52 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                             textCapitalization: TextCapitalization.sentences,
                             decoration: InputDecoration(
                               hintText: _selectedType == LexiconType.quote
-                                  ? 'e.g. Shakespeare - Hamlet, Act III'
-                                  : 'Example ${index + 1}...',
+                                  ? l10n.quoteSourceExample
+                                  : l10n.exampleNth(index + 1),
                             ),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         IconButton(
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.remove_circle_outline,
                             color: Colors.redAccent,
                           ),
                           onPressed: () => _removeExampleField(index),
-                          tooltip: 'Remove example',
+                          tooltip: l10n.removeExampleTooltip,
                         ),
                       ],
                     ),
                   );
                 }),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Notes Field
                 Text(
-                  'Personal Notes (Optional)',
+                  l10n.personalNotesOptional,
                   style: Theme.of(
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 TextFormField(
                   controller: _notesController,
                   maxLines: 3,
                   textCapitalization: TextCapitalization.sentences,
-                  decoration: const InputDecoration(
-                    hintText:
-                        'Add personal notes, memory triggers, or references...',
+                  decoration: InputDecoration(
+                    hintText: l10n.personalNotesHint,
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Collection selector
                 Text(
-                  'Collection (Optional)',
+                  l10n.collectionOptional,
                   style: Theme.of(
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 collectionsAsync.when(
                   data: (collections) {
                     return Column(
@@ -543,12 +550,12 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                       children: [
                         DropdownButtonFormField<String>(
                           initialValue: _selectedCollectionId,
-                          decoration: const InputDecoration(),
-                          hint: const Text('Select a collection...'),
+                          decoration: InputDecoration(),
+                          hint: Text(l10n.selectCollectionHint),
                           items: [
-                            const DropdownMenuItem<String>(
+                            DropdownMenuItem<String>(
                               value: null,
-                              child: Text('None'),
+                              child: Text(l10n.noneCollection),
                             ),
                             ...collections.map((c) {
                               return DropdownMenuItem<String>(
@@ -560,7 +567,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                                       color: Color(c.colorValue),
                                       size: 18,
                                     ),
-                                    const SizedBox(width: 8),
+                                    SizedBox(width: 8),
                                     Text(c.name),
                                   ],
                                 ),
@@ -578,24 +585,24 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                       ],
                     );
                   },
-                  loading: () => const LinearProgressIndicator(),
+                  loading: () => LinearProgressIndicator(),
                   error: (err, stack) =>
-                      Text('Error loading collections: $err'),
+                      Text(l10n.errorLoadingCollections(err.toString())),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Tag Input with Autocomplete
                 Text(
-                  'Tags',
+                  l10n.tags,
                   style: Theme.of(
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Autocomplete<String>(
                   optionsBuilder: (TextEditingValue textEditingValue) {
                     if (textEditingValue.text.isEmpty) {
-                      return const Iterable<String>.empty();
+                      return Iterable<String>.empty();
                     }
                     return allTags.where((String option) {
                       return option.contains(
@@ -613,9 +620,9 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                           controller: controller,
                           focusNode: focusNode,
                           decoration: InputDecoration(
-                            hintText: 'Type a tag and press enter...',
+                            hintText: l10n.tagInputHint,
                             suffixIcon: IconButton(
-                              icon: const Icon(Icons.add),
+                              icon: Icon(Icons.add),
                               onPressed: () {
                                 _addTag(controller.text);
                                 controller.clear();
@@ -629,7 +636,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                         );
                       },
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
 
                 // Tags Chips
                 if (_tags.isNotEmpty)
@@ -645,7 +652,7 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                   )
                 else
                   Text(
-                    'No tags added yet',
+                    l10n.noTagsAddedYet,
                     style: TextStyle(
                       color: isDark
                           ? Colors.grey.shade600
@@ -654,14 +661,12 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                       fontStyle: FontStyle.italic,
                     ),
                   ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 // Favorite Switch List Tile
                 SwitchListTile.adaptive(
-                  title: const Text('Mark as Favorite'),
-                  subtitle: const Text(
-                    'Easily access this entry from favorites quick actions',
-                  ),
+                  title: Text(l10n.markAsFavorite),
+                  subtitle: Text(l10n.markAsFavoriteSubtitle),
                   value: _isFavorite,
                   onChanged: (val) {
                     setState(() {
@@ -669,18 +674,18 @@ class _EntryFormScreenState extends ConsumerState<EntryFormScreen> {
                     });
                   },
                 ),
-                const SizedBox(height: 40),
+                SizedBox(height: 40),
 
                 // Save Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    key: const Key('saveEntryButton'),
+                    key: Key('saveEntryButton'),
                     onPressed: _save,
-                    child: Text(_isEditMode ? 'Update Entry' : 'Save Entry'),
+                    child: Text(_isEditMode ? l10n.updateEntry : l10n.saveEntry),
                   ),
                 ),
-                const SizedBox(height: 40),
+                SizedBox(height: 40),
               ],
             ),
           ),
