@@ -1,3 +1,4 @@
+import 'package:mylexicon/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,7 +7,7 @@ import 'package:mylexicon/widgets/fan_out_fab.dart';
 void main() {
   Widget buildTestApp({required VoidCallback onBackgroundTap}) {
     return ProviderScope(
-      child: MaterialApp(
+      child: MaterialApp(localizationsDelegates: AppLocalizations.localizationsDelegates, supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: Center(
             child: ElevatedButton(
@@ -90,5 +91,32 @@ void main() {
 
     // Verify closed
     expect(find.byKey(const ValueKey('fan_out_backdrop_barrier')), findsNothing);
+  });
+
+  testWidgets('FanOutFab renders localized labels in non-English locale',
+      (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          locale: const Locale('hi'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const Scaffold(
+            floatingActionButton: FanOutFab(),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    // Open FAB
+    await tester.tap(find.byKey(const ValueKey('fan_out_main_fab')));
+    await tester.pumpAndSettle();
+
+    // Verify Hindi labels are displayed
+    expect(find.text('शब्द जोड़ें'), findsOneWidget);
+    expect(find.text('वाक्यांश जोड़ें'), findsOneWidget);
+    expect(find.text('मुहावरा जोड़ें'), findsOneWidget);
+    expect(find.text('उद्धरण जोड़ें'), findsOneWidget);
   });
 }

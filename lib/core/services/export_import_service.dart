@@ -265,7 +265,7 @@ class ExportImportService {
       );
     }
 
-    final collections = (parsed['collections'] as List<dynamic>? ?? const [])
+    final collections = (parsed['collections'] as List<dynamic>? ?? [])
         .map((item) => _collectionFromJson(item as Map<String, dynamic>))
         .toList();
     final entries = (parsed['entries'] as List<dynamic>)

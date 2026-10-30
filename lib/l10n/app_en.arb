@@ -1,0 +1,699 @@
+{
+  "@@locale": "en",
+  "navDashboard": "Dashboard",
+  "navWords": "Words",
+  "navPhrases": "Phrases",
+  "navIdioms": "Idioms",
+  "navQuotes": "Quotes",
+  "navCollections": "Collections",
+  "navSettings": "Settings",
+  "appTitle": "My Lexicon",
+  "yourLexiconStats": "Your Lexicon Stats",
+  "quickActions": "Quick Actions",
+  "recentEntries": "Recent Entries",
+  "viewAll": "View All",
+  "yourTags": "Your Tags",
+  "searchTags": "Search tags",
+  "yourLexiconIsEmpty": "Your Lexicon is Empty",
+  "emptyStateDescription": "Start adding your favorite words and phrases.",
+  "addFirstEntry": "Add First Entry",
+  "favorites": "Favorites",
+  "typeWord": "Word",
+  "typeQuote": "Quote",
+  "typePhrase": "Phrase",
+  "typeIdiom": "Idiom",
+  "typeWords": "Words",
+  "typeQuotes": "Quotes",
+  "typePhrases": "Phrases",
+  "typeIdioms": "Idioms",
+  "searchAndFilter": "Search & Filter",
+  "searchHint": "Search terms, definitions...",
+  "reset": "Reset",
+  "clearFilters": "Clear Filters",
+  "searchTitle": "Search",
+  "addEntry": "Add Entry",
+  "addWord": "Add Word",
+  "addPhrase": "Add Phrase",
+  "addIdiom": "Add Idiom",
+  "addQuote": "Add Quote",
+  "editEntry": "Edit Entry",
+  "saveTooltip": "Save",
+  "termLabel": "Term",
+  "termHint": "Enter the term",
+  "definitionLabel": "Definition",
+  "definitionHint": "Enter the definition",
+  "exampleLabel": "Example",
+  "exampleHint": "Enter an example",
+  "notesHint": "Enter any additional notes",
+  "addExample": "Add Example",
+  "removeExampleTooltip": "Remove Example",
+  "selectCollection": "Select Collection",
+  "markAsFavorite": "Mark as Favorite",
+  "markAsFavoriteSubtitle": "Easily access this entry later.",
+  "tagInputHint": "Add a tag...",
+  "entryCreatedSuccess": "Entry created successfully",
+  "entryUpdatedSuccess": "Entry updated successfully",
+  "duplicateTermError": "This {type} already exists",
+  "@duplicateTermError": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "entryNotFound": "Entry not found",
+  "entryDetails": "Entry Details",
+  "editTooltip": "Edit",
+  "deleteTooltip": "Delete",
+  "favoriteTooltip": "Favorite",
+  "unfavoriteTooltip": "Unfavorite",
+  "deleteEntryTitle": "Delete Entry?",
+  "deleteEntryContent": "Are you sure you want to delete \"{term}\"? This cannot be undone.",
+  "@deleteEntryContent": {
+    "placeholders": {
+      "term": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "deleteSuccess": "Deleted successfully",
+  "deleteError": "Failed to delete: {error}",
+  "@deleteError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToUpdateFavorite": "Failed to update favorite status: {error}",
+  "@failedToUpdateFavorite": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "contextAndMeaning": "Context & Meaning",
+  "meaningAndInterpretation": "Meaning & Interpretation",
+  "sourceContext": "Source Context",
+  "examples": "Examples",
+  "exampleUsage": "Example Usage",
+  "personalNotes": "Personal Notes",
+  "storedOn": "Stored on {date}",
+  "@storedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "shareEntry": "Share Entry",
+  "copyEntry": "Copy Entry",
+  "uncategorized": "Uncategorized",
+  "cancelTooltip": "Cancel",
+  "toggleSelectAllTooltip": "Toggle Select All",
+  "deleteSelectedTooltip": "Delete Selected",
+  "selectItemsTooltip": "Select Items",
+  "sortOrderTooltip": "Sort Order",
+  "sortNewestFirst": "Newest First",
+  "sortOldestFirst": "Oldest First",
+  "sortAtoZ": "A to Z",
+  "sortZtoA": "Z to A",
+  "deleteItemsTitle": "Delete {count} {label}?",
+  "@deleteItemsTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteItemsContent": "Are you sure you want to delete the selected {count} {label}? This cannot be undone.",
+  "@deleteItemsContent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "deletedSuccess": "{count} items deleted successfully",
+  "@deletedSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "collections": "Collections",
+  "addCollection": "Add Collection",
+  "editCollection": "Edit Collection",
+  "collectionName": "Collection Name",
+  "collectionNameHint": "Enter collection name",
+  "collectionDescription": "Collection Description",
+  "collectionDescriptionHint": "Enter collection description",
+  "save": "Save",
+  "collectionCreated": "Collection created successfully",
+  "collectionUpdated": "Collection updated successfully",
+  "collectionDeleted": "Collection deleted successfully",
+  "deleteCollectionTitle": "Delete {name}?",
+  "@deleteCollectionTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteCollectionContent": "Are you sure you want to delete this collection? Its entries will not be deleted, but they will be removed from this collection.",
+  "editCollectionTooltip": "Edit Collection",
+  "deleteCollectionTooltip": "Delete Collection",
+  "entriesCount": "{count, plural, =1{1 entry} other{{count} entries}}",
+  "@entriesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noCollections": "No Collections",
+  "noCollectionsDescription": "Create a collection to organize your entries.",
+  "importPreview": "Import Preview",
+  "entriesDetected": "Entries detected",
+  "collectionsDetected": "Collections detected",
+  "potentialDuplicates": "Potential duplicates",
+  "resolutionStrategy": "Resolution Strategy",
+  "skipDuplicates": "Skip Duplicates",
+  "overwriteDuplicates": "Overwrite Duplicates",
+  "mergeDuplicates": "Merge Duplicates",
+  "duplicateMatches": "Duplicate Matches",
+  "previewContent": "Preview Content",
+  "rawContentLength": "{length} chars",
+  "@rawContentLength": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      }
+    }
+  },
+  "importNow": "Import Now",
+  "importing": "Importing...",
+  "importFailed": "Import failed: {error}",
+  "@importFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "existingEntry": "{term} ({type})",
+  "@existingEntry": {
+    "placeholders": {
+      "term": {
+        "type": "String"
+      },
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "settings": "Settings",
+  "appearance": "Appearance",
+  "appearanceSubtitle": "Theme, typography, layout",
+  "navigationAndFeatures": "Navigation & Features",
+  "navigationSubtitle": "Tabs, startup screen",
+  "tags": "Tags",
+  "tagsSubtitle": "Manage your tags",
+  "data": "Data",
+  "dataSubtitle": "Import, export, sample data",
+  "about": "About",
+  "aboutSubtitle": "Version, licenses, links",
+  "language": "Language",
+  "languageSubtitle": "Change app language",
+  "theme": "Theme",
+  "pureBlack": "Pure black (AMOLED)",
+  "pureBlackSubtitle": "Uses pure black for dark theme",
+  "viewOptions": "View Options",
+  "displayDensity": "Display density",
+  "compact": "Compact",
+  "compactDescription": "Show term only with minimal vertical padding",
+  "comfortable": "Comfortable",
+  "comfortableDescription": "Show term and a short one-line definition",
+  "detailed": "Detailed",
+  "detailedDescription": "Show full details including examples and tags",
+  "showTagsOnCards": "Show tags on cards",
+  "showTagsSubtitle": "Display entry tags in lists",
+  "showTypeBadges": "Show type badges",
+  "showTypeBadgesSubtitle": "Show entry type icons",
+  "typography": "Typography",
+  "fontStyle": "Font style",
+  "system": "System",
+  "systemFontDescription": "Default system font",
+  "serif": "Serif (Literary)",
+  "serifDescription": "Classic serif font for reading",
+  "monospace": "Monospace",
+  "monospaceDescription": "Fixed-width font",
+  "textSize": "Text size",
+  "small": "Small",
+  "smallDescription": "Smaller text",
+  "defaultSize": "Default",
+  "defaultSizeDescription": "Standard text size",
+  "large": "Large",
+  "largeDescription": "Larger text",
+  "extraLarge": "Extra Large",
+  "extraLargeDescription": "Maximum text size",
+  "defaultLaunchScreen": "Default Launch Screen",
+  "defaultLaunchScreenSubtitle": "Choose what to see when the app starts",
+  "screenShownWhen": "Screen shown when",
+  "chooseStartingScreen": "Choose your starting screen",
+  "navigationTabOrder": "Navigation Tab Order",
+  "dragToReorder": "Drag to reorder",
+  "disabled": "Disabled",
+  "categoryAndFeatureToggles": "Category & Feature Toggles",
+  "activeFeatures": "{enabled} of {total} active",
+  "@activeFeatures": {
+    "placeholders": {
+      "enabled": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "atLeastOneCategory": "At least one category must remain enabled",
+  "navigationSegment": "Navigation",
+  "featuresSegment": "Features",
+  "featureWordSubtitle": "Manage your vocabulary",
+  "featureIdiomSubtitle": "Save common expressions",
+  "featurePhraseSubtitle": "Store useful phrases",
+  "featureQuoteSubtitle": "Keep inspiring quotes",
+  "featureCollectionsSubtitle": "Organize into collections",
+  "newTagName": "New tag name",
+  "renameTag": "Rename Tag",
+  "renameTagTooltip": "Rename Tag",
+  "deleteTagTooltip": "Delete Tag",
+  "tagRenamed": "Tag renamed successfully",
+  "tagRenameError": "Error renaming tag: {error}",
+  "@tagRenameError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "tagDeleted": "Tag deleted successfully",
+  "tagDeleteError": "Error deleting tag: {error}",
+  "@tagDeleteError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noTags": "No Tags",
+  "noTagsDescription": "Tags you create will appear here.",
+  "exportData": "Export Data",
+  "exportDataSubtitle": "Save to JSON or CSV",
+  "importData": "Import Data",
+  "importDataSubtitle": "Load from file",
+  "clearAllData": "Clear All Data",
+  "clearAllDataSubtitle": "Delete everything",
+  "loadSampleData": "Load Sample Data",
+  "loadSampleDataSubtitle": "Add starter content",
+  "deleteSampleData": "Delete Sample Data",
+  "deleteSampleDataSubtitle": "Remove sample content",
+  "clearAllDataTitle": "Clear All Data?",
+  "clearAllDataContent": "Are you sure you want to delete all entries and collections? This cannot be undone.",
+  "loadSampleDataTitle": "Load Sample Data?",
+  "loadSampleDataContent": "This will add sample entries and collections to your database.",
+  "deleteSampleDataTitle": "Delete Sample Data?",
+  "deleteSampleDataContent": "This will remove all sample entries and collections from your database.",
+  "exportDataTitle": "Export Data",
+  "exportJson": "Export JSON",
+  "exportCsv": "Export CSV",
+  "exportSuccess": "Data exported successfully",
+  "exportError": "Failed to export: {error}",
+  "@exportError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "importSuccess": "Successfully imported {count} items",
+  "@importSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importError": "Failed to import: {error}",
+  "@importError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "clearSuccess": "Data cleared successfully",
+  "sampleDataLoaded": "Sample data loaded",
+  "sampleDataDeleted": "Sample data deleted",
+  "sampleDataDeleteError": "Error deleting sample data: {error}",
+  "@sampleDataDeleteError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sourceCode": "Source Code",
+  "sourceCodeSubtitle": "View project on GitHub",
+  "reportBug": "Report Bug",
+  "reportBugSubtitle": "Create an issue on GitHub",
+  "starOnGithub": "Star on GitHub",
+  "starOnGithubSubtitle": "Show your support",
+  "openSourceLicenses": "Open Source Licenses",
+  "versionCopied": "Version {version} copied to clipboard",
+  "@versionCopied": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "selectLanguage": "Select Language",
+  "systemDefault": "System Default",
+  "english": "English",
+  "ukrainian": "Українська (Ukrainian)",
+  "russian": "Русский (Russian)",
+  "persian": "فارسی (Persian)",
+  "hindi": "हिन्दी (Hindi)",
+  "errorLoadingEntries": "Error loading entries: {error}",
+  "@errorLoadingEntries": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "error": "Error: {error}",
+  "@error": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "addNewEntry": "Add New Entry",
+  "quoteText": "Quote Text",
+  "meaningOrDefinition": "Meaning / Definition",
+  "quoteContextMeaningNotes": "Context / Meaning / Author Notes",
+  "meaningOrTranslation": "Meaning / Translation",
+  "meaningOrOrigin": "Meaning / Origin",
+  "selectEntryType": "Select Entry Type",
+  "enterFieldHint": "Enter {field}...",
+  "@enterFieldHint": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "fieldCannotBeEmpty": "{field} cannot be empty",
+  "@fieldCannotBeEmpty": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "exampleSentences": "Example Sentences",
+  "quoteSourceExample": "e.g. Shakespeare - Hamlet, Act III",
+  "exampleNth": "Example {number}...",
+  "@exampleNth": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "personalNotesOptional": "Personal Notes (Optional)",
+  "personalNotesHint": "Add personal notes, memory triggers, or references...",
+  "collectionOptional": "Collection (Optional)",
+  "selectCollectionHint": "Select a collection...",
+  "noneCollection": "None",
+  "errorLoadingCollections": "Error loading collections: {error}",
+  "@errorLoadingCollections": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noTagsAddedYet": "No tags added yet",
+  "updateEntry": "Update Entry",
+  "saveEntry": "Save Entry",
+  "themeMode": "Theme Mode",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "lightModeTheme": "☀ Light Mode Theme",
+  "darkModeTheme": "🌙 Dark Mode Theme",
+  "dataImportExport": "Data Import & Export",
+  "exportDataDescription": "Save a JSON backup or CSV export of your lexicon to a location you choose",
+  "dataStorage": "Data Storage",
+  "clearAllLocalData": "Clear All Local Data",
+  "clearAllLocalDataSubtitle": "Irreversibly delete all words, quotes, collections, and tags",
+  "developerDebugMode": "Developer (Debug Mode)",
+  "loadSampleDataSubtitle2": "Populate 10 items in each category (40 entries)",
+  "deleteSampleDataSubtitle2": "Remove only the sample loaded entries and collections",
+  "unableToReadFile": "Unable to read the selected file.",
+  "exportSavedTo": "Export saved to {path}",
+  "@exportSavedTo": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "saveLexiconExport": "Save Lexicon Export",
+  "chooseExportFormat": "Choose the export format for your lexicon backup.",
+  "renameTagTitle": "Rename Tag #{tag}",
+  "@renameTagTitle": {
+    "placeholders": {
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "tagRenamedSuccess": "Tag #{oldTag} renamed to #{newTag}",
+  "@tagRenamedSuccess": {
+    "placeholders": {
+      "oldTag": {
+        "type": "String"
+      },
+      "newTag": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteTagTitle": "Delete Tag #{tag}?",
+  "@deleteTagTitle": {
+    "placeholders": {
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteTagContent": "Are you sure you want to remove the tag #{tag} from all entries? The entries themselves will NOT be deleted.",
+  "@deleteTagContent": {
+    "placeholders": {
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "tagDeletedSuccess": "Tag #{tag} deleted from all entries",
+  "@tagDeletedSuccess": {
+    "placeholders": {
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "manageTags": "Manage Tags ({count})",
+  "@manageTags": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noTagsFoundDatabase": "No tags found in the database. Tags can be added when creating or editing lexicon entries.",
+  "chooseColor": "Choose Color",
+  "collectionNameCannotBeEmpty": "Collection name cannot be empty",
+  "create": "Create",
+  "failedToDeleteCollection": "Failed to delete collection: {error}",
+  "@failedToDeleteCollection": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noCollectionsCreated": "No collections created",
+  "noCollectionsCreatedDesc": "Create custom folders/collections to group your lexicon entries for organized revision.",
+  "createFirstCollection": "Create First Collection",
+  "noDescriptionProvided": "No description provided",
+  "noDescriptionProvidedDetailed": "No description provided for this collection.",
+  "close": "Close",
+  "collectionIsEmpty": "Collection is empty",
+  "collectionIsEmptyDesc": "No entries are assigned to this collection yet. You can assign them when creating or editing an entry.",
+  "selectATag": "Select a Tag",
+  "noTagsFoundInDatabase": "No tags found in database",
+  "selectTag": "Select Tag",
+  "noResultsFound": "No results found",
+  "tryAdjustingSearch": "Try adjusting your search terms or filter constraints.",
+  "startAddingNewEntries": "Start adding new entries using the add button.",
+  "alreadyExistsInCollection": "Already exists in \"{collection}\"",
+  "@alreadyExistsInCollection": {
+    "placeholders": {
+      "collection": {
+        "type": "String"
+      }
+    }
+  },
+  "alreadyExistsUnassigned": "Already exists as an unassigned entry",
+  "duplicateIfDifferentCollection": "If this entry belongs to a different collection, change the Collection field below and tap Save again.",
+  "duplicateIfDifferentUsage": "If this is a different usage, assign it to a specific collection using the Collection field below and tap Save again.",
+  "duplicateEntryDetected": "Duplicate entry detected",
+  "viewExistingEntry": "View Existing Entry",
+  "appTagline": "Your personal knowledge companion",
+  "links": "Links",
+  "githubUrl": "github.com/aryany9/MyLexicon",
+  "ifYouFindUseful": "If you find My Lexicon useful",
+  "legal": "Legal",
+  "madeWith": "Made with ",
+  "inIndia": " in India",
+  "byAuthor": "by Aryan Yadav",
+  "clearAllDataQuestion": "Clear All Data?",
+  "clearAllDataWarning": "This action will permanently delete all your stored words, quotes, phrases, idioms, and collections.\n\nThis is irreversible. Are you sure you want to continue?",
+  "allDataCleared": "All data cleared successfully",
+  "errorClearingData": "Error clearing data: {error}",
+  "@errorClearingData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "clearEverything": "Clear Everything",
+  "loadSampleDataWarning": "This will populate 10 curated entries for each category (10 Words, 10 Phrases, 10 Idioms, and 10 Quotes) along with sample collections.\n\n• Existing sample entries will be refreshed.\n• Any custom entries you created with matching terms will be preserved.",
+  "loadedSampleEntries": "Loaded {count} sample entries across all categories!",
+  "@loadedSampleEntries": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadedSampleEntriesSkipped": "Loaded {added} sample entries ({skipped} skipped as existing custom duplicates).",
+  "@loadedSampleEntriesSkipped": {
+    "placeholders": {
+      "added": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "refreshedSampleEntries": "Refreshed {count} sample entries.",
+  "@refreshedSampleEntries": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "refreshedSampleEntriesSkipped": "Refreshed {updated} sample entries ({skipped} custom duplicates preserved).",
+  "@refreshedSampleEntriesSkipped": {
+    "placeholders": {
+      "updated": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "allSampleTermsExist": "All {skipped} sample terms already exist in your lexicon as custom entries.",
+  "@allSampleTermsExist": {
+    "placeholders": {
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "errorLoadingSampleData": "Error loading sample data: {error}",
+  "@errorLoadingSampleData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteSampleDataQuestion": "Delete Sample Data?",
+  "deleteSampleDataWarning": "This will remove all sample loaded entries and sample collections.\n\nYour own custom entries and collections will remain untouched.",
+  "deletedSampleEntries": "Deleted {count} sample entries and sample collections.",
+  "@deletedSampleEntries": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noSampleEntriesFound": "No sample entries found to delete.",
+  "exportFailed": "Export failed: {error}",
+  "@exportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "importedEntriesDetails": "Imported {added} new, {skipped} skipped, {overwritten} overwritten, {merged} merged entries.",
+  "@importedEntriesDetails": {
+    "placeholders": {
+      "added": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      },
+      "overwritten": {
+        "type": "int"
+      },
+      "merged": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutSubtitleWithVersion": "v{version} · Licenses and links",
+  "@aboutSubtitleWithVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "tamil": "தமிழ் (Tamil)",
+  "telugu": "తెలుగు (Telugu)"
+}

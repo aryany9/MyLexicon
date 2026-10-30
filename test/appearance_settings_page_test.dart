@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mylexicon/features/settings/sub_pages/appearance_settings_page.dart';
 import 'package:mylexicon/features/settings/sub_pages/theme_settings_page.dart';
+import 'package:mylexicon/l10n/app_localizations.dart';
 
 void main() {
   setUp(() {
@@ -11,9 +12,11 @@ void main() {
   });
 
   Widget buildTestApp() {
-    return const ProviderScope(
+    return ProviderScope(
       child: MaterialApp(
-        home: AppearanceSettingsPage(),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: const AppearanceSettingsPage(),
       ),
     );
   }
