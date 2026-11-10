@@ -29,12 +29,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Set up Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '17'
@@ -84,7 +84,7 @@ jobs:
           mv app-x86_64-release.apk        MyLexicon-x86_64.apk
 
       - name: Upload APK artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mylexicon-apks
           path: build/app/outputs/flutter-apk/MyLexicon-*.apk
@@ -107,10 +107,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '17'
@@ -168,7 +168,7 @@ jobs:
         run: git archive --format=zip --prefix=mylexicon-${{ inputs.tag }}/ -o MyLexicon-source-${{ inputs.tag }}.zip HEAD
 
       - name: Publish GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ inputs.tag }}
           name: MyLexicon ${{ inputs.tag }}
